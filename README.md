@@ -43,14 +43,12 @@ package backend {
         interface FileReader {
             + read(String path)
         }
-        class SgmReader {
+        class SgmReader implements FileReader {
             + read(String path)
         }
-        class CsvReader {
+        class CsvReader implements FileReader {
             + read(String path)
         }
-        FileReader <|.. SgmReader
-        FileReader <|.. CsvReader
         
         class ReaderFactory {
             + createFileReader(FileType fileType): FileReader
@@ -66,22 +64,18 @@ package backend {
         interface Metric {
             + calculateDistance(String text1, String text2)
         }
-        class EuclideanMetric {
+        class EuclideanMetric implements Metric {
             + calculateDistance(String text1, String text2)
         }
-        class ManhattanMetric {
+        class ManhattanMetric implements Metric {
             + calculateDistance(String text1, String text2)
         }
-        class ChebyshevMetric {
+        class ChebyshevMetric implements Metric {
             + calculateDistance(String text1, String text2)
         }
-        class CustomMetric {
+        class CustomMetric implements Metric {
             + calculateDistance(String text1, String text2)
         }
-        Metric <|.. EuclideanMetric
-        Metric <|.. ManhattanMetric
-        Metric <|.. ChebyshevMetric
-        Metric <|.. CustomMetric
         
         class MetricFactory {
             + {static} createMetric(MetricType metricType): Metric
@@ -99,14 +93,12 @@ package backend {
         interface Measure {
             + calculateMeasure(String text1, String text2)
         }
-        class GeneralizedNgramMeasure {
+        class GeneralizedNgramMeasure implements Measure {
             + calculateMeasure(String text1, String text2)
         }
-        class GeneralizedNgramMeasureWithLimitations {
+        class GeneralizedNgramMeasureWithLimitations implements Measure {
             + calculateMeasure(String text1, String text2)
         }
-        Measure <|.. GeneralizedNgramMeasure
-        Measure <|.. GeneralizedNgramMeasureWithLimitations
         
         class MeasureFactory {
             + {static} createMeasure(): Measure
@@ -159,7 +151,7 @@ package backend {
             - trueNegative: int
             - falsePositive: int
             - falseNegative: int
-            + calculateStatistics(String[] result, String[] expected)
+            + calculateStatistics(String[] result, String[] expected): double[]
             - calculateTruePositive(String[] result, String[] expected): int
             - calculateTrueNegative(String[] result, String[] expected): int
             - calculateFalsePositive(String[] result, String[] expected): int
@@ -177,7 +169,7 @@ package backend {
     }
     class KnnFacade {
         + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path): String[]
-        + calculateStatistics(String[] result, String[] expected): String
+        + calculateStatistics(String[] result, String[] expected): double[]
     }
     KnnFacade ..> ProcessFactory
     KnnFacade ..> StatisticsFactory
