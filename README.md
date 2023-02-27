@@ -26,7 +26,7 @@ package backend {
         + GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path): String[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart): String[]
         + calculateStatistics(String[] result, String[] expected): String
     }
 }
@@ -59,6 +59,15 @@ package backend {
             + SGM
             + CSV
         }
+    }
+    package extractor {
+        class Extractor {
+            + extract(String[][] texts, String[] features)
+        }
+        class ExtractorFactory {
+            + createExtractor(): Extractor
+        }
+        ExtractorFactory ..> Extractor
     }
     package metrics {
         interface Metric {
@@ -126,10 +135,11 @@ package backend {
             - Metric metric
             - Measure measure
             - Knn knn
-            + Process(FileType fileType, MetricType metricType, MeasureType measureType, int k)
+            + Process(FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart, String[][] features)
             + process(String path)
         }
         Process ...> ReaderFactory
+        Process ...> ExtractorFactory
         Process ...> MetricFactory
         Process ...> MeasureFactory
         Process ...> KnnFactory
@@ -168,7 +178,7 @@ package backend {
         StatisticsFactory ..> Statistics
     }
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path): String[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart): String[]
         + calculateStatistics(String[] result, String[] expected): double[]
     }
     KnnFacade ..> ProcessFactory
