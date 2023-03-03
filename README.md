@@ -41,7 +41,7 @@ package backend {
         }
         
         class ReaderFactory {
-            + createFileReader(FileType fileType): FileReader
+            + {static} createFileReader(FileType fileType): FileReader
         }
         ReaderFactory ..> FileReader
         ReaderFactory ..> FileType
@@ -62,7 +62,7 @@ package backend {
             }
         }
         class ExtractorFactory {
-            + createExtractor(ExtractorType extractorType): Extractor
+            + {static} createExtractor(ExtractorType extractorType): Extractor
         }
         enum ExtractorType {
             STRING
@@ -82,7 +82,7 @@ package backend {
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
         class ProcessFactory {
-            + createProcess(FileType fileType): Process
+            + {static} createProcess(FileType fileType): Process
         }
         ProcessFactory ..> Process
         ProcessFactory ..> FileType
