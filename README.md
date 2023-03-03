@@ -13,7 +13,6 @@ package frontend {
 package backend {
     enum FileType {
         + SGM
-        + CSV
     }
     enum MetricType {
         + EUCLIDEAN
@@ -46,9 +45,6 @@ package backend {
         class SgmReader implements FileReader {
             + read(String path)
         }
-        class CsvReader implements FileReader {
-            + read(String path)
-        }
         
         class ReaderFactory {
             + createFileReader(FileType fileType): FileReader
@@ -57,7 +53,6 @@ package backend {
         ReaderFactory ..> FileType
         enum FileType {
             + SGM
-            + CSV
         }
     }
     package extractor {
@@ -178,7 +173,7 @@ package backend {
         StatisticsFactory ..> Statistics
     }
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart): String[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): String[]
         + calculateStatistics(String[] result, String[] expected): double[]
     }
     KnnFacade ..> ProcessFactory
