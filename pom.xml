@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                pl.ksr.computerrecognitionsystems/pl.ksr.computerrecognitionsystems.MainApplication
+                                pl.ksr.computerrecognitionsystems/frontend.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
