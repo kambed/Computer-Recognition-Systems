@@ -14,12 +14,18 @@ package backend {
     enum FileType {
         + SGM
     }
+    enum ExtractorType {
+        + String
+        + Number
+        + getExtractorReturnType()
+    }
     class KnnFacade {
-        + process(FileType fileType, String path, String[][] features): String[]
+        + process(FileType fileType, String path, ExtractorType extractorType): String[]
     }
 }
 MainController ---> KnnFacade
 MainController ..> FileType
+MainController ..> ExtractorType
 ```
 ## Backend
 ```plantuml
@@ -43,13 +49,25 @@ package backend {
         }
     }
     package extractor {
-        class Extractor {
-            + extract(String[][] texts, String[] features)
+        interface Extractor {
+            + extract(String[][] texts)
+        }
+        class Extractor1 implements Extractor {
+            + extract(String[][] texts)
+        }
+        class Extractor2 implements Extractor {
+            + extract(String[][] texts)
         }
         class ExtractorFactory {
-            + createExtractor(): Extractor
+            + createExtractor(ExtractorType extractorType): Extractor
+        }
+        enum ExtractorType {
+            + String
+            + Number
+            + getExtractorReturnType()
         }
         ExtractorFactory ..> Extractor
+        ExtractorFactory ..> ExtractorType
     }
     package process {
         class Process {
@@ -66,7 +84,7 @@ package backend {
         ProcessFactory ..> FileType
     }
     class KnnFacade {
-        + process(FileType fileType, String path, String[][] features): String[]
+        + process(FileType fileType, String path, ExtractorType extractorType): String[]
     }
     KnnFacade ..> ProcessFactory
 }
