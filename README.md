@@ -15,8 +15,8 @@ package backend {
         + SGM
     }
     enum ExtractorType {
-        + String
-        + Number
+        + STRING
+        + NUMBER
         + getExtractorReturnType()
     }
     class KnnFacade {
@@ -62,8 +62,8 @@ package backend {
             + createExtractor(ExtractorType extractorType): Extractor
         }
         enum ExtractorType {
-            + String
-            + Number
+            + STRING
+            + NUMBER
             + getExtractorReturnType()
         }
         ExtractorFactory ..> Extractor
