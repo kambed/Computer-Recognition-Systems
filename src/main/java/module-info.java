@@ -3,6 +3,6 @@ module pl.ksr.computerrecognitionsystems {
     requires javafx.fxml;
 
 
-    opens pl.ksr.computerrecognitionsystems to javafx.fxml;
-    exports pl.ksr.computerrecognitionsystems;
+    opens frontend to javafx.fxml;
+    exports frontend;
 }
