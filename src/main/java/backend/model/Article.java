@@ -4,12 +4,14 @@ import backend.model.adapter.DateAdapter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Date;
 import java.util.List;
 
 @Getter
+@Builder
 public class Article {
     @XmlElement(name = "DATE")
     @XmlJavaTypeAdapter(DateAdapter.class)
