@@ -3,19 +3,23 @@ package backend.reader;
 import backend.model.Article;
 import backend.model.Root;
 import backend.model.TextContent;
-import backend.process.exception.NoDataFoundException;
 import org.junit.jupiter.api.Test;
 
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SgmReaderTest {
 
     @Test
-    void FileDataObjectMappingTest() {
+    void FileDataObjectMappingTest() throws URISyntaxException {
         FileReader fr = ReaderFactory.createReader(FileType.SGM);
-        Root r = fr.read("./src/main/test/resources/reut2-000.sgm").orElse(null);
+        Root r = fr.read(
+            getFilePath("reut2-000.sgm")
+        ).orElse(null);
 
         assertNotNull(r);
         assertEquals(2, r.getArticles().size());
@@ -44,6 +48,14 @@ class SgmReaderTest {
     void FileDataObjectMappingShouldThrowWhenFileNotFound() {
         FileReader fr = ReaderFactory.createReader(FileType.SGM);
         assertThrows(NoSuchElementException.class,
-                () -> fr.read("sgasgsasg.sgm").orElseThrow());
+                fr.read("sgasgsasg.sgm")::orElseThrow);
+    }
+
+    private String getFilePath(String resourceName) throws URISyntaxException {
+        return Paths.get(
+                Objects.requireNonNull(
+                        getClass().getClassLoader().getResource(resourceName)
+                ).toURI()
+        ).toString();
     }
 }
