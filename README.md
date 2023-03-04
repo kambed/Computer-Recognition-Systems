@@ -17,9 +17,13 @@ package backend {
         + getFileReader(): FileReader
     }
     enum ExtractorType {
-        STRING
-        NUMBER
+        ARTICLE_LENGTH
+        MOST_USED_WORD
         DAYS_FROM_CREATION_DATE
+        SENTENCE_NUMBER
+        WORD_NUMBER
+        UNIQUE_WORDS_NUMBER
+        SENTENCE_AVERAGE_LENGTH
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -62,10 +66,22 @@ package backend {
             class ArticleLengthExtractor implements Extractor {
                 + extract(String[][] texts): int
             }
+            class DaysFromCreationDateExtractor implements Extractor {
+                + extract(String[][] texts): int
+            }
             class MostUsedWorldExtractor implements Extractor {
                 + extract(String[][] texts): String
             }
-            class NumberOfWordsExtractor implements Extractor {
+            class SentenceAverageLengthExtractor implements Extractor {
+                + extract(String[][] texts): double
+            }
+            class SentenceNumberExtractor implements Extractor {
+                + extract(String[][] texts): int
+            }
+            class UniqueWordsNumberExtractor implements Extractor {
+                + extract(String[][] texts): int
+            }
+            class WordNumberExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
         }
@@ -73,9 +89,13 @@ package backend {
             + {static} createExtractor(ExtractorType extractorType): Extractor
         }
         enum ExtractorType {
-            STRING
-            NUMBER
+            ARTICLE_LENGTH
+            MOST_USED_WORD
             DAYS_FROM_CREATION_DATE
+            SENTENCE_NUMBER
+            WORD_NUMBER
+            UNIQUE_WORDS_NUMBER
+            SENTENCE_AVERAGE_LENGTH
             - Extractor extractor
             + getExtractor(): Extractor
         }
