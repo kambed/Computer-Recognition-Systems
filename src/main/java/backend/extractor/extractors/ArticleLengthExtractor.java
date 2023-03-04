@@ -3,10 +3,13 @@ package backend.extractor.extractors;
 import backend.extractor.Extractor;
 import backend.model.Article;
 
-public class ArticleLengthExtractor implements Extractor<Double> {
+import java.util.Optional;
+
+public class ArticleLengthExtractor implements Extractor<Integer> {
     @Override
-    public Double extract(Article article) {
-        // TODO: implement
-        return 1.0;
+    public Integer extract(Article article) {
+        return Optional.ofNullable(article.getText().getText())
+                .map(String::length)
+                .orElse(0);
     }
 }
