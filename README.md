@@ -19,6 +19,7 @@ package backend {
     enum ExtractorType {
         STRING
         NUMBER
+        DAYS_FROM_CREATION_DATE
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -59,10 +60,13 @@ package backend {
         }
         package extractors {
             class ArticleLengthExtractor implements Extractor {
-                + extract(String[][] texts)
+                + extract(String[][] texts): int
             }
             class MostUsedWorldExtractor implements Extractor {
-                + extract(String[][] texts)
+                + extract(String[][] texts): String
+            }
+            class NumberOfWordsExtractor implements Extractor {
+                + extract(String[][] texts): long
             }
         }
         class ExtractorFactory {
@@ -71,6 +75,7 @@ package backend {
         enum ExtractorType {
             STRING
             NUMBER
+            DAYS_FROM_CREATION_DATE
             - Extractor extractor
             + getExtractor(): Extractor
         }
