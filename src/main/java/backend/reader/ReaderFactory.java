@@ -4,6 +4,6 @@ public class ReaderFactory {
     private ReaderFactory() {
     }
     public static FileReader createReader(FileType type) {
-        return null;
+        return type.getFileReader();
     }
 }

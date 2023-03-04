@@ -1,7 +1,9 @@
 package backend.reader;
 
-import java.util.Map;
+import backend.model.Root;
+
+import java.util.Optional;
 
 public interface FileReader {
-    public Map<String, String> read(String path);
+    Optional<Root> read(String path);
 }

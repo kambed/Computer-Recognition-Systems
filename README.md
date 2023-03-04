@@ -13,6 +13,8 @@ package frontend {
 package backend {
     enum FileType {
         SGM
+        - FileReader fileReader
+        + getFileReader(): FileReader
     }
     enum ExtractorType {
         STRING
@@ -47,6 +49,8 @@ package backend {
         ReaderFactory ..> FileType
         enum FileType {
             SGM
+            - FileReader fileReader
+            + getFileReader(): FileReader
         }
     }
     package extractor {

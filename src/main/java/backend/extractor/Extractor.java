@@ -1,7 +1,7 @@
 package backend.extractor;
 
-import java.util.Map;
+import backend.model.Article;
 
 public interface Extractor<T> {
-    T extract(Map<String, String> value);
+    T extract(Article article);
 }

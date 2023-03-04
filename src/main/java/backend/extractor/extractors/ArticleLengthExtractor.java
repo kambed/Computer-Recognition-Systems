@@ -1,12 +1,11 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
-
-import java.util.Map;
+import backend.model.Article;
 
 public class ArticleLengthExtractor implements Extractor<Double> {
     @Override
-    public Double extract(Map<String, String> value) {
+    public Double extract(Article article) {
         return 1.0;
     }
 }
