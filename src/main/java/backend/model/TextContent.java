@@ -1,7 +1,9 @@
-package pl.ksr.computerrecognitionsystems.model;
+package backend.model;
 
 import jakarta.xml.bind.annotation.XmlElement;
+import lombok.Getter;
 
+@Getter
 public class TextContent {
     @XmlElement(name="TITLE")
     private String title;

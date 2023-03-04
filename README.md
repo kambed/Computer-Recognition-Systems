@@ -12,12 +12,15 @@ package frontend {
 }
 package backend {
     enum FileType {
-        + SGM
+        SGM
+        - FileReader fileReader
+        + getFileReader(): FileReader
     }
     enum ExtractorType {
-        + STRING
-        + NUMBER
-        + getExtractorReturnType()
+        STRING
+        NUMBER
+        - Extractor extractor
+        + getExtractor(): Extractor
     }
     class KnnFacade {
         + process(FileType fileType, String path, ExtractorType extractorType): String[]
@@ -40,31 +43,36 @@ package backend {
         }
         
         class ReaderFactory {
-            + createFileReader(FileType fileType): FileReader
+            + {static} createFileReader(FileType fileType): FileReader
         }
         ReaderFactory ..> FileReader
         ReaderFactory ..> FileType
         enum FileType {
-            + SGM
+            SGM
+            - FileReader fileReader
+            + getFileReader(): FileReader
         }
     }
     package extractor {
         interface Extractor {
             + extract(String[][] texts)
         }
-        class Extractor1 implements Extractor {
-            + extract(String[][] texts)
-        }
-        class Extractor2 implements Extractor {
-            + extract(String[][] texts)
+        package extractors {
+            class ArticleLengthExtractor implements Extractor {
+                + extract(String[][] texts)
+            }
+            class MostUsedWorldExtractor implements Extractor {
+                + extract(String[][] texts)
+            }
         }
         class ExtractorFactory {
-            + createExtractor(ExtractorType extractorType): Extractor
+            + {static} createExtractor(ExtractorType extractorType): Extractor
         }
         enum ExtractorType {
-            + STRING
-            + NUMBER
-            + getExtractorReturnType()
+            STRING
+            NUMBER
+            - Extractor extractor
+            + getExtractor(): Extractor
         }
         ExtractorFactory ..> Extractor
         ExtractorFactory ..> ExtractorType
@@ -78,7 +86,7 @@ package backend {
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
         class ProcessFactory {
-            + createProcess(FileType fileType): Process
+            + {static} createProcess(FileType fileType): Process
         }
         ProcessFactory ..> Process
         ProcessFactory ..> FileType

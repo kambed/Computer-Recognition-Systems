@@ -1,10 +1,12 @@
-package pl.ksr.computerrecognitionsystems.model;
+package backend.model;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class Article {
     @XmlElement(name = "DATE")
     private String date;

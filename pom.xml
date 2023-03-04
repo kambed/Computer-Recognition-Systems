@@ -51,6 +51,12 @@
             <version>3.0.0</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -74,7 +80,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                pl.ksr.computerrecognitionsystems/pl.ksr.computerrecognitionsystems.MainApplication
+                                pl.ksr.computerrecognitionsystems/frontend.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
