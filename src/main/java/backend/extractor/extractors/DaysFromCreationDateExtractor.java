@@ -6,7 +6,7 @@ import backend.model.Article;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-public class DaysFromCreationDate implements Extractor<Long> {
+public class DaysFromCreationDateExtractor implements Extractor<Long> {
     @Override
     public Long extract(Article article) {
         return ChronoUnit.DAYS.between(article.getDate().toInstant(), Instant.now());
