@@ -2,10 +2,16 @@ module pl.ksr.computerrecognitionsystems {
     requires javafx.controls;
     requires javafx.fxml;
     requires jakarta.xml.bind;
-    requires com.sun.xml.bind;
+    requires lombok;
 
-    opens pl.ksr.computerrecognitionsystems;
-    exports pl.ksr.computerrecognitionsystems;
-    exports pl.ksr.computerrecognitionsystems.model;
-    opens pl.ksr.computerrecognitionsystems.model;
+
+    opens frontend to javafx.fxml;
+    exports frontend;
+    exports backend;
+    exports backend.reader;
+    exports backend.extractor;
+    exports backend.model;
+    exports backend.process;
+    exports backend.process.exception;
+    opens backend.reader;
 }

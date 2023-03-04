@@ -1,9 +1,8 @@
-package pl.ksr.computerrecognitionsystems.reader;
+package backend.reader;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
-import pl.ksr.computerrecognitionsystems.model.Root;
+import backend.model.Root;
 
 import java.io.IOException;
 import java.io.StringReader;
