@@ -33,10 +33,10 @@ top to bottom direction
 package backend {
     package reader {
         interface FileReader {
-            + read(String path)
+            + read(String path): Root
         }
         class SgmReader implements FileReader {
-            + read(String path)
+            + read(String path): Root
         }
         
         class ReaderFactory {
@@ -72,7 +72,7 @@ package backend {
     package process {
         class Process {
             - FileReader fileReader
-            + Process(FileType fileType, String[][] features)
+            + Process(FileType fileType)
             + process(String path)
         }
         Process ...> ReaderFactory
@@ -82,6 +82,31 @@ package backend {
         }
         ProcessFactory ..> Process
         ProcessFactory ..> FileType
+    }
+    package model {
+        class Root {
+            - articles: Article[]
+        }
+        FileReader ..> Root
+        Extractor ..> Root
+        Process ..> Root
+        class Article {
+            - date: String
+            - topics: String[]
+            - places: String[]
+            - people: String[]
+            - orgs: String[]
+            - exchanges: String[]
+            - companies: String[]
+            - text: TextContent
+        }
+        class TextContent {
+            - title: String
+            - dateline: String
+            - text: String
+        }
+        Root o-- Article
+        Article o-- TextContent
     }
     class KnnFacade {
         + process(FileType fileType, String path, ExtractorType extractorType): String[]
