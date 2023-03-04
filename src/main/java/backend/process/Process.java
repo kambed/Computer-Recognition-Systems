@@ -5,7 +5,7 @@ import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
 import backend.model.Article;
 import backend.model.Root;
-import backend.process.exception.NoDataFountException;
+import backend.process.exception.NoDataFoundException;
 import backend.reader.FileReader;
 import backend.reader.FileType;
 import backend.reader.ReaderFactory;
@@ -21,10 +21,10 @@ public class Process {
         reader = ReaderFactory.createReader(fileType);
     }
 
-    public void process(String filePath) throws NoDataFountException {
+    public void process(String filePath) throws NoDataFoundException {
         Optional<Root> data = reader.read(filePath);
         if (data.isEmpty()) {
-            throw new NoDataFountException("No data found");
+            throw new NoDataFoundException("No data found");
         }
         for (Article article : data.get().getArticles()) {
             // TODO: Save in variable and pass to the next part of process algorithm
