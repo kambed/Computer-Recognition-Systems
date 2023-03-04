@@ -8,7 +8,8 @@ public enum ExtractorType {
     DAYS_FROM_CREATION_DATE(new DaysFromCreationDateExtractor()),
     SENTENCE_NUMBER(new SentenceNumberExtractor()),
     WORD_NUMBER(new WordNumberExtractor()),
-    UNIQUE_WORDS_NUMBER(new UniqueWordsNumberExtractor());
+    UNIQUE_WORDS_NUMBER(new UniqueWordsNumberExtractor()),
+    SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor());
 
     private final Extractor<?> extractor;
 
