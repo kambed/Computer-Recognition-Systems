@@ -5,6 +5,7 @@ import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
 import backend.model.Article;
 import backend.model.Root;
+import backend.process.exception.NoDataFountException;
 import backend.reader.FileReader;
 import backend.reader.FileType;
 import backend.reader.ReaderFactory;
@@ -17,15 +18,16 @@ public class Process {
 
     public Process(ExtractorType type, FileType fileType) {
         extractor = ExtractorFactory.createExtractor(type);
-        this.reader = ReaderFactory.createReader(fileType);
+        reader = ReaderFactory.createReader(fileType);
     }
 
-    public void process(String filePath) {
+    public void process(String filePath) throws NoDataFountException {
         Optional<Root> data = reader.read(filePath);
         if (data.isEmpty()) {
-            throw new RuntimeException("No data found");
+            throw new NoDataFountException("No data found");
         }
         for (Article article : data.get().getArticles()) {
+            // TODO: Save in variable and pass to the next part of process algorithm
             System.out.println(extractor.extract(article));
         }
     }

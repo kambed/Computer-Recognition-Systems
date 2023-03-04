@@ -6,6 +6,7 @@ import backend.model.Article;
 public class ArticleLengthExtractor implements Extractor<Double> {
     @Override
     public Double extract(Article article) {
+        // TODO: implement
         return 1.0;
     }
 }
