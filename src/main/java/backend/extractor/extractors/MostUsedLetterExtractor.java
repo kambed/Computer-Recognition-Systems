@@ -12,10 +12,11 @@ public class MostUsedLetterExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
         return Optional.ofNullable(article.getText()
-                .getText())
+                        .getText())
                 .orElse("")
+                .toLowerCase()
                 .chars()
-                .filter(c -> (c >= 97 && c <= 122) || (c >= 65 && c <= 90))
+                .filter(c -> c >= 97 && c <= 122)
                 .boxed()
                 .collect(
                         Collectors.groupingBy(Function.identity(),
