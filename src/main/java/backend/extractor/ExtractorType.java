@@ -9,7 +9,8 @@ public enum ExtractorType {
     SENTENCE_NUMBER(new SentenceNumberExtractor()),
     WORD_NUMBER(new WordNumberExtractor()),
     UNIQUE_WORDS_NUMBER(new UniqueWordsNumberExtractor()),
-    SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor());
+    SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor()),
+    MOST_USED_CAPITAL_LETTER(new MostUsedCapitalLetterExtractor());
 
     private final Extractor<?> extractor;
 
