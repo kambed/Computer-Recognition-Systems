@@ -11,6 +11,7 @@ public class SentenceNumberExtractor implements Extractor<Long> {
         return Optional.ofNullable(article.getText()
                 .getText())
                 .orElse("")
+                .trim()
                 .chars()
                 .filter(c -> c == '.' || c == '!' || c == '?')
                 .count();
