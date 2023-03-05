@@ -11,7 +11,7 @@ public class UniqueWordsNumberExtractor implements Extractor<Integer> {
     public Integer extract(Article article) {
         return Optional.ofNullable(article.getText().getText())
                 .map(
-                        text -> Arrays.stream(text.split("\\s+"))
+                        text -> Arrays.stream(text.trim().split("\\s+"))
                                 .distinct()
                                 .count()
                 )

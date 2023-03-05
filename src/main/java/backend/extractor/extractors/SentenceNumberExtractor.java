@@ -8,6 +8,7 @@ public class SentenceNumberExtractor implements Extractor<Long> {
     public Long extract(Article article) {
         return article.getText()
                 .getText()
+                .trim()
                 .chars()
                 .filter(c -> c == '.' || c == '!' || c == '?')
                 .count();
