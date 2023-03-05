@@ -12,7 +12,7 @@ public class MostUsedLetterExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
         return Optional.ofNullable(article.getText()
-                        .getText())
+                        .getPreprocessedText())
                 .orElse("")
                 .toLowerCase()
                 .chars()

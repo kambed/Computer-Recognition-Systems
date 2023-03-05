@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedWordExtractorTest {
+class MostUsedWordStartingInCapitalLetterExtractorTest {
     private final MostUsedWordExtractor extractor = (MostUsedWordExtractor) ExtractorFactory.createExtractor(
             ExtractorType.MOST_USED_WORD
     );
@@ -25,19 +25,19 @@ class MostUsedWordExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("1 1 2 2 3 3 1 2 2")
+                                                .text("Text is about USA, USA")
                                                 .build()
                                 ).build(),
-                        "2"
+                        "usa"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello hello my name is test")
+                                                .text("Text is about England. England is country in Europe")
                                                 .build()
                                 ).build(),
-                        "hello"
+                        "england"
                 ),
                 Arguments.of(
                         Article.builder()
@@ -47,15 +47,6 @@ class MostUsedWordExtractorTest {
                                                 .build()
                                 ).build(),
                         ""
-                ),
-                Arguments.of(
-                        Article.builder()
-                                .text(
-                                        TextContent.builder()
-                                                .text("Decimal 3.5! 3.5")
-                                                .build()
-                                ).build(),
-                        "3.5"
                 )
         );
     }

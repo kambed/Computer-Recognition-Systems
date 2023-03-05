@@ -14,7 +14,9 @@ public enum ExtractorType {
     AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor()),
     WORD_AVERAGE_LENGTH(new WordAverageLengthExtractor()),
     AMOUNT_OF_NUMBERS(new AmountOfNumbersExtractor()),
-    MOST_USED_LETTER(new MostUsedLetterExtractor());
+    MOST_USED_LETTER(new MostUsedLetterExtractor()),
+    MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER(new MostUsedWorkStartingInCapitalLetterExtractor()),
+    CITY_FROM_DATELINE(new CityFromDatelineExtractor());
 
     private final Extractor<?> extractor;
 

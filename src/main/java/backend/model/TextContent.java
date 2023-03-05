@@ -17,4 +17,11 @@ public class TextContent {
     private String dateline;
     @XmlElement(name="BODY")
     private String text;
+
+    public String getPreprocessedText() {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        return text.trim().replaceAll("\\p{P}+(?=\\s|$)", "");
+    }
 }

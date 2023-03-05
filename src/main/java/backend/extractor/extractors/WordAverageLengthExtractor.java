@@ -11,7 +11,7 @@ public class WordAverageLengthExtractor implements Extractor<Double> {
     @Override
     public Double extract(Article article) {
         return Optional.ofNullable(
-                        article.getText().getText()
+                        article.getText().getPreprocessedText()
                 ).map(
                         text -> text.trim().split("\\s+")
                 ).map(

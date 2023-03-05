@@ -10,7 +10,7 @@ public class AmountOfNotLetterSignsExtractor implements Extractor<Long> {
     @Override
     public Long extract(Article article) {
         return Optional.ofNullable(article.getText()
-                .getText())
+                .getPreprocessedText())
                 .orElse("")
                 .chars()
                 .boxed()

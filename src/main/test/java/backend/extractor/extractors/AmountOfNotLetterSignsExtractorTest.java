@@ -35,7 +35,7 @@ class AmountOfNotLetterSignsExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello World!")
+                                                .text("Hello Wo$rld!")
                                                 .build()
                                 ).build(),
                         2

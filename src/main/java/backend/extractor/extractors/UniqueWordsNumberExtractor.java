@@ -9,9 +9,9 @@ import java.util.Optional;
 public class UniqueWordsNumberExtractor implements Extractor<Integer> {
     @Override
     public Integer extract(Article article) {
-        return Optional.ofNullable(article.getText().getText())
+        return Optional.ofNullable(article.getText().getPreprocessedText())
                 .map(
-                        text -> Arrays.stream(text.trim().split("\\s+"))
+                        text -> Arrays.stream(text.split("\\s+"))
                                 .distinct()
                                 .count()
                 )
