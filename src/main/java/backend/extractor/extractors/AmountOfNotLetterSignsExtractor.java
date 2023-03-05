@@ -5,15 +5,16 @@ import backend.model.Article;
 
 import java.util.Optional;
 
-public class SentenceNumberExtractor implements Extractor<Long> {
+public class AmountOfNotLetterSignsExtractor implements Extractor<Long> {
+
     @Override
     public Long extract(Article article) {
         return Optional.ofNullable(article.getText()
                 .getText())
                 .orElse("")
-                .trim()
                 .chars()
-                .filter(c -> c == '.' || c == '!' || c == '?')
+                .boxed()
+                .filter(c -> c < 65 || (c > 90 && c < 97) || c > 122)
                 .count();
     }
 }

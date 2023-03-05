@@ -84,6 +84,21 @@ package backend {
             class WordNumberExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
+            class AmountOfNotLetterSignsExtractor implements Extractor {
+                + extract(String[][] texts): long
+            }
+            class AmountOfNumbersExtractor implements Extractor {
+                + extract(String[][] texts): long
+            }
+            class MostUsedCapitalLetterExtractor implements Extractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedLetterExtractor implements Extractor {
+                + extract(String[][] texts): String
+            }
+            class WordAverageLength implements Extractor {
+                + extract(String[][] texts): double
+            }
         }
         class ExtractorFactory {
             + {static} createExtractor(ExtractorType extractorType): Extractor
@@ -96,6 +111,11 @@ package backend {
             WORD_NUMBER
             UNIQUE_WORDS_NUMBER
             SENTENCE_AVERAGE_LENGTH
+            MOST_USED_CAPITAL_LETTER
+            AMOUNT_OF_NOT_LETTERS
+            WORD_AVERAGE_LENGTH
+            AMOUNT_OF_NUMBERS
+            MOST_USED_LETTER
             - Extractor extractor
             + getExtractor(): Extractor
         }
