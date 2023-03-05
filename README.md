@@ -99,6 +99,9 @@ package backend {
             class WordAverageLength implements Extractor {
                 + extract(String[][] texts): double
             }
+            class MostUsedWorkStartingInCapitalLetter implements Extractor {
+                + extract(String[][] texts): String
+            }
         }
         class ExtractorFactory {
             + {static} createExtractor(ExtractorType extractorType): Extractor
@@ -116,6 +119,7 @@ package backend {
             WORD_AVERAGE_LENGTH
             AMOUNT_OF_NUMBERS
             MOST_USED_LETTER
+            MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
             - Extractor extractor
             + getExtractor(): Extractor
         }

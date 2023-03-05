@@ -36,7 +36,7 @@ class WordAverageLengthExtractorTest {
                                                 .text("Hello World!")
                                                 .build()
                                 ).build(),
-                        5.5
+                        5.0
                 ),
                 Arguments.of(
                         Article.builder()

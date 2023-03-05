@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class MostUsedWordExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
-        return Arrays.stream(article.getText().getText().trim().toLowerCase().split("\\s+"))
+        return Arrays.stream(article.getText().getPreprocessedText().toLowerCase().split("\\s+"))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet()
                 .stream()

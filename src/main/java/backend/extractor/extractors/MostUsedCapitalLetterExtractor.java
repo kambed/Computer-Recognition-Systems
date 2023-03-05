@@ -11,9 +11,8 @@ import java.util.stream.Collectors;
 public class MostUsedCapitalLetterExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
-        return Optional.ofNullable(article.getText()
-                .getText())
-                .orElse("")
+        return article.getText()
+                .getPreprocessedText()
                 .chars()
                 .filter(c -> c >= 65 && c <= 90)
                 .boxed()
