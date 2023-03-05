@@ -4,14 +4,16 @@ import backend.extractor.Extractor;
 import backend.model.Article;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MostUsedCapitalLetterExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
-        return article.getText()
-                .getText()
+        return Optional.ofNullable(article.getText()
+                .getText())
+                .orElse("")
                 .chars()
                 .filter(c -> c >= 65 && c <= 90)
                 .boxed()
