@@ -13,7 +13,8 @@ public enum ExtractorType {
     MOST_USED_CAPITAL_LETTER(new MostUsedCapitalLetterExtractor()),
     AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor()),
     WORD_AVERAGE_LENGTH(new WordAverageLengthExtractor()),
-    AMOUNT_OF_NUMBERS(new AmountOfNumbersExtractor());
+    AMOUNT_OF_NUMBERS(new AmountOfNumbersExtractor()),
+    MOST_USED_LETTER(new MostUsedLetterExtractor());
 
     private final Extractor<?> extractor;
 
