@@ -1,15 +1,25 @@
 package backend.model;
 
+import backend.model.adapter.DateAdapter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article {
     @XmlElement(name = "DATE")
-    private String date;
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    private Date date;
     @XmlElementWrapper(name = "TOPICS")
     @XmlElement(name = "D")
     private List<String> topics;

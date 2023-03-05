@@ -5,11 +5,11 @@ import backend.model.Article;
 
 import java.util.Optional;
 
-public class ArticleLengthExtractor implements Extractor<Integer> {
+public class WordNumberExtractor implements Extractor<Integer> {
     @Override
     public Integer extract(Article article) {
         return Optional.ofNullable(article.getText().getText())
-                .map(String::length)
+                .map(text -> text.split("\\s+").length)
                 .orElse(0);
     }
 }
