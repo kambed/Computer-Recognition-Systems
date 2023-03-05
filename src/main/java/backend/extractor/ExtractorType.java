@@ -11,7 +11,8 @@ public enum ExtractorType {
     UNIQUE_WORDS_NUMBER(new UniqueWordsNumberExtractor()),
     SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor()),
     MOST_USED_CAPITAL_LETTER(new MostUsedCapitalLetterExtractor()),
-    AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor());
+    AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor()),
+    WORD_AVERAGE_LENGTH(new WordAverageLengthExtractor());
 
     private final Extractor<?> extractor;
 
