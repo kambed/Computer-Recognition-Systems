@@ -5,11 +5,11 @@ import backend.model.Article;
 
 import java.util.Optional;
 
-public class AmountOfNotLetterSignsExtractor implements Extractor<Integer> {
+public class AmountOfNotLetterSignsExtractor implements Extractor<Long> {
 
     @Override
-    public Integer extract(Article article) {
-        return (int) Optional.ofNullable(article.getText()
+    public Long extract(Article article) {
+        return Optional.ofNullable(article.getText()
                 .getText())
                 .orElse("")
                 .chars()

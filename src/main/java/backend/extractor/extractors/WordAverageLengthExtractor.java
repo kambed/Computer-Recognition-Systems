@@ -13,7 +13,7 @@ public class WordAverageLengthExtractor implements Extractor<Double> {
         return Optional.ofNullable(
                         article.getText().getText()
                 ).map(
-                        text -> text.split("\\s+")
+                        text -> text.trim().split("\\s+")
                 ).map(
                         words -> Arrays.stream(words)
                                 .mapToInt(String::length)
