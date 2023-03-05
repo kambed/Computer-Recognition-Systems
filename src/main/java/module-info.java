@@ -4,6 +4,7 @@ module pl.ksr.computerrecognitionsystems {
     requires jakarta.xml.bind;
     requires lombok;
 
+
     opens frontend to javafx.fxml;
     exports frontend;
     exports backend;
@@ -12,6 +13,7 @@ module pl.ksr.computerrecognitionsystems {
     exports backend.model;
     exports backend.process;
     exports backend.process.exception;
+    exports backend.model.adapter;
     opens backend.reader;
     opens backend.model;
 }
