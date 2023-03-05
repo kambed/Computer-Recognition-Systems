@@ -47,6 +47,15 @@ class MostUsedWordExtractorTest {
                                                 .build()
                                 ).build(),
                         ""
+                ),
+                Arguments.of(
+                        Article.builder()
+                                .text(
+                                        TextContent.builder()
+                                                .text("Decimal 3.5! 3.5")
+                                                .build()
+                                ).build(),
+                        "3.5"
                 )
         );
     }

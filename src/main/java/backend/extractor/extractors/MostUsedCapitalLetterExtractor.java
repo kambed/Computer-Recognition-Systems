@@ -4,7 +4,6 @@ import backend.extractor.Extractor;
 import backend.model.Article;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
