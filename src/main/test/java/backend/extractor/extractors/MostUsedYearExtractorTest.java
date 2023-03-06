@@ -14,10 +14,10 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AmountOfNumbersExtractorTest {
-    private final AmountOfNumbersExtractor extractor = (AmountOfNumbersExtractor) ExtractorFactory
+class MostUsedYearExtractorTest {
+    private final MostUsedYearExtractor extractor = (MostUsedYearExtractor) ExtractorFactory
             .createExtractor(
-                    ExtractorType.AMOUNT_OF_NUMBERS
+                    ExtractorType.MOST_USED_YEAR
             );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -26,16 +26,16 @@ class AmountOfNumbersExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Text 123 with 545 many 643 numbers")
+                                                .text("Text 123 with 545 many 1410 years. 1999 and 1999")
                                                 .build()
                                 ).build(),
-                        9
+                        1999
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello World! no numbers here")
+                                                .text("Hello World! no years here")
                                                 .build()
                                 ).build(),
                         0
@@ -54,7 +54,7 @@ class AmountOfNumbersExtractorTest {
 
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
-    void extractTest(Article article, int expectedLength) {
+    void extractTest(Article article, Integer expectedLength) {
         assertEquals(expectedLength, extractor.extract(article));
     }
 }
