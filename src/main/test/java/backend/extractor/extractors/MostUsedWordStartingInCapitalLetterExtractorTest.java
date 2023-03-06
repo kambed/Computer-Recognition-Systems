@@ -47,7 +47,7 @@ class MostUsedWordStartingInCapitalLetterExtractorTest {
                                                 .text("")
                                                 .build()
                                 ).build(),
-                        null
+                        ""
                 )
         );
     }

@@ -31,6 +31,6 @@ public class MostUsedWordStartingInCapitalLetterExtractor implements Extractor<S
                         (entry.getKey().charAt(0)) <= 90)
                 .max(Map.Entry.comparingByValue())
                 .map(entry -> entry.getKey().toLowerCase())
-                .orElse(null);
+                .orElse("");
     }
 }

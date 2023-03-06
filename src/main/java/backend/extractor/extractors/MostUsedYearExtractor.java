@@ -16,7 +16,7 @@ public class MostUsedYearExtractor implements Extractor<Integer> {
                                 .getPreprocessedText())
                         .orElse("")
                         .split("\\s+"))
-                .filter(word -> word.matches("\\d{4}$"))
+                .filter(word -> word.matches("^[12]\\d{3}$"))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet()
                 .stream()
