@@ -22,7 +22,7 @@ package backend {
         DAYS_FROM_CREATION_DATE
         SENTENCE_AVERAGE_LENGTH
         AMOUNT_OF_NOT_LETTERS
-        AMOUNT_OF_NUMBERS
+        MOST_USED_YEAR
         MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
         CITY_FROM_DATELINE
         - Extractor extractor
@@ -67,7 +67,7 @@ package backend {
             class AmountOfNotLetterSignsExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
-            class AmountOfNumbersExtractor implements Extractor {
+            class MostUsedYearExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
             class ArticleLengthExtractor implements Extractor {
