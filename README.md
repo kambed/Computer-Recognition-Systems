@@ -20,10 +20,11 @@ package backend {
         ARTICLE_LENGTH
         MOST_USED_WORD
         DAYS_FROM_CREATION_DATE
-        SENTENCE_NUMBER
-        WORD_NUMBER
-        UNIQUE_WORDS_NUMBER
         SENTENCE_AVERAGE_LENGTH
+        AMOUNT_OF_NOT_LETTERS
+        AMOUNT_OF_NUMBERS
+        MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+        CITY_FROM_DATELINE
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -63,40 +64,25 @@ package backend {
             + extract(String[][] texts)
         }
         package extractors {
-            class ArticleLengthExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class DaysFromCreationDateExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class MostUsedWorldExtractor implements Extractor {
-                + extract(String[][] texts): String
-            }
-            class SentenceAverageLengthExtractor implements Extractor {
-                + extract(String[][] texts): double
-            }
-            class SentenceNumberExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class UniqueWordsNumberExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class WordNumberExtractor implements Extractor {
-                + extract(String[][] texts): long
-            }
             class AmountOfNotLetterSignsExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
             class AmountOfNumbersExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
-            class MostUsedCapitalLetterExtractor implements Extractor {
+            class ArticleLengthExtractor implements Extractor {
+                + extract(String[][] texts): int
+            }
+            class CityFromDatelineExtractor implements Extractor {
                 + extract(String[][] texts): String
             }
-            class MostUsedLetterExtractor implements Extractor {
+            class DaysFromCreationDateExtractor implements Extractor {
+                + extract(String[][] texts): int
+            }
+            class MostUsedWordExtractor implements Extractor {
                 + extract(String[][] texts): String
             }
-            class WordAverageLength implements Extractor {
+            class SentenceAverageLengthExtractor implements Extractor {
                 + extract(String[][] texts): double
             }
             class MostUsedWorkStartingInCapitalLetter implements Extractor {
