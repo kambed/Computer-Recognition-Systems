@@ -4,6 +4,7 @@ module pl.ksr.computerrecognitionsystems {
     requires jakarta.xml.bind;
     requires lombok;
     requires com.opencsv;
+    requires org.apache.commons.lang3;
 
     opens frontend to javafx.fxml;
     exports frontend;

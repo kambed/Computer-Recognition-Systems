@@ -6,6 +6,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CsvReader {
     private CsvReader() {
@@ -27,6 +28,14 @@ public class CsvReader {
         } catch (Exception ignored) {
             return Optional.empty();
         }
-        return Optional.of(dictionary);
+        return Optional.of(dictionary.entrySet()
+                .stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getValue().size()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                )));
     }
 }
