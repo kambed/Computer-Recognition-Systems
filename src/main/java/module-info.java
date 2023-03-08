@@ -3,7 +3,7 @@ module pl.ksr.computerrecognitionsystems {
     requires javafx.fxml;
     requires jakarta.xml.bind;
     requires lombok;
-
+    requires com.opencsv;
 
     opens frontend to javafx.fxml;
     exports frontend;
