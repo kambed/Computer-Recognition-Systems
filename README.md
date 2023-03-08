@@ -18,13 +18,13 @@ package backend {
     }
     enum ExtractorType {
         ARTICLE_LENGTH
-        MOST_USED_WORD
+        MOST_USED_WORD_AT_THE_BEGINNING
         DAYS_FROM_CREATION_DATE
         SENTENCE_AVERAGE_LENGTH
-        AMOUNT_OF_NOT_LETTERS
         MOST_USED_YEAR
         MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
         CITY_FROM_DATELINE
+        MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -47,7 +47,9 @@ package backend {
         class SgmReader implements FileReader {
             + read(String path): Root
         }
-        
+        class CsvReader {
+            + readDictionary(String path): String[][]
+        }
         class ReaderFactory {
             + {static} createFileReader(FileType fileType): FileReader
         }
@@ -64,9 +66,6 @@ package backend {
             + extract(String[][] texts)
         }
         package extractors {
-            class AmountOfNotLetterSignsExtractor implements Extractor {
-                + extract(String[][] texts): long
-            }
             class MostUsedYearExtractor implements Extractor {
                 + extract(String[][] texts): long
             }
@@ -86,6 +85,9 @@ package backend {
                 + extract(String[][] texts): double
             }
             class MostUsedWorkStartingInCapitalLetter implements Extractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedGeographicalNameMappedToCountry implements Extractor {
                 + extract(String[][] texts): String
             }
         }
@@ -120,6 +122,7 @@ package backend {
         }
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
+        MostUsedGeographicalNameMappedToCountry ..> CsvReader
         class ProcessFactory {
             + {static} createProcess(FileType fileType): Process
         }
