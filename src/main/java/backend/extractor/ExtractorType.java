@@ -4,7 +4,7 @@ import backend.extractor.extractors.*;
 
 public enum ExtractorType {
     ARTICLE_LENGTH(new ArticleLengthExtractor()),
-    MOST_USED_WORD(new MostUsedWordExtractor()),
+    MOST_USED_WORD_AT_THE_BEGINNING(new MostUsedWordAtTheBeginningExtractor()),
     DAYS_FROM_CREATION_DATE(new DaysFromCreationDateExtractor()),
     SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor()),
     AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor()),

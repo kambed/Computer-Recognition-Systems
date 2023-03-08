@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedWordExtractorTest {
-    private final MostUsedWordExtractor extractor = (MostUsedWordExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_WORD
+class MostUsedWordAtTheBeginningExtractorTest {
+    private final MostUsedWordAtTheBeginningExtractor extractor = (MostUsedWordAtTheBeginningExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_WORD_AT_THE_BEGINNING
     );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -25,10 +25,10 @@ class MostUsedWordExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("1 1 2 2 3 3 1 2 2")
+                                                .text("The United States of America, commonly known as the United States or America, is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, nine Minor Outlying Islands,[g] and 326 Indian reservations. The United States is also in free association with three Pacific Island sovereign states: the Federated States of Micronesia, the Marshall Islands, and the Republic of Palau. It is the world's third-largest country by both land and total area.[b] It shares land borders with Canada to its north and with Mexico to its south and has maritime borders with the Bahamas, Cuba, Russia, and other nations.[h] With a population of over 333 million,[i] it is the most populous country in the Americas and the third most populous in the world. The national capital of the United States is Washington, D.C. and its most populous city and principal financial center is New York City.")
                                                 .build()
                                 ).build(),
-                        "2"
+                        "america"
                 ),
                 Arguments.of(
                         Article.builder()
@@ -52,10 +52,10 @@ class MostUsedWordExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Decimal 3.5! 3.5")
+                                                .text("Too short text")
                                                 .build()
                                 ).build(),
-                        "3.5"
+                        ""
                 )
         );
     }
