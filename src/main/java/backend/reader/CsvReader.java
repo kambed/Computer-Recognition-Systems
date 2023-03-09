@@ -25,7 +25,7 @@ public class CsvReader {
                 }
                 dictionary.get(row[0]).add(row[1]);
             });
-        } catch (Exception ignored) {
+        } catch (Exception e) {
             return Optional.empty();
         }
         return Optional.of(dictionary.entrySet()
