@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UniqueWordsNumberExtractorTest {
-    private final UniqueWordsNumberExtractor extractor = (UniqueWordsNumberExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.UNIQUE_WORDS_NUMBER
+class MostUsedGeographicalNameMappedToCountryExtractorTest {
+    private final MostUsedGeographicalNameMappedToCountryExtractor extractor = (MostUsedGeographicalNameMappedToCountryExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
     );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -25,36 +25,45 @@ class UniqueWordsNumberExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
+                                                .text("What about text that has two word city like New York or Los Angeles? Hmmm?")
                                                 .build()
                                 ).build(),
-                        0
+                        "united states"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello World!")
+                                                .text("If the text is about french cities like Paris or Marseille, we get France even though we say something about Tokyo")
                                                 .build()
                                 ).build(),
-                        2
+                        "france"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello World! Hello World!")
+                                                .text("Hello hello my name is test")
                                                 .build()
                                 ).build(),
-                        2
+                        ""
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello World! Hello World! Hello World!")
+                                                .text("")
                                                 .build()
                                 ).build(),
-                        2
+                        ""
+                ),
+                Arguments.of(
+                        Article.builder()
+                                .text(
+                                        TextContent.builder()
+                                                .build()
+                                ).build(),
+                        ""
                 )
         );
     }
@@ -62,7 +71,7 @@ class UniqueWordsNumberExtractorTest {
 
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
-    void extractTest(Article article, int expectedLength) {
-        assertEquals(expectedLength, extractor.extract(article));
+    void extractTest(Article article, String expectedWord) {
+        assertEquals(expectedWord, extractor.extract(article));
     }
 }

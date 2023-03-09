@@ -15,9 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MostUsedWordStartingInCapitalLetterExtractorTest {
-    private final MostUsedWordExtractor extractor = (MostUsedWordExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_WORD
-    );
+    private final MostUsedWordStartingInCapitalLetterExtractor extractor =
+            (MostUsedWordStartingInCapitalLetterExtractor) ExtractorFactory.createExtractor(
+                    ExtractorType.MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+            );
 
     public Stream<Arguments> extractTestDataProvider() {
         return Stream.of(
@@ -25,7 +26,7 @@ class MostUsedWordStartingInCapitalLetterExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Text is about USA, USA")
+                                                .text("Text is about USA, USA. Text. Text.")
                                                 .build()
                                 ).build(),
                         "usa"
@@ -34,7 +35,7 @@ class MostUsedWordStartingInCapitalLetterExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Text is about England. England is country in Europe")
+                                                .text("Text is about England and England is country in Europe.")
                                                 .build()
                                 ).build(),
                         "england"

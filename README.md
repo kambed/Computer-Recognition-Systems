@@ -18,12 +18,13 @@ package backend {
     }
     enum ExtractorType {
         ARTICLE_LENGTH
-        MOST_USED_WORD
+        MOST_USED_WORD_AT_THE_BEGINNING
         DAYS_FROM_CREATION_DATE
-        SENTENCE_NUMBER
-        WORD_NUMBER
-        UNIQUE_WORDS_NUMBER
         SENTENCE_AVERAGE_LENGTH
+        MOST_USED_YEAR
+        MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+        CITY_FROM_DATELINE
+        MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -46,7 +47,9 @@ package backend {
         class SgmReader implements FileReader {
             + read(String path): Root
         }
-        
+        class CsvReader {
+            + readDictionary(String path): String[][]
+        }
         class ReaderFactory {
             + {static} createFileReader(FileType fileType): FileReader
         }
@@ -63,43 +66,28 @@ package backend {
             + extract(String[][] texts)
         }
         package extractors {
+            class MostUsedYearExtractor implements Extractor {
+                + extract(String[][] texts): long
+            }
             class ArticleLengthExtractor implements Extractor {
                 + extract(String[][] texts): int
+            }
+            class CityFromDatelineExtractor implements Extractor {
+                + extract(String[][] texts): String
             }
             class DaysFromCreationDateExtractor implements Extractor {
                 + extract(String[][] texts): int
             }
-            class MostUsedWorldExtractor implements Extractor {
+            class MostUsedWordExtractor implements Extractor {
                 + extract(String[][] texts): String
             }
             class SentenceAverageLengthExtractor implements Extractor {
                 + extract(String[][] texts): double
             }
-            class SentenceNumberExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class UniqueWordsNumberExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class WordNumberExtractor implements Extractor {
-                + extract(String[][] texts): long
-            }
-            class AmountOfNotLetterSignsExtractor implements Extractor {
-                + extract(String[][] texts): long
-            }
-            class AmountOfNumbersExtractor implements Extractor {
-                + extract(String[][] texts): long
-            }
-            class MostUsedCapitalLetterExtractor implements Extractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedLetterExtractor implements Extractor {
-                + extract(String[][] texts): String
-            }
-            class WordAverageLength implements Extractor {
-                + extract(String[][] texts): double
-            }
             class MostUsedWorkStartingInCapitalLetter implements Extractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedGeographicalNameMappedToCountry implements Extractor {
                 + extract(String[][] texts): String
             }
         }
@@ -134,6 +122,7 @@ package backend {
         }
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
+        MostUsedGeographicalNameMappedToCountry ..> CsvReader
         class ProcessFactory {
             + {static} createProcess(FileType fileType): Process
         }

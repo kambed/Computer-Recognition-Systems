@@ -4,19 +4,13 @@ import backend.extractor.extractors.*;
 
 public enum ExtractorType {
     ARTICLE_LENGTH(new ArticleLengthExtractor()),
-    MOST_USED_WORD(new MostUsedWordExtractor()),
+    MOST_USED_WORD_AT_THE_BEGINNING(new MostUsedWordAtTheBeginningExtractor()),
     DAYS_FROM_CREATION_DATE(new DaysFromCreationDateExtractor()),
-    SENTENCE_NUMBER(new SentenceNumberExtractor()),
-    WORD_NUMBER(new WordNumberExtractor()),
-    UNIQUE_WORDS_NUMBER(new UniqueWordsNumberExtractor()),
     SENTENCE_AVERAGE_LENGTH(new SentenceAverageLengthExtractor()),
-    MOST_USED_CAPITAL_LETTER(new MostUsedCapitalLetterExtractor()),
-    AMOUNT_OF_NOT_LETTERS(new AmountOfNotLetterSignsExtractor()),
-    WORD_AVERAGE_LENGTH(new WordAverageLengthExtractor()),
-    AMOUNT_OF_NUMBERS(new AmountOfNumbersExtractor()),
-    MOST_USED_LETTER(new MostUsedLetterExtractor()),
-    MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER(new MostUsedWorkStartingInCapitalLetterExtractor()),
-    CITY_FROM_DATELINE(new CityFromDatelineExtractor());
+    MOST_USED_YEAR(new MostUsedYearExtractor()),
+    MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER(new MostUsedWordStartingInCapitalLetterExtractor()),
+    CITY_FROM_DATELINE(new CityFromDatelineExtractor()),
+    MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY(new MostUsedGeographicalNameMappedToCountryExtractor());
 
     private final Extractor<?> extractor;
 

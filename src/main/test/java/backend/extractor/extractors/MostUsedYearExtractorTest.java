@@ -14,10 +14,11 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedCapitalLetterExtractorTest {
-    private final MostUsedCapitalLetterExtractor extractor = (MostUsedCapitalLetterExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_CAPITAL_LETTER
-    );
+class MostUsedYearExtractorTest {
+    private final MostUsedYearExtractor extractor = (MostUsedYearExtractor) ExtractorFactory
+            .createExtractor(
+                    ExtractorType.MOST_USED_YEAR
+            );
 
     public Stream<Arguments> extractTestDataProvider() {
         return Stream.of(
@@ -25,37 +26,27 @@ class MostUsedCapitalLetterExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("text without capital letters")
+                                                .text("Text 123 with 545 many 1410 years. 1999 and 1999")
                                                 .build()
                                 ).build(),
-                        null
+                        1999
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Most used capital letter is M")
+                                                .text("Hello World! no years here")
                                                 .build()
                                 ).build(),
-                        "M"
+                        0
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("")
                                                 .build()
                                 ).build(),
-                        null
-                ),
-                Arguments.of(
-                        Article.builder()
-                                .text(
-                                        TextContent.builder()
-                                                .text("Two lETtErs same amount")
-                                                .build()
-                                ).build(),
-                        "T"
+                        0
                 )
         );
     }
@@ -63,7 +54,7 @@ class MostUsedCapitalLetterExtractorTest {
 
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
-    void extractTest(Article article, String expectedWord) {
-        assertEquals(expectedWord, extractor.extract(article));
+    void extractTest(Article article, Integer expectedLength) {
+        assertEquals(expectedLength, extractor.extract(article));
     }
 }
