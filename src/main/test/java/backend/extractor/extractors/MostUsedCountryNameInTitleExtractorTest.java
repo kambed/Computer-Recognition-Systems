@@ -43,6 +43,15 @@ class MostUsedCountryNameInTitleExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
+                                                .title("USA, u.s., japan, jp")
+                                                .build()
+                                ).build(),
+                        "USA"
+                ),
+                Arguments.of(
+                        Article.builder()
+                                .text(
+                                        TextContent.builder()
                                                 .title("there is no country in this title")
                                                 .build()
                                 ).build(),
