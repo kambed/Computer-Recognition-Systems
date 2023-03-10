@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedWordAtTheBeginningExtractorTest {
-    private final MostUsedWordAtTheBeginningExtractor extractor = (MostUsedWordAtTheBeginningExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_WORD_AT_THE_BEGINNING
+class MostUsedCountryNameInTitleExtractorTest {
+    private final MostUsedCountryNameInTitleExtractor extractor = (MostUsedCountryNameInTitleExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_COUNTRY_NAME_IN_TITLE
     );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -25,34 +25,34 @@ class MostUsedWordAtTheBeginningExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("The United States of America, commonly known as the United States or America, is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, nine Minor Outlying Islands,[g] and 326 Indian reservations. The United States is also in free association with three Pacific Island sovereign states: the Federated States of Micronesia, the Marshall Islands, and the Republic of Palau. It is the world's third-largest country by both land and total area.[b] It shares land borders with Canada to its north and with Mexico to its south and has maritime borders with the Bahamas, Cuba, Russia, and other nations.[h] With a population of over 333 million,[i] it is the most populous country in the Americas and the third most populous in the world. The national capital of the United States is Washington, D.C. and its most populous city and principal financial center is New York City.")
+                                                .title("USA")
                                                 .build()
                                 ).build(),
-                        "states"
+                        "USA"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Hello hello my name is test")
+                                                .title("jp")
                                                 .build()
                                 ).build(),
-                        "hello"
+                        "Japan"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("")
+                                                .title("USA, u.s., japan, jp")
                                                 .build()
                                 ).build(),
-                        ""
+                        "USA"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("Too short text")
+                                                .title("there is no country in this title")
                                                 .build()
                                 ).build(),
                         ""

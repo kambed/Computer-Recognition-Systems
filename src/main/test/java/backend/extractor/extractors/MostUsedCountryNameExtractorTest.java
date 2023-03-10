@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedGeographicalNameMappedToCountryExtractorTest {
-    private final MostUsedGeographicalNameMappedToCountryExtractor extractor = (MostUsedGeographicalNameMappedToCountryExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
+class MostUsedCountryNameExtractorTest {
+    private final MostUsedCountryNameExtractor extractor = (MostUsedCountryNameExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_COUNTRY_NAME
     );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -25,42 +25,26 @@ class MostUsedGeographicalNameMappedToCountryExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("What about text that has two word city like New York or Los Angeles? Hmmm?")
+                                                .text("USA, u.s., japan")
                                                 .build()
                                 ).build(),
-                        "united states"
+                        "USA"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("If the text is about french cities like Paris or Marseille, we get France even though we say something about Tokyo")
+                                                .text("USA, u.s., japan, jp")
                                                 .build()
                                 ).build(),
-                        "france"
-                ),
-                Arguments.of(
-                        Article.builder()
-                                .text(
-                                        TextContent.builder()
-                                                .text("Hello hello my name is test")
-                                                .build()
-                                ).build(),
-                        ""
+                        "USA"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
                                                 .text("")
-                                                .build()
-                                ).build(),
-                        ""
-                ),
-                Arguments.of(
-                        Article.builder()
-                                .text(
-                                        TextContent.builder()
+                                                .title("")
                                                 .build()
                                 ).build(),
                         ""

@@ -13,9 +13,9 @@ public class CsvReader {
     }
 
     public static Optional<Map<String, List<String>>> readDictionary(String path) {
-        Map<String, List<String>> dictionary = new HashMap<>();
+        Map<String, List<String>> dictionary = new LinkedHashMap<>();
         try (CSVReader reader = new CSVReaderBuilder(new FileReader(path))
-                .withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
+                .withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build()
         ) {
             List<String[]> rows = reader.readAll();
             rows.remove(0);

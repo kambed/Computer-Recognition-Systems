@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MostUsedGeographicalNameMappedToCountryExtractor implements Extractor<String> {
+public class MostUsedCityNameMappedToCountryExtractor implements Extractor<String> {
     private final Map<String, List<String>> citiesInCountries = getCitiesInCountries();
     @Override
     public String extract(Article article) {
@@ -23,12 +23,13 @@ public class MostUsedGeographicalNameMappedToCountryExtractor implements Extract
                 .map(word -> {
                     for (Map.Entry<String, List<String>> entry : citiesInCountries.entrySet()) {
                         for (String geo : entry.getValue()) {
-                            boolean noMatchersPossible = noMatchersPossibleMultipleWords.toString().contains(" ") && geo.contains(" ") &&
+                            boolean noMatchersPossible = StringUtils.countMatches(noMatchersPossibleMultipleWords.toString(), " ") > 0 && StringUtils.countMatches(geo, " ") > 0 &&
                                     StringUtils.countMatches(noMatchersPossibleMultipleWords + " " + word, geo) > 0;
                             if (noMatchersPossible) {
                                 noMatchersPossibleMultipleWords.setLength(0);
                             }
                             if (geo.equals(word) || noMatchersPossible) {
+                                noMatchersPossibleMultipleWords.append(" ").append(word);
                                 return entry.getKey();
                             }
                         }
@@ -36,7 +37,10 @@ public class MostUsedGeographicalNameMappedToCountryExtractor implements Extract
                     noMatchersPossibleMultipleWords.append(" ").append(word);
                     return "";
                 }).filter(word -> !word.isEmpty())
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()))
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())

@@ -4,6 +4,7 @@ import backend.extractor.Extractor;
 import backend.model.Article;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -17,7 +18,10 @@ public class MostUsedYearExtractor implements Extractor<Integer> {
                         .orElse("")
                         .split("\\s+"))
                 .filter(word -> word.matches("^[12]\\d{3}$"))
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()))
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())
