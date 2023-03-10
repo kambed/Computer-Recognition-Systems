@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedGeographicalNameMappedToCountryExtractorTest {
-    private final MostUsedGeographicalNameMappedToCountryExtractor extractor = (MostUsedGeographicalNameMappedToCountryExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
+class MostUsedCityNameMappedToCountryExtractorTest {
+    private final MostUsedCityNameMappedToCountryExtractor extractor = (MostUsedCityNameMappedToCountryExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY
     );
 
     public Stream<Arguments> extractTestDataProvider() {
