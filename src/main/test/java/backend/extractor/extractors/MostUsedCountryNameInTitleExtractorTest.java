@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MostUsedCountryNameExtractorTest {
-    private final MostUsedCountryNameExtractor extractor = (MostUsedCountryNameExtractor) ExtractorFactory.createExtractor(
-            ExtractorType.MOST_USED_COUNTRY_NAME
+class MostUsedCountryNameInTitleExtractorTest {
+    private final MostUsedCountryNameInTitleExtractor extractor = (MostUsedCountryNameInTitleExtractor) ExtractorFactory.createExtractor(
+            ExtractorType.MOST_USED_COUNTRY_NAME_IN_TITLE
     );
 
     public Stream<Arguments> extractTestDataProvider() {
@@ -25,7 +25,7 @@ class MostUsedCountryNameExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("USA, u.s., japan")
+                                                .title("USA")
                                                 .build()
                                 ).build(),
                         "USA"
@@ -34,8 +34,16 @@ class MostUsedCountryNameExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("")
-                                                .title("")
+                                                .title("jp")
+                                                .build()
+                                ).build(),
+                        "Japan"
+                ),
+                Arguments.of(
+                        Article.builder()
+                                .text(
+                                        TextContent.builder()
+                                                .title("there is no country in this title")
                                                 .build()
                                 ).build(),
                         ""

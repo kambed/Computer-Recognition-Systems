@@ -11,7 +11,8 @@ public enum ExtractorType {
     MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER(new MostUsedWordStartingInCapitalLetterExtractor()),
     CITY_FROM_DATELINE(new CityFromDatelineExtractor()),
     MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY(new MostUsedGeographicalNameMappedToCountryExtractor()),
-    MOST_USED_COUNTRY_NAME(new MostUsedCountryNameExtractor());
+    MOST_USED_COUNTRY_NAME(new MostUsedCountryNameExtractor()),
+    MOST_USED_COUNTRY_NAME_IN_TITLE(new MostUsedCountryNameInTitleExtractor());
 
     private final Extractor<?> extractor;
 
