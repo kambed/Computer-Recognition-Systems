@@ -12,7 +12,9 @@ public enum ExtractorType {
     CITY_FROM_DATELINE(new CityFromDatelineExtractor()),
     MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY(new MostUsedGeographicalNameMappedToCountryExtractor()),
     MOST_USED_COUNTRY_NAME(new MostUsedCountryNameExtractor()),
-    MOST_USED_COUNTRY_NAME_IN_TITLE(new MostUsedCountryNameInTitleExtractor());
+    MOST_USED_COUNTRY_NAME_IN_TITLE(new MostUsedCountryNameInTitleExtractor()),
+    PEOPLE_COUNTRY(new PeopleCountryExtractor()),
+    MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY(new MostUsedCityNameMappedToCountryExtractor());
 
     private final Extractor<?> extractor;
 

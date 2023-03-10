@@ -3,6 +3,7 @@ package backend.extractor.extractors;
 import backend.extractor.Extractor;
 import backend.model.Article;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -24,7 +25,10 @@ public class MostUsedWordStartingInCapitalLetterExtractor implements Extractor<S
                 ).boxed()
                 .map(index -> articleWords.get(index)
                         .replaceAll("\\p{P}+(?=\\s|$)", ""))
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()))
                 .entrySet()
                 .stream()
                 .filter(entry -> (entry.getKey().charAt(0)) >= 65 &&
