@@ -35,6 +35,15 @@ class MostUsedYearExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
+                                                .text("Text 123 with 545 many 1410 years. 1999 and 1999 or maybe 1410 again?")
+                                                .build()
+                                ).build(),
+                        1410
+                ),
+                Arguments.of(
+                        Article.builder()
+                                .text(
+                                        TextContent.builder()
                                                 .text("Hello World! no years here")
                                                 .build()
                                 ).build(),
