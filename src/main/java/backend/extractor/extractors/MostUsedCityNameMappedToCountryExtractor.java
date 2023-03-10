@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MostUsedCityNameMappedToCountryExtractor implements Extractor<String> {
+    private final Map<String, List<String>> citiesInCountries = getCitiesInCountries();
     @Override
     public String extract(Article article) {
         final StringBuilder noMatchersPossibleMultipleWords = new StringBuilder();
@@ -20,7 +21,7 @@ public class MostUsedCityNameMappedToCountryExtractor implements Extractor<Strin
                                 .split("\\s+")
                 ).filter(word -> word.matches("\\p{Lu}\\p{Ll}*"))
                 .map(word -> {
-                    for (Map.Entry<String, List<String>> entry : citiesInCountries().entrySet()) {
+                    for (Map.Entry<String, List<String>> entry : citiesInCountries.entrySet()) {
                         for (String geo : entry.getValue()) {
                             boolean noMatchersPossible = StringUtils.countMatches(noMatchersPossibleMultipleWords.toString(), " ") > 0 && StringUtils.countMatches(geo, " ") > 0 &&
                                     StringUtils.countMatches(noMatchersPossibleMultipleWords + " " + word, geo) > 0;
@@ -47,7 +48,9 @@ public class MostUsedCityNameMappedToCountryExtractor implements Extractor<Strin
                 .orElse("");
     }
 
-    private Map<String, List<String>> citiesInCountries() {
-        return CsvReader.readDictionary("src/main/resources/backend/geographicalNames.csv").orElseThrow();
+    private Map<String, List<String>> getCitiesInCountries() {
+        return CsvReader.readDictionary(
+                Objects.requireNonNull(getClass().getResource("geographicalNames.csv")).getPath()
+        ).orElseThrow();
     }
 }
