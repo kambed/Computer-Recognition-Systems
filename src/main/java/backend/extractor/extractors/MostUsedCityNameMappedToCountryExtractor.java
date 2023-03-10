@@ -8,44 +8,36 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MostUsedCityNameMappedToCountryExtractor implements Extractor<String> {
     private final Map<String, List<String>> citiesInCountries = getCitiesInCountries();
+
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public String extract(Article article) {
-        final StringBuilder noMatchersPossibleMultipleWords = new StringBuilder();
-        return Arrays.stream(
+        String text = Arrays.stream(
                         Optional.ofNullable(
-                                        article.getText().getPreprocessedText()
+                                        article.getText().getText()
                                 ).orElse("")
                                 .split("\\s+")
-                ).filter(word -> word.matches("\\p{Lu}\\p{Ll}*"))
-                .map(word -> {
-                    for (Map.Entry<String, List<String>> entry : citiesInCountries.entrySet()) {
-                        for (String geo : entry.getValue()) {
-                            boolean noMatchersPossible = StringUtils.countMatches(noMatchersPossibleMultipleWords.toString(), " ") > 0 && StringUtils.countMatches(geo, " ") > 0 &&
-                                    StringUtils.countMatches(noMatchersPossibleMultipleWords + " " + word, geo) > 0;
-                            if (noMatchersPossible) {
-                                noMatchersPossibleMultipleWords.setLength(0);
-                            }
-                            if (geo.equals(word) || noMatchersPossible) {
-                                noMatchersPossibleMultipleWords.append(" ").append(word);
-                                return entry.getKey();
-                            }
-                        }
-                    }
-                    noMatchersPossibleMultipleWords.append(" ").append(word);
-                    return "";
-                }).filter(word -> !word.isEmpty())
-                .collect(Collectors.groupingBy(
-                        Function.identity(),
-                        LinkedHashMap::new,
-                        Collectors.counting()))
+                ).filter(word -> word.matches("\\p{Lu}\\p{Ll}*\\p{P}?"))
+                .collect(Collectors.joining(" "));
+
+        return citiesInCountries.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue()
+                                .stream()
+                                .filter(value -> StringUtils.countMatches(text, value) > 0)
+                                .distinct()
+                                .count()
+                ))
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())
+                .filter(entry -> entry.getValue() > 0)
                 .map(entry -> entry.getKey().toLowerCase())
                 .orElse("");
     }

@@ -25,19 +25,19 @@ class MostUsedCityNameMappedToCountryExtractorTest {
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("What about text that has two word city like New York or Los Angeles? Hmmm?")
+                                                .text("If the text is about french cities like Paris or Marseille, we get France even though we say something about Tokyo")
                                                 .build()
                                 ).build(),
-                        "united states"
+                        "france"
                 ),
                 Arguments.of(
                         Article.builder()
                                 .text(
                                         TextContent.builder()
-                                                .text("If the text is about french cities like Paris or Marseille, we get France even though we say something about Tokyo")
+                                                .text("What about text that has two word city like New York or Los Angeles? Hmmm?")
                                                 .build()
                                 ).build(),
-                        "france"
+                        "united states"
                 ),
                 Arguments.of(
                         Article.builder()

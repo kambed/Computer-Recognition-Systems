@@ -4,6 +4,7 @@ import backend.extractor.Extractor;
 import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,8 +23,8 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
                         Map.Entry::getKey,
                         entry -> entry.getValue()
                                 .stream()
-                                .map(value -> Arrays.stream(text.split(value, -1)).count() - 1)
-                                .reduce(0L, Long::sum)
+                                .map(value -> StringUtils.countMatches(text, value))
+                                .reduce(0, Integer::sum)
                 ))
                 .entrySet()
                 .stream()
