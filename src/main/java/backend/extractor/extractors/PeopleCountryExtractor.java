@@ -16,14 +16,13 @@ public class PeopleCountryExtractor implements Extractor<String> {
         return Optional.ofNullable(article.getPeople()).orElse(List.of())
                 .stream()
                 .filter(person -> peopleCountry.values().stream().flatMap(Collection::stream).toList().contains(person))
-                .map(person -> {
-                    for (Map.Entry<String, List<String>> entry : peopleCountry.entrySet()) {
-                        if (entry.getValue().contains(person)) {
-                            return entry.getKey();
-                        }
-                    }
-                    return "";
-                }).filter(word -> !word.isEmpty())
+                .map(person -> peopleCountry.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().contains(person))
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElse("")
+                ).filter(word -> !word.isEmpty())
                 .collect(Collectors.groupingBy(
                         Function.identity(),
                         LinkedHashMap::new,
