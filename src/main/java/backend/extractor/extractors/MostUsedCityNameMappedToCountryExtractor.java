@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MostUsedGeographicalNameMappedToCountryExtractor implements Extractor<String> {
+public class MostUsedCityNameMappedToCountryExtractor implements Extractor<String> {
     @Override
     public String extract(Article article) {
         final StringBuilder noMatchersPossibleMultipleWords = new StringBuilder();
