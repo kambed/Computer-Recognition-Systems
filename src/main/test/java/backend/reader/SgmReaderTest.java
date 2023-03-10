@@ -1,17 +1,16 @@
 package backend.reader;
 
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.model.Root;
 import backend.model.TextContent;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,9 +19,7 @@ class SgmReaderTest {
     @Test
     void FileDataObjectMappingTest() throws URISyntaxException, ParseException {
         FileReader fr = ReaderFactory.createReader(FileType.SGM);
-        Root r = fr.read(
-            getFilePath("reut2-000.sgm")
-        ).orElse(null);
+        Root r = fr.read(Helper.getFilePath(this, "reut2-000.sgm")).orElse(null);
 
         assertNotNull(r);
         assertEquals(2, r.getArticles().size());
@@ -52,13 +49,5 @@ class SgmReaderTest {
         FileReader fr = ReaderFactory.createReader(FileType.SGM);
         assertThrows(NoSuchElementException.class,
                 fr.read("sgasgsasg.sgm")::orElseThrow);
-    }
-
-    private String getFilePath(String resourceName) throws URISyntaxException {
-        return Paths.get(
-                Objects.requireNonNull(
-                        getClass().getClassLoader().getResource(resourceName)
-                ).toURI()
-        ).toString();
     }
 }

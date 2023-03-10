@@ -1,6 +1,7 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
 
@@ -34,8 +35,10 @@ public class MostUsedCountryNameExtractor implements Extractor<String> {
     }
 
     private Map<String, List<String>> getCountriesSynonyms() {
-        return CsvReader.readDictionary(
-                Objects.requireNonNull(getClass().getResource("countries.csv")).getPath()
-        ).orElseThrow();
+        try {
+            return CsvReader.readDictionary(Helper.getFilePath(this, "countries.csv")).orElseThrow();
+        } catch (Exception e) {
+            return Map.of();
+        }
     }
 }

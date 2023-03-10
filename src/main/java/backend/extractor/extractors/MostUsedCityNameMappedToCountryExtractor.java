@@ -1,10 +1,12 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
 import org.apache.commons.lang3.StringUtils;
 
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -49,8 +51,11 @@ public class MostUsedCityNameMappedToCountryExtractor implements Extractor<Strin
     }
 
     private Map<String, List<String>> getCitiesInCountries() {
-        return CsvReader.readDictionary(
-                Objects.requireNonNull(getClass().getResource("geographicalNames.csv")).getPath()
-        ).orElseThrow();
+        try {
+            return CsvReader.readDictionary(Helper.getFilePath(this, "geographicalNames.csv"))
+                    .orElseThrow();
+        } catch (URISyntaxException e) {
+            return Map.of();
+        }
     }
 }

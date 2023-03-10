@@ -1,6 +1,7 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
 
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 public class MostUsedCurrencyExtractor implements Extractor<String> {
     private final Map<String, List<String>> currenciesSynonyms = getCurrenciesSynonyms();
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public String extract(Article article) {
         String text = article.getText().getText().toLowerCase();
@@ -32,8 +34,10 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
     }
 
     private Map<String, List<String>> getCurrenciesSynonyms() {
-        return CsvReader.readDictionary(
-                Objects.requireNonNull(getClass().getResource("currencies.csv")).getPath()
-        ).orElseThrow();
+        try {
+            return CsvReader.readDictionary(Helper.getFilePath(this, "currencies.csv")).orElseThrow();
+        } catch (Exception e) {
+            return Map.of();
+        }
     }
 }
