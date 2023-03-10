@@ -10,6 +10,7 @@ public enum ExtractorType {
     MOST_USED_YEAR(new MostUsedYearExtractor()),
     MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER(new MostUsedWordStartingInCapitalLetterExtractor()),
     CITY_FROM_DATELINE(new CityFromDatelineExtractor()),
+    PEOPLE_COUNTRY(new PeopleCountryExtractor()),
     MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY(new MostUsedCityNameMappedToCountryExtractor());
 
     private final Extractor<?> extractor;
