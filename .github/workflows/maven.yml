@@ -22,5 +22,7 @@ jobs:
           java-version: '17-ea'
           distribution: 'temurin'
           cache: maven
-      - name: Run tests
-        run: mvn test --file pom.xml
+      - name: Build backend application
+        run: mvn -B package --file pom.xml
+      - name: Run backend application tests
+        run: mvn -B test --file pom.xml
