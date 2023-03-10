@@ -1,9 +1,15 @@
 name: Java CI with Maven
 on:
   push:
-    branches: [ main,task1,task2 ]
+    branches:
+      - main
+      - task1
+      - task2
   pull_request:
-    branches: [ main,task1,task2 ]
+    branches:
+      - main
+      - task1
+      - task2
 
 jobs:
   build:
@@ -16,5 +22,9 @@ jobs:
           java-version: '17-ea'
           distribution: 'temurin'
           cache: maven
-      - name: Build with Maven
+      - name: Compile
+        run: mvn compile --file pom.xml
+      - name: Build
         run: mvn install --file pom.xml
+      - name: Run tests
+        run: mvn test --file pom.xml
