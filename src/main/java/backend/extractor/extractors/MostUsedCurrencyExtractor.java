@@ -14,7 +14,7 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
     public String extract(Article article) {
         String text = article.getText().getText().toLowerCase();
 
-        Map<String, Long> currencyCounts = currenciesSynonyms.entrySet()
+        return currenciesSynonyms.entrySet()
                 .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
@@ -22,19 +22,13 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
                                 .stream()
                                 .map(value -> Arrays.stream(text.split(value, -1)).count() - 1)
                                 .reduce(0L, Long::sum)
-                ));
-        Optional<Map.Entry<String, Long>> maxEntry = currencyCounts.entrySet()
+                ))
+                .entrySet()
                 .stream()
-                .max(Map.Entry.comparingByValue());
-
-        return maxEntry.filter(
-                        entry -> currencyCounts.values()
-                                .stream()
-                                .filter(value -> value.equals(maxEntry.get().getValue()))
-                                .count() == 1
-                )
+                .max(Map.Entry.comparingByValue())
+                .filter(entry -> entry.getValue() > 0)
                 .map(Map.Entry::getKey)
-                .orElse(null);
+                .orElse("");
     }
 
     private Map<String, List<String>> getCurrenciesSynonyms() {

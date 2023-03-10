@@ -38,7 +38,7 @@ class MostUsedCurrencyExtractorTest {
                                                 .text("usd, usd, euro, €")
                                                 .build()
                                 ).build(),
-                        null
+                        "EUR"
                 ),
                 Arguments.of(
                         Article.builder()
@@ -47,7 +47,7 @@ class MostUsedCurrencyExtractorTest {
                                                 .text("no currency")
                                                 .build()
                                 ).build(),
-                        null
+                        ""
                 )
         );
     }
