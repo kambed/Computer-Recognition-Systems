@@ -28,18 +28,14 @@ public class CsvReader {
         } catch (Exception e) {
             return Optional.empty();
         }
-        Map<String, List<String>> returnDic = dictionary;
-        if (dictionary.entrySet().size() > 1000) {
-            returnDic = dictionary.entrySet()
-                    .stream()
-                    .sorted(Comparator.comparingInt(entry -> entry.getValue().size()))
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            Map.Entry::getValue,
-                            (a, b) -> a,
-                            LinkedHashMap::new
-                    ));
-        }
-        return Optional.of(returnDic);
+        return Optional.of(dictionary.entrySet()
+                .stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getValue().size()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                )));
     }
 }
