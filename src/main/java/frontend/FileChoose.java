@@ -29,9 +29,7 @@ public class FileChoose {
         if (!lastUsedDir.isEmpty()) {
             chooser.setInitialDirectory(new File(lastUsedDir));
         }
-        chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Articles data (*.sgm)", "*.sgm")
-        );
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Articles data (*.sgm)", "*.sgm"));
         List<File> chosenFiles = chooser.showOpenMultipleDialog(((Button) actionEvent.getSource())
                 .getScene()
                 .getWindow());
