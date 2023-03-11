@@ -6,6 +6,7 @@ import backend.reader.FileType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 
@@ -19,6 +20,8 @@ public class MainController implements Initializable {
     private final KnnFacade knnFacade = new KnnFacade();
     @FXML
     private ListView<ExtractorType> listView;
+    @FXML
+    private Button startProcessButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.getItems().addAll(ExtractorType.values());
@@ -28,6 +31,7 @@ public class MainController implements Initializable {
     @FXML
     protected void loadFiles(ActionEvent actionEvent) {
         pathToArticles = FileChoose.choose("Open articles", actionEvent);
+        startProcessButton.setDisable(false);
     }
     @FXML
     public void process() {
