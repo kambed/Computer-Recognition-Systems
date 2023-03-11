@@ -15,18 +15,22 @@ import java.util.*;
 public class Process {
     private final List<Extractor<?>> extractors = new ArrayList<>();
     private final FileReader reader;
+    private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
 
     public Process(List<ExtractorType> types, FileType fileType) {
         types.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
         reader = ReaderFactory.createReader(fileType);
     }
 
-    public void process(String filePath) throws NoDataFoundException {
-        Optional<Root> data = reader.read(filePath);
-        if (data.isEmpty()) {
-            throw new NoDataFoundException("No data found");
-        }
-        for (Article article : data.get().getArticles()) {
+    public void process(List<String> filePaths) {
+        List<Article> articles = filePaths.stream()
+                .map(path -> reader.read(path).orElse(null))
+                .filter(Objects::nonNull)
+                .flatMap(list -> list.getArticles().stream())
+                .filter(article -> article.getPlaces().size() == 1
+                        && countriesOfInterest.contains(article.getPlaces().get(0)))
+                .toList();
+        for (Article article : articles) {
             List<Object> extractedFeatures = new ArrayList<>();
             for (Extractor<?> extractor : extractors) {
                 extractedFeatures.add(extractor.extract(article));
