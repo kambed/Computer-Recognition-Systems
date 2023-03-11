@@ -1,6 +1,8 @@
 package backend.model;
 
 import backend.model.adapter.DateAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Builder
 @NoArgsConstructor
