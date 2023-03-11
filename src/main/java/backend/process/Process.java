@@ -10,14 +10,14 @@ import backend.reader.FileReader;
 import backend.reader.FileType;
 import backend.reader.ReaderFactory;
 
-import java.util.Optional;
+import java.util.*;
 
 public class Process {
-    private final Extractor<?> extractor;
+    private final List<Extractor<?>> extractors = new ArrayList<>();
     private final FileReader reader;
 
-    public Process(ExtractorType type, FileType fileType) {
-        extractor = ExtractorFactory.createExtractor(type);
+    public Process(List<ExtractorType> types, FileType fileType) {
+        types.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
         reader = ReaderFactory.createReader(fileType);
     }
 
@@ -27,8 +27,12 @@ public class Process {
             throw new NoDataFoundException("No data found");
         }
         for (Article article : data.get().getArticles()) {
+            List<Object> extractedFeatures = new ArrayList<>();
+            for (Extractor<?> extractor : extractors) {
+                extractedFeatures.add(extractor.extract(article));
+            }
             // TODO: Save in variable and pass to the next part of process algorithm
-            System.out.println(extractor.extract(article));
+            System.out.println(extractedFeatures);
         }
     }
 }
