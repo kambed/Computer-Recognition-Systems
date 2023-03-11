@@ -13,7 +13,6 @@ module pl.ksr.computerrecognitionsystems {
     exports backend.extractor;
     exports backend.model;
     exports backend.process;
-    exports backend.process.exception;
     exports backend.model.adapter;
     opens backend.reader;
     opens backend.model;

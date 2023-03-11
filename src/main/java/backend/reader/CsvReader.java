@@ -20,10 +20,17 @@ public class CsvReader {
             List<String[]> rows = reader.readAll();
             rows.remove(0);
             rows.forEach(row -> {
-                if (!dictionary.containsKey(row[0])) {
-                    dictionary.put(row[0], new ArrayList<>());
+                if (row.length == 1) {
+                    if (dictionary.size() == 0) {
+                        dictionary.put("words", new ArrayList<>());
+                    }
+                    dictionary.get("words").add(row[0]);
+                } else {
+                    if (!dictionary.containsKey(row[0])) {
+                        dictionary.put(row[0], new ArrayList<>());
+                    }
+                    dictionary.get(row[0]).add(row[1]);
                 }
-                dictionary.get(row[0]).add(row[1]);
             });
         } catch (Exception e) {
             return Optional.empty();

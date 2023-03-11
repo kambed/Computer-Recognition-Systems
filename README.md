@@ -17,14 +17,18 @@ package backend {
         + getFileReader(): FileReader
     }
     enum ExtractorType {
-        ARTICLE_LENGTH
-        MOST_USED_WORD_AT_THE_BEGINNING
-        DAYS_FROM_CREATION_DATE
-        SENTENCE_AVERAGE_LENGTH
-        MOST_USED_YEAR
-        MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
-        CITY_FROM_DATELINE
-        MOST_USED_GEOGRAPHICAL_NAME_MAPPED_TO_COUNTRY
+            ARTICLE_LENGTH
+            CITY_FROM_DATELINE
+            DAYS_FROM_CREATION_DATE
+            MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY
+            MOST_USED_COUNTRY_NAME
+            MOST_USED_COUNTRY_NAME_IN_TITLE
+            MOST_USED_CURRENCY
+            MOST_USED_WORD_AT_THE_BEGINNING
+            MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+            MOST_USED_YEAR
+            PEOPLE_COUNTRY
+            SENTENCE_AVERAGE_LENGTH
         - Extractor extractor
         + getExtractor(): Extractor
     }
@@ -66,48 +70,71 @@ package backend {
             + extract(String[][] texts)
         }
         package extractors {
-            class MostUsedYearExtractor implements Extractor {
+            class ArticleLengthExtractor {
+                + extract(String[][] texts): int
+            }
+            class CityFromDatelineExtractor {
+                + extract(String[][] texts): String
+            }
+            class DaysFromCreationDateExtractor {
+                + extract(String[][] texts): int
+            }
+            class MostUsedCityNameMappedToCountryExtractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedCountryNameExtractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedCountryNameInTitle {
+                + extract(String[][] texts): String
+            }
+            class MostUsedCurrencyExtractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedWordAtTheBeginningExtractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedWordStartingInCapitalLetterExtractor {
+                + extract(String[][] texts): String
+            }
+            class MostUsedYearExtractor {
                 + extract(String[][] texts): long
             }
-            class ArticleLengthExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class CityFromDatelineExtractor implements Extractor {
+            class PeopleCountryExtractor {
                 + extract(String[][] texts): String
             }
-            class DaysFromCreationDateExtractor implements Extractor {
-                + extract(String[][] texts): int
-            }
-            class MostUsedWordExtractor implements Extractor {
-                + extract(String[][] texts): String
-            }
-            class SentenceAverageLengthExtractor implements Extractor {
+            class SentenceAverageLengthExtractor {
                 + extract(String[][] texts): double
             }
-            class MostUsedWorkStartingInCapitalLetter implements Extractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedGeographicalNameMappedToCountry implements Extractor {
-                + extract(String[][] texts): String
-            }
+            Extractor <|.. ArticleLengthExtractor
+            Extractor <|.. CityFromDatelineExtractor
+            Extractor <|.. DaysFromCreationDateExtractor
+            Extractor <|.. MostUsedCityNameMappedToCountryExtractor
+            Extractor <|.. MostUsedCountryNameExtractor
+            Extractor <|.. MostUsedCountryNameInTitle
+            Extractor <|.. MostUsedCurrencyExtractor
+            Extractor <|.. MostUsedWordAtTheBeginningExtractor
+            Extractor <|.. MostUsedWordStartingInCapitalLetterExtractor
+            Extractor <|.. MostUsedYearExtractor
+            Extractor <|.. PeopleCountryExtractor
+            Extractor <|.. SentenceAverageLengthExtractor
         }
         class ExtractorFactory {
             + {static} createExtractor(ExtractorType extractorType): Extractor
         }
         enum ExtractorType {
             ARTICLE_LENGTH
-            MOST_USED_WORD
+            CITY_FROM_DATELINE
             DAYS_FROM_CREATION_DATE
-            SENTENCE_NUMBER
-            WORD_NUMBER
-            UNIQUE_WORDS_NUMBER
-            SENTENCE_AVERAGE_LENGTH
-            MOST_USED_CAPITAL_LETTER
-            AMOUNT_OF_NOT_LETTERS
-            WORD_AVERAGE_LENGTH
-            AMOUNT_OF_NUMBERS
-            MOST_USED_LETTER
+            MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY
+            MOST_USED_COUNTRY_NAME
+            MOST_USED_COUNTRY_NAME_IN_TITLE
+            MOST_USED_CURRENCY
+            MOST_USED_WORD_AT_THE_BEGINNING
             MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+            MOST_USED_YEAR
+            PEOPLE_COUNTRY
+            SENTENCE_AVERAGE_LENGTH
             - Extractor extractor
             + getExtractor(): Extractor
         }
@@ -117,14 +144,16 @@ package backend {
     package process {
         class Process {
             - FileReader fileReader
-            + Process(FileType fileType)
-            + process(String path)
+            - String[] countriesOfInterest
+            - Extractor[] extractors
+            + Process(ExtractorType[] extractorTypes, FileType fileType)
+            + process(String[] path)
         }
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
         MostUsedGeographicalNameMappedToCountry ..> CsvReader
         class ProcessFactory {
-            + {static} createProcess(FileType fileType): Process
+            + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType): Process
         }
         ProcessFactory ..> Process
         ProcessFactory ..> FileType

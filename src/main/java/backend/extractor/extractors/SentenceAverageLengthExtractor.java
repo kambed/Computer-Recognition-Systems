@@ -12,6 +12,7 @@ public class SentenceAverageLengthExtractor implements Extractor<Double> {
         return Optional.ofNullable(article.getText().getText())
                 .map(text -> text.split("[.!?]+"))
                 .map(sentences -> Arrays.stream(sentences)
+                        .filter(s -> !s.isEmpty())
                         .mapToInt(sentence -> sentence.trim().split("\\s+").length)
                         .average()
                         .orElse(0.0))

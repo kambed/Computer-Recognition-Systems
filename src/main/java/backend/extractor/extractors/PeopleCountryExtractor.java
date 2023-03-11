@@ -17,6 +17,7 @@ public class PeopleCountryExtractor implements Extractor<String> {
     public String extract(Article article) {
         return Optional.ofNullable(article.getPeople()).orElse(List.of())
                 .stream()
+                .map(String::toUpperCase)
                 .filter(person -> peopleCountry.values().stream().flatMap(Collection::stream).toList().contains(person))
                 .map(person -> peopleCountry.entrySet()
                         .stream()
