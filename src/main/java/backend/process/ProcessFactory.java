@@ -8,7 +8,7 @@ import java.util.List;
 public class ProcessFactory {
     private ProcessFactory() {
     }
-    public static Process createProcess(List<ExtractorType> types, FileType fileType) {
-        return new Process(types, fileType);
+    public static Process createProcess(List<ExtractorType> extractorTypes, FileType fileType) {
+        return new Process(extractorTypes, fileType);
     }
 }

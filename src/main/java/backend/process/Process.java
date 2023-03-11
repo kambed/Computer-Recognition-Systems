@@ -17,8 +17,8 @@ public class Process {
     private final FileReader reader;
     private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
 
-    public Process(List<ExtractorType> types, FileType fileType) {
-        types.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
+    public Process(List<ExtractorType> extractorTypes, FileType fileType) {
+        extractorTypes.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
         reader = ReaderFactory.createReader(fileType);
     }
 
