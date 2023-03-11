@@ -1,8 +1,10 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 public class MostUsedCurrencyExtractor implements Extractor<String> {
     private final Map<String, List<String>> currenciesSynonyms = getCurrenciesSynonyms();
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public String extract(Article article) {
         String text = article.getText().getText().toLowerCase();
@@ -20,8 +23,8 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
                         Map.Entry::getKey,
                         entry -> entry.getValue()
                                 .stream()
-                                .map(value -> Arrays.stream(text.split(value, -1)).count() - 1)
-                                .reduce(0L, Long::sum)
+                                .map(value -> StringUtils.countMatches(text, value))
+                                .reduce(0, Integer::sum)
                 ))
                 .entrySet()
                 .stream()
@@ -32,8 +35,10 @@ public class MostUsedCurrencyExtractor implements Extractor<String> {
     }
 
     private Map<String, List<String>> getCurrenciesSynonyms() {
-        return CsvReader.readDictionary(
-                Objects.requireNonNull(getClass().getResource("currencies.csv")).getPath()
-        ).orElseThrow();
+        try {
+            return CsvReader.readDictionary(Helper.getFilePath(this, "currencies.csv")).orElseThrow();
+        } catch (Exception e) {
+            return Map.of();
+        }
     }
 }

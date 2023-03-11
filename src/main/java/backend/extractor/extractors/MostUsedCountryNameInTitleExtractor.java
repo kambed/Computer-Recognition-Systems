@@ -1,13 +1,14 @@
 package backend.extractor.extractors;
 
 import backend.extractor.Extractor;
+import backend.helper.Helper;
 import backend.model.Article;
 import backend.reader.CsvReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MostUsedCountryNameInTitleExtractor implements Extractor<String> {
@@ -24,8 +25,8 @@ public class MostUsedCountryNameInTitleExtractor implements Extractor<String> {
                         Map.Entry::getKey,
                         entry -> entry.getValue()
                                 .stream()
-                                .map(value -> Arrays.stream(title.split(value, -1)).count()- 1)
-                                .reduce(0L, Long::sum)
+                                .map(value -> StringUtils.countMatches(title, value))
+                                .reduce(0, Integer::sum)
                 ))
                 .entrySet()
                 .stream()
@@ -37,8 +38,10 @@ public class MostUsedCountryNameInTitleExtractor implements Extractor<String> {
     }
 
     private Map<String, List<String>> getCountriesSynonyms() {
-        return CsvReader.readDictionary(
-                Objects.requireNonNull(getClass().getResource("countries.csv")).getPath()
-        ).orElseThrow();
+        try {
+            return CsvReader.readDictionary(Helper.getFilePath(this, "countries.csv")).orElseThrow();
+        } catch (Exception e) {
+            return Map.of();
+        }
     }
 }
