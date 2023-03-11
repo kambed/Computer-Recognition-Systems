@@ -31,6 +31,7 @@ public class MostUsedWordStartingInCapitalLetterExtractor implements Extractor<S
                         Collectors.counting()))
                 .entrySet()
                 .stream()
+                .filter(entry -> entry.getKey().length() > 1)
                 .filter(entry -> (entry.getKey().charAt(0)) >= 65 &&
                         (entry.getKey().charAt(0)) <= 90)
                 .max(Map.Entry.comparingByValue())

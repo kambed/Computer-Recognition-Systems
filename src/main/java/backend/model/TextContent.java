@@ -6,22 +6,29 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TextContent {
-    @XmlElement(name="TITLE")
+    @XmlElement(name = "TITLE", defaultValue = "")
     private String title;
-    @XmlElement(name="DATELINE")
+    @XmlElement(name = "DATELINE", defaultValue = "")
     private String dateline;
-    @XmlElement(name="BODY")
+    @XmlElement(name = "BODY", defaultValue = "")
     private String text;
 
+    public String getText() {
+        return Optional.ofNullable(text).orElse("");
+    }
+
+    public String getTitle() {
+        return Optional.ofNullable(title).orElse("");
+    }
+
     public String getPreprocessedText() {
-        if (text == null || text.isEmpty()) {
-            return text;
-        }
-        return text.trim().replaceAll("\\p{P}+(?=\\s|$)", "");
+        return getText().trim().replaceAll("\\p{P}+(?=\\s|$)", "");
     }
 }

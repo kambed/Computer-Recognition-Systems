@@ -4,8 +4,6 @@ import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
 import backend.model.Article;
-import backend.model.Root;
-import backend.process.exception.NoDataFoundException;
 import backend.reader.FileReader;
 import backend.reader.FileType;
 import backend.reader.ReaderFactory;
@@ -13,7 +11,7 @@ import backend.reader.ReaderFactory;
 import java.util.*;
 
 public class Process {
-    private final List<Extractor<?>> extractors = new ArrayList<>();
+    private final List<Extractor<?>> extractors = new LinkedList<>();
     private final FileReader reader;
     private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
 
