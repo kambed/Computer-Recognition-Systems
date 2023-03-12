@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxWidth="Infinity" spacing="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="frontend.MainController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10"/>
+    </padding>
+    <Button maxWidth="Infinity" onAction="#loadFiles" text="Load files"/>
+    <ListView fx:id="listView" maxWidth="Infinity" VBox.vgrow="ALWAYS"/>
+    <Button fx:id="startProcessButton" disable="true" maxWidth="Infinity" onAction="#process" text="Start processing"/>
+</VBox>
