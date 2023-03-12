@@ -2,10 +2,16 @@
 ## Frontend uses
 ```plantuml
 package frontend {
-    class MainApplication
-    class MainController
-    package file {
-        class FileChooser
+    class MainApplication {
+        + start()
+        + {static} main(String[] args)
+    }
+    class MainController {
+        + loadFiles()
+        + process()
+    }
+    class FileChooser {
+        + {static} choose(String windowTitle): String[]
     }
     MainController ..> FileChooser
     MainApplication --> MainController
@@ -51,8 +57,68 @@ MainController ---> KnnFacade
 MainController ..> FileType
 MainController ..> MetricType
 MainController ..> MeasureType
+MainController ..> ExtractorType
 ```
 ## Backend
+## Extractors
+```plantuml
+interface Extractor {
+    + extract(Article article)
+}
+class ArticleLengthExtractor {
+    + extract(Article article): int
+}
+class CityFromDatelineExtractor {
+    + extract(Article article): String
+}
+class DaysFromCreationDateExtractor {
+    + extract(Article article): int
+}
+class MostUsedCityNameMappedToCountryExtractor {
+    + extract(Article article): String
+}
+class MostUsedCountryNameExtractor {
+    + extract(Article article): String
+}
+class MostUsedCountryNameInTitle {
+    + extract(Article article): String
+}
+class MostUsedCurrencyExtractor {
+    + extract(Article article): String
+}
+class MostUsedWordAtTheBeginningExtractor {
+    + extract(Article article): String
+}
+class MostUsedWordStartingInCapitalLetterExtractor {
+    + extract(Article article): String
+}
+class MostUsedYearExtractor {
+    + extract(Article article): long
+}
+class PeopleCountryExtractor {
+    + extract(Article article): String
+}
+class SentenceAverageLengthExtractor {
+    + extract(Article article): double
+}
+
+Extractor <|.. ArticleLengthExtractor
+Extractor <|.. CityFromDatelineExtractor
+Extractor <|... DaysFromCreationDateExtractor
+Extractor <|... MostUsedCityNameMappedToCountryExtractor
+Extractor <|.... MostUsedCountryNameExtractor
+Extractor <|.... MostUsedCountryNameInTitle
+Extractor <|..... MostUsedCurrencyExtractor
+Extractor <|..... MostUsedWordAtTheBeginningExtractor
+Extractor <|...... MostUsedWordStartingInCapitalLetterExtractor
+Extractor <|...... MostUsedYearExtractor
+Extractor <|....... PeopleCountryExtractor
+Extractor <|....... SentenceAverageLengthExtractor
+```
+## Metrics
+```plantuml
+
+```
 ```plantuml
 top to bottom direction
 package backend {
@@ -104,57 +170,7 @@ package backend {
     }
     package extractor {
         interface Extractor {
-            + extract(String[][] texts)
-        }
-        package extractors {
-            class ArticleLengthExtractor {
-                + extract(String[][] texts): int
-            }
-            class CityFromDatelineExtractor {
-                + extract(String[][] texts): String
-            }
-            class DaysFromCreationDateExtractor {
-                + extract(String[][] texts): int
-            }
-            class MostUsedCityNameMappedToCountryExtractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedCountryNameExtractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedCountryNameInTitle {
-                + extract(String[][] texts): String
-            }
-            class MostUsedCurrencyExtractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedWordAtTheBeginningExtractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedWordStartingInCapitalLetterExtractor {
-                + extract(String[][] texts): String
-            }
-            class MostUsedYearExtractor {
-                + extract(String[][] texts): long
-            }
-            class PeopleCountryExtractor {
-                + extract(String[][] texts): String
-            }
-            class SentenceAverageLengthExtractor {
-                + extract(String[][] texts): double
-            }
-            Extractor <|.. ArticleLengthExtractor
-            Extractor <|.. CityFromDatelineExtractor
-            Extractor <|.. DaysFromCreationDateExtractor
-            Extractor <|.. MostUsedCityNameMappedToCountryExtractor
-            Extractor <|.. MostUsedCountryNameExtractor
-            Extractor <|.. MostUsedCountryNameInTitle
-            Extractor <|.. MostUsedCurrencyExtractor
-            Extractor <|.. MostUsedWordAtTheBeginningExtractor
-            Extractor <|.. MostUsedWordStartingInCapitalLetterExtractor
-            Extractor <|.. MostUsedYearExtractor
-            Extractor <|.. PeopleCountryExtractor
-            Extractor <|.. SentenceAverageLengthExtractor
+            + extract(Article article)
         }
         class ExtractorFactory {
             + {static} createExtractor(ExtractorType extractorType): Extractor
