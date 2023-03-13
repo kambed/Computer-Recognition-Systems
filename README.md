@@ -117,7 +117,23 @@ Extractor <|....... SentenceAverageLengthExtractor
 ```
 ## Metrics
 ```plantuml
-
+package metrics {
+    interface Metric {
+        + calculateDistance(Object[] vector1, Object[] vector2): Double
+    }
+    class EuclideanMetric implements Metric {
+        + calculateDistance(Object[] vector1, Object[] vector2): Double
+    }
+    class ManhattanMetric implements Metric {
+        + calculateDistance(Object[] vector1, Object[] vector2): Double
+    }
+    class ChebyshevMetric implements Metric {
+        + calculateDistance(Object[] vector1, Object[] vector2): Double
+    }
+    class CustomMetric implements Metric {
+        + calculateDistance(Object[] vector1, Object[] vector2): Double
+    }
+}
 ```
 ```plantuml
 top to bottom direction
@@ -127,7 +143,7 @@ package backend {
             + read(String path): Root
         }
         class SgmReader implements FileReader {
-            + read(String path):Root
+            + read(String path): Root
         }
         class CsvReader {
             + {static} readDictionary(String path): String[][]
@@ -147,9 +163,6 @@ package backend {
         class Root {
             - articles: Article[]
         }
-        FileReader ..> Root
-        Extractor ..> Root
-        Process ..> Root
         class Article {
             - date: String
             - topics: String[]
@@ -168,6 +181,7 @@ package backend {
         Root o-- Article
         Article o-- TextContent
     }
+   
     package extractor {
         interface Extractor {
             + extract(Article article)
@@ -196,18 +210,6 @@ package backend {
     }
     package metrics {
         interface Metric {
-            + calculateDistance(Object[] vector1, Object[] vector2): Double
-        }
-        class EuclideanMetric implements Metric {
-            + calculateDistance(Object[] vector1, Object[] vector2): Double
-        }
-        class ManhattanMetric implements Metric {
-            + calculateDistance(Object[] vector1, Object[] vector2): Double
-        }
-        class ChebyshevMetric implements Metric {
-            + calculateDistance(Object[] vector1, Object[] vector2): Double
-        }
-        class CustomMetric implements Metric {
             + calculateDistance(Object[] vector1, Object[] vector2): Double
         }
         
@@ -278,6 +280,9 @@ package backend {
         Process --> Metric
         Process --> Measure
         Process --> Knn
+        FileReader ..> Root
+        Extractor ..> Root
+        Process ..> Root
         class ProcessFactory {
             + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
         }
