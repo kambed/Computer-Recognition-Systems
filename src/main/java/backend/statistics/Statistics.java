@@ -1,19 +1,22 @@
 package backend.statistics;
 
+import javafx.util.Pair;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Statistics {
     private final int total;
     private final Map<String, Map<String, Integer>> confusionMatrix = new HashMap<>();
-    public Statistics(Map<String, String> expectedToReceivedValues) {
+    public Statistics(List<Pair<String, String>> expectedToReceivedValues) {
         total = expectedToReceivedValues.size();
-        expectedToReceivedValues.forEach((expectedValue, receivedValue) -> {
-            confusionMatrix.putIfAbsent(expectedValue, new HashMap<>());
-            confusionMatrix.get(expectedValue)
-                    .putIfAbsent(receivedValue, 0);
-            confusionMatrix.get(expectedValue)
-                    .put(receivedValue, confusionMatrix.get(expectedValue).get(receivedValue) + 1);
+        expectedToReceivedValues.forEach(pair -> {
+            confusionMatrix.putIfAbsent(pair.getKey(), new HashMap<>());
+            confusionMatrix.get(pair.getKey())
+                    .putIfAbsent(pair.getValue(), 0);
+            confusionMatrix.get(pair.getKey())
+                    .put(pair.getValue(), confusionMatrix.get(pair.getKey()).get(pair.getValue()) + 1);
         });
     }
 
