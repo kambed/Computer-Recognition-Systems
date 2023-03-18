@@ -5,9 +5,10 @@ import backend.process.ProcessFactory;
 import backend.reader.FileType;
 
 import java.util.List;
+import java.util.Map;
 
 public class KnnFacade {
-    public void process(List<ExtractorType> types, FileType fileType, List<String> filePath) {
-        ProcessFactory.createProcess(types, fileType).process(filePath);
+    public Map<String, Double> process(List<ExtractorType> types, FileType fileType, List<String> filePath) {
+        return ProcessFactory.createProcess(types, fileType).process(filePath);
     }
 }

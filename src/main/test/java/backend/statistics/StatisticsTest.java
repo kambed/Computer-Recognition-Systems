@@ -9,7 +9,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StatisticsTest {
-    Statistics statistics = new Statistics(List.of(
+    Statistics statistics = StatisticsFactory.createStatistics(List.of(
             new Pair<>("a", "a"),
             new Pair<>("a", "b"),
             new Pair<>("b", "b"),
