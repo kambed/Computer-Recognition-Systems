@@ -35,9 +35,10 @@ public class Statistics {
         Map<String, Double> precision = new HashMap<>();
         confusionMatrix.forEach((expectedValue, receivedValues) -> {
             int classCorrect = receivedValues.getOrDefault(expectedValue, 0);
-            int classTotal = receivedValues.values()
+            int classTotal = confusionMatrix.values()
                     .stream()
-                    .reduce(0, Integer::sum);
+                    .mapToInt(map -> map.getOrDefault(expectedValue, 0))
+                    .sum();
             precision.put(expectedValue, (double) classCorrect / classTotal);
         });
         return precision;
@@ -47,11 +48,10 @@ public class Statistics {
         Map<String, Double> recall = new HashMap<>();
         confusionMatrix.forEach((expectedValue, receivedValues) -> {
             int classCorrect = receivedValues.getOrDefault(expectedValue, 0);
-            int classTotal = confusionMatrix.values()
+            int classExpectedTotal = receivedValues.values()
                     .stream()
-                    .mapToInt(map -> map.getOrDefault(expectedValue, 0))
-                    .sum();
-            recall.put(expectedValue, (double) classCorrect / classTotal);
+                    .reduce(0, Integer::sum);
+            recall.put(expectedValue, (double) classCorrect / classExpectedTotal);
         });
         return recall;
     }

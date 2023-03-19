@@ -46,17 +46,17 @@ class StatisticsTest {
     @Test
     void calculatePrecision() {
         Map<String, Double> precision = statistics.calculatePrecision();
-        assertEquals(0.5, precision.get("a"));
-        assertEquals(1.0 / 3.0, precision.get("b"));
-        assertEquals(1.0, precision.get("c"));
+        assertEquals(1.0, precision.get("a"));
+        assertEquals(0.5, precision.get("b"));
+        assertEquals(1.0 / 3.0, precision.get("c"));
     }
 
     @Test
     void calculateRecall() {
         Map<String, Double> recall = statistics.calculateRecall();
-        assertEquals(1.0, recall.get("a"));
-        assertEquals(0.5, recall.get("b"));
-        assertEquals(1.0 / 3.0, recall.get("c"));
+        assertEquals(0.5, recall.get("a"));
+        assertEquals(1.0 / 3.0, recall.get("b"));
+        assertEquals(1.0, recall.get("c"));
     }
 
     @Test
