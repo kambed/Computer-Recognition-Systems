@@ -141,6 +141,20 @@ package backend {
         ExtractorFactory ..> Extractor
         ExtractorFactory ..> ExtractorType
     }
+    package statistics {
+        class Statistics {
+            - total: int
+            - confusionMatrix: int[][]
+            + Statistics(String[][] expectedToReceivedValues)
+            + getAccuracy(): double
+            + getPrecision(): double[]
+            + getRecall(): double[]
+            + getF1Score(): double[]
+        }
+        class StatisticsFactory {
+            + {static} createStatistics(String[][] expectedToReceivedValues): Statistics
+        }
+    }
     package process {
         class Process {
             - FileReader fileReader
@@ -151,6 +165,7 @@ package backend {
         }
         Process ...> ReaderFactory
         Process ...> ExtractorFactory
+        Process ...> StatisticsFactory
         MostUsedGeographicalNameMappedToCountry ..> CsvReader
         class ProcessFactory {
             + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType): Process
