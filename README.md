@@ -25,7 +25,7 @@ extractor ..> model: <<import>>
 extractor ..reader: <<import>>
 
 ```
-## Frontend uses
+## Frontend package and dependencies
 ```plantuml
 package frontend {
     class MainApplication {
@@ -85,67 +85,139 @@ MainController ..> MeasureType
 MainController ..> ExtractorType
 ```
 ## Backend
-## Extractors
+### reader package and dependencies
 ```plantuml
-abstract class Extractor {
-    - domainMin: double
-    - domainMax: double
-    + extract(Article article)
-    + extractAndNormalize(Article article): double
+### Reader package and dependencies
+```plantuml
+package reader {
+    interface FileReader {
+        + read(String path): Root
+    }
+    class SgmReader implements FileReader {
+        + read(String path): Root
+    }
+    class CsvReader {
+        + {static} readDictionary(String path): String[][]
+    }
+    class ReaderFactory {
+        + {static} createFileReader(FileType fileType): FileReader
+    }
+    ReaderFactory ..> FileReader
+    ReaderFactory ..> FileType
+    enum FileType {
+        SGM
+        - FileReader fileReader
+        + getFileReader(): FileReader
+    }
 }
-class ArticleLengthExtractor {
-    + extract(Article article): int
+package model {
+    class Root {
+        - articles: Article[]
+    }
+    class Article {
+        - date: String
+        - topics: String[]
+        - places: String[]
+        - people: String[]
+        - orgs: String[]
+        - exchanges: String[]
+        - companies: String[]
+        - text: TextContent
+    }
+    class TextContent {
+        - title: String
+        - dateline: String
+        - text: String
+    }
+    Root o-- Article
+    Article o-- TextContent
 }
-class CityFromDatelineExtractor {
-    + extract(Article article): String
-}
-class DaysFromCreationDateExtractor {
-    + extract(Article article): int
-}
-class MostUsedCityNameMappedToCountryExtractor {
-    + extract(Article article): String
-}
-class MostUsedCountryNameExtractor {
-    + extract(Article article): String
-}
-class MostUsedCountryNameInTitle {
-    + extract(Article article): String
-}
-class MostUsedCurrencyExtractor {
-    + extract(Article article): String
-}
-class MostUsedWordAtTheBeginningExtractor {
-    + extract(Article article): String
-}
-class MostUsedWordStartingInCapitalLetterExtractor {
-    + extract(Article article): String
-}
-class MostUsedYearExtractor {
-    + extract(Article article): long
-}
-class PeopleCountryExtractor {
-    + extract(Article article): String
-}
-class SentenceAverageLengthExtractor {
-    + extract(Article article): double
-}
-
-Extractor <|.. ArticleLengthExtractor
-Extractor <|.. CityFromDatelineExtractor
-Extractor <|... DaysFromCreationDateExtractor
-Extractor <|... MostUsedCityNameMappedToCountryExtractor
-Extractor <|.... MostUsedCountryNameExtractor
-Extractor <|.... MostUsedCountryNameInTitle
-Extractor <|..... MostUsedCurrencyExtractor
-Extractor <|..... MostUsedWordAtTheBeginningExtractor
-Extractor <|...... MostUsedWordStartingInCapitalLetterExtractor
-Extractor <|...... MostUsedYearExtractor
-Extractor <|....... PeopleCountryExtractor
-Extractor <|....... SentenceAverageLengthExtractor
 ```
-## Metrics
+### extractor package and dependencies
 ```plantuml
-package metrics {
+package extractor {
+    abstract class Extractor {
+        - domainMin: double
+        - domainMax: double
+        + extract(Article article)
+        + extractAndNormalize(Article article): double
+    }
+    class ArticleLengthExtractor {
+        + extract(Article article): int
+    }
+    class CityFromDatelineExtractor {
+        + extract(Article article): String
+    }
+    class DaysFromCreationDateExtractor {
+        + extract(Article article): int
+    }
+    class MostUsedCityNameMappedToCountryExtractor {
+        + extract(Article article): String
+    }
+    class MostUsedCountryNameExtractor {
+        + extract(Article article): String
+    }
+    class MostUsedCountryNameInTitle {
+        + extract(Article article): String
+    }
+    class MostUsedCurrencyExtractor {
+        + extract(Article article): String
+    }
+    class MostUsedWordAtTheBeginningExtractor {
+        + extract(Article article): String
+    }
+    class MostUsedWordStartingInCapitalLetterExtractor {
+        + extract(Article article): String
+    }
+    class MostUsedYearExtractor {
+        + extract(Article article): long
+    }
+    class PeopleCountryExtractor {
+        + extract(Article article): String
+    }
+    class SentenceAverageLengthExtractor {
+        + extract(Article article): double
+    }
+    
+    Extractor <|.. ArticleLengthExtractor
+    Extractor <|.. CityFromDatelineExtractor
+    Extractor <|... DaysFromCreationDateExtractor
+    Extractor <|... MostUsedCityNameMappedToCountryExtractor
+    Extractor <|.... MostUsedCountryNameExtractor
+    Extractor <|.... MostUsedCountryNameInTitle
+    Extractor <|..... MostUsedCurrencyExtractor
+    Extractor <|..... MostUsedWordAtTheBeginningExtractor
+    Extractor <|...... MostUsedWordStartingInCapitalLetterExtractor
+    Extractor <|...... MostUsedYearExtractor
+    Extractor <|....... PeopleCountryExtractor
+    Extractor <|....... SentenceAverageLengthExtractor
+    
+    class ExtractorFactory {
+        + {static} createExtractor(ExtractorType extractorType): Extractor
+    }
+    enum ExtractorType {
+        ARTICLE_LENGTH
+        CITY_FROM_DATELINE
+        DAYS_FROM_CREATION_DATE
+        MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY
+        MOST_USED_COUNTRY_NAME
+        MOST_USED_COUNTRY_NAME_IN_TITLE
+        MOST_USED_CURRENCY
+        MOST_USED_WORD_AT_THE_BEGINNING
+        MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
+        MOST_USED_YEAR
+        PEOPLE_COUNTRY
+        SENTENCE_AVERAGE_LENGTH
+        - Extractor extractor
+        + getExtractor(): Extractor
+    }
+    ExtractorFactory ..> Extractor
+    ExtractorFactory ..> ExtractorType
+}
+```
+### metric package and dependencies
+```plantuml
+package metric {
     interface Metric {
         + calculateDistance(Object[] vector1, Object[] vector2): Double
     }
@@ -161,137 +233,64 @@ package metrics {
     class CustomMetric implements Metric {
         + calculateDistance(Object[] vector1, Object[] vector2): Double
     }
+    
+    class MetricFactory {
+        + {static} createMetric(MetricType metricType): Metric
+    }
+    MetricFactory ..> Metric
+    MetricFactory ..> MetricType
+    enum MetricType {
+        EUCLIDEAN
+        MANHATTAN
+        CHEBYSHEV
+        CUSTOM
+        - Metric metric
+        + getMetric(): Metric
+    }
 }
 ```
+### measure package and dependencies
 ```plantuml
-top to bottom direction
-package backend {
-    package reader {
-        interface FileReader {
-            + read(String path): Root
-        }
-        class SgmReader implements FileReader {
-            + read(String path): Root
-        }
-        class CsvReader {
-            + {static} readDictionary(String path): String[][]
-        }
-        class ReaderFactory {
-            + {static} createFileReader(FileType fileType): FileReader
-        }
-        ReaderFactory ..> FileReader
-        ReaderFactory ..> FileType
-        enum FileType {
-            SGM
-            - FileReader fileReader
-            + getFileReader(): FileReader
-        }
+package measure {
+    interface Measure {
+        + calculateMeasure(Object[] vector1, Object[] vector2): Double
     }
-    package model {
-        class Root {
-            - articles: Article[]
-        }
-        class Article {
-            - date: String
-            - topics: String[]
-            - places: String[]
-            - people: String[]
-            - orgs: String[]
-            - exchanges: String[]
-            - companies: String[]
-            - text: TextContent
-        }
-        class TextContent {
-            - title: String
-            - dateline: String
-            - text: String
-        }
-        Root o-- Article
-        Article o-- TextContent
+    class GeneralizedNgramMeasure implements Measure {
+        + calculateMeasure(Object[] vector1, Object[] vector2): Double
     }
-   
-    package extractor {
-        abstract class Extractor {
-            - domainMin: double
-            - domainMax: double
-            + extract(Article article)
-            + extractAndNormalize(Article article): double
-        }
-        class ExtractorFactory {
-            + {static} createExtractor(ExtractorType extractorType): Extractor
-        }
-        enum ExtractorType {
-            ARTICLE_LENGTH
-            CITY_FROM_DATELINE
-            DAYS_FROM_CREATION_DATE
-            MOST_USED_CITY_NAME_MAPPED_TO_COUNTRY
-            MOST_USED_COUNTRY_NAME
-            MOST_USED_COUNTRY_NAME_IN_TITLE
-            MOST_USED_CURRENCY
-            MOST_USED_WORD_AT_THE_BEGINNING
-            MOST_USED_WORD_STARTING_IN_CAPITAL_LETTER
-            MOST_USED_YEAR
-            PEOPLE_COUNTRY
-            SENTENCE_AVERAGE_LENGTH
-            - Extractor extractor
-            + getExtractor(): Extractor
-        }
-        ExtractorFactory ..> Extractor
-        ExtractorFactory ..> ExtractorType
+    class GeneralizedNgramMeasureWithLimitations implements Measure {
+        + calculateMeasure(Object[] vector1, Object[] vector2): Double
     }
-    package metrics {
-        interface Metric {
-            + calculateDistance(Object[] vector1, Object[] vector2): Double
-        }
-        
-        class MetricFactory {
-            + {static} createMetric(MetricType metricType): Metric
-        }
-        MetricFactory ..> Metric
-        MetricFactory ..> MetricType
-        enum MetricType {
-            EUCLIDEAN
-            MANHATTAN
-            CHEBYSHEV
-            CUSTOM
-            - Metric metric
-            + getMetric(): Metric
-        }
+    
+    class MeasureFactory {
+        + {static} createMeasure(): Measure
     }
-    package measure {
-        interface Measure {
-            + calculateMeasure(Object[] vector1, Object[] vector2): Double
-        }
-        class GeneralizedNgramMeasure implements Measure {
-            + calculateMeasure(Object[] vector1, Object[] vector2): Double
-        }
-        class GeneralizedNgramMeasureWithLimitations implements Measure {
-            + calculateMeasure(Object[] vector1, Object[] vector2): Double
-        }
-        
-        class MeasureFactory {
-            + {static} createMeasure(): Measure
-        }
-        MeasureFactory ..> Measure
-        MeasureFactory ..> MeasureType
-        enum MeasureType {
-            GENERALIZED_NGRAM
-            GENERALIZED_NGRAM_WITH_LIMITATIONS
-            - Measure measure
-            + getMeasure()
-        }
+    MeasureFactory ..> Measure
+    MeasureFactory ..> MeasureType
+    enum MeasureType {
+        GENERALIZED_NGRAM
+        GENERALIZED_NGRAM_WITH_LIMITATIONS
+        - Measure measure
+        + getMeasure()
     }
-    package knn {
-        class Knn {
-            - int k
-            + calculateKnn(String[] texts, String[] expected, String text)
-        }
-        class KnnFactory {
-            + {static} createKnn(int k): Knn
-        }
-       KnnFactory ..> Knn
+}
+```
+### knn package and dependencies
+```plantuml
+package knn {
+    class Knn {
+        - int k
+        + calculateKnn(String[] texts, String[] expected, String text)
     }
-    package process {
+    class KnnFactory {
+        + {static} createKnn(int k): Knn
+    }
+   KnnFactory ..> Knn
+}
+```
+### process package and dependencies
+```plantuml
+package process {
         class Process {
             - FileReader fileReader
             - String[] countriesOfInterest
@@ -322,21 +321,29 @@ package backend {
         ProcessFactory ..> MetricType
         ProcessFactory ..> MeasureType
     }
-    package statistics {
-        class Statistics {
-            - total: int
-            - confusionMatrix: int[][]
-            + Statistics(String[][] expectedToReceivedValues)
-            + getAccuracy(): double
-            + getPrecision(): double[]
-            + getRecall(): double[]
-            + getF1Score(): double[]
-        }
-        class StatisticsFactory {
-            + {static} createStatistics(String[][] expectedToReceivedValues): Statistics
-        }
-        StatisticsFactory ..> Statistics
+```
+### statistics package and dependencies
+```plantuml
+package statistics {
+    class Statistics {
+        - total: int
+        - confusionMatrix: int[][]
+        + Statistics(String[][] expectedToReceivedValues)
+        + getAccuracy(): double
+        + getPrecision(): double[]
+        + getRecall(): double[]
+        + getF1Score(): double[]
     }
+    class StatisticsFactory {
+        + {static} createStatistics(String[][] expectedToReceivedValues): Statistics
+    }
+    StatisticsFactory ..> Statistics
+}
+```
+### backend package and dependencies
+```plantuml
+top to bottom direction
+package backend {
     class KnnFacade {
         + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): double[]
     }
