@@ -50,7 +50,6 @@ package backend {
     }
     class KnnFacade {
         + process(FileType fileType, String[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, Double teachPart): String[][]
-        + calculateStatistics(String[][] expectedVsResult): String[][]
     }
 }
 MainController ---> KnnFacade
@@ -292,32 +291,25 @@ package backend {
         ProcessFactory ..> MeasureType
     }
     package statistics {
-        interface Statistics {
-            - truePositive: int
-            - trueNegative: int
-            - falsePositive: int
-            - falseNegative: int
-            + calculateStatistics(String[] result, String[] expected): double[]
-            - calculateTruePositive(String[] result, String[] expected): int
-            - calculateTrueNegative(String[] result, String[] expected): int
-            - calculateFalsePositive(String[] result, String[] expected): int
-            - calculateFalseNegative(String[] result, String[] expected): int
-            - calculateCorrect(): int
-            - calculateIncorrect(): int
-            - calculatePrecision(): double
-            - calculateRecall(): double
-            - calculateFMeasure(): double
+        class Statistics {
+            - total: int
+            - confusionMatrix: int[][]
+            + Statistics(String[][] expectedToReceivedValues)
+            + getAccuracy(): double
+            + getPrecision(): double[]
+            + getRecall(): double[]
+            + getF1Score(): double[]
         }
         class StatisticsFactory {
-            + createStatistics(): Statistics
+            + {static} createStatistics(String[][] expectedToReceivedValues): Statistics
         }
         StatisticsFactory ..> Statistics
     }
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): String[]
-        + calculateStatistics(String[] result, String[] expected): double[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): double[]
     }
     KnnFacade ..> ProcessFactory
-    KnnFacade ..> StatisticsFactory
+    Process ..> StatisticsFactory
+    Process ..> Statistics
 }
 ```
