@@ -61,8 +61,11 @@ MainController ..> ExtractorType
 ## Backend
 ## Extractors
 ```plantuml
-interface Extractor {
+abstract class Extractor {
+    - domainMin: double
+    - domainMax: double
     + extract(Article article)
+    + extractAndNormalize(Article article): double
 }
 class ArticleLengthExtractor {
     + extract(Article article): int
@@ -182,8 +185,11 @@ package backend {
     }
    
     package extractor {
-        interface Extractor {
+        abstract class Extractor {
+            - domainMin: double
+            - domainMax: double
             + extract(Article article)
+            + extractAndNormalize(Article article): double
         }
         class ExtractorFactory {
             + {static} createExtractor(ExtractorType extractorType): Extractor
