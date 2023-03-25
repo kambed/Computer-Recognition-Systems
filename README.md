@@ -1,4 +1,30 @@
 # Computer Recognition Systems
+## Packages diagram
+```plantuml
+package frontend
+package backend {
+    package reader
+    package extractor
+    package model
+    package process
+    package statistics
+    package knn {
+        package metric
+        package measure
+    }
+}
+frontend ..> backend: <<import>>
+
+process ..> reader: <<import>>
+process ..> extractor: <<import>>
+process ..> model: <<import>>
+process ..> statistics: <<import>>
+process ..> knn: <<import>>
+
+extractor ..> model: <<import>>
+extractor ..reader: <<import>>
+
+```
 ## Frontend uses
 ```plantuml
 package frontend {
