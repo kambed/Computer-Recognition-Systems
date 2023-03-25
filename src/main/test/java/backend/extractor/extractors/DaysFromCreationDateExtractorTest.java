@@ -45,4 +45,11 @@ class DaysFromCreationDateExtractorTest {
     void extractTest(Article article, int expectedNumberOfDays) {
         assertEquals(expectedNumberOfDays, extractor.extract(article));
     }
+
+
+    @ParameterizedTest
+    @MethodSource("extractTestDataProvider")
+    void extractAndNormalizeTest(Article article, int expectedNumberOfDays) {
+        assertEquals(expectedNumberOfDays / 15000.0, extractor.extractAndNormalize(article));
+    }
 }

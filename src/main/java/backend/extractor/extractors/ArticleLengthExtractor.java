@@ -12,4 +12,9 @@ public class ArticleLengthExtractor implements Extractor<Integer> {
                 .map(String::length)
                 .orElse(0);
     }
+
+    @Override
+    public Double normalize(Integer value) {
+        return value / 15000.0;
+    }
 }

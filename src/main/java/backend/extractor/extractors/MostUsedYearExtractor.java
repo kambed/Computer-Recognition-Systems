@@ -27,4 +27,9 @@ public class MostUsedYearExtractor implements Extractor<Integer> {
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey).orElse("0"));
     }
+
+    @Override
+    public Double normalize(Integer value) {
+        return value / 1999.0;
+    }
 }

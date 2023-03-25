@@ -35,7 +35,7 @@ public class Process {
         for (Article article : articles) {
             List<Object> extractedFeatures = new ArrayList<>();
             for (Extractor<?> extractor : extractors) {
-                extractedFeatures.add(extractor.extract(article));
+                extractedFeatures.add(extractor.extractAndNormalize(article));
             }
             // TODO: KNN
             String valueReceivedFromKnn = "Value received from KNN";

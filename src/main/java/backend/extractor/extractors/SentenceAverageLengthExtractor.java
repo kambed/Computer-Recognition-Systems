@@ -18,4 +18,9 @@ public class SentenceAverageLengthExtractor implements Extractor<Double> {
                         .orElse(0.0))
                 .orElse(0.0);
     }
+
+    @Override
+    public Double normalize(Double value) {
+        return value / 150.0;
+    }
 }

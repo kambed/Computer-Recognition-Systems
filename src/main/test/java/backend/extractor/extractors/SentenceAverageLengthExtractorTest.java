@@ -59,10 +59,15 @@ class SentenceAverageLengthExtractorTest {
         );
     }
 
-
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
     void extractTest(Article article, double expectedLength) {
         assertEquals(expectedLength, extractor.extract(article));
+    }
+
+    @ParameterizedTest
+    @MethodSource("extractTestDataProvider")
+    void extractAndNormalizeTest(Article article, double expectedLength) {
+        assertEquals(expectedLength / 150.0, extractor.extractAndNormalize(article));
     }
 }

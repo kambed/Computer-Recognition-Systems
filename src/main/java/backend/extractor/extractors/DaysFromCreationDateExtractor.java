@@ -11,4 +11,9 @@ public class DaysFromCreationDateExtractor implements Extractor<Long> {
     public Long extract(Article article) {
         return ChronoUnit.DAYS.between(article.getDate().toInstant(), Instant.now());
     }
+
+    @Override
+    public Double normalize(Long value) {
+        return value / 15000.0;
+    }
 }
