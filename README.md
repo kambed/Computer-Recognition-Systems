@@ -130,7 +130,7 @@ package model {
     Root o-- Article
     Article o-- TextContent
 }
-FileReader ..> Root
+FileReader .> Root
 ```
 ### extractor package and dependencies
 ```plantuml
@@ -150,7 +150,7 @@ package extractor {
     abstract class Extractor {
         - domainMin: double
         - domainMax: double
-        + extract(Article article)
+        + {abstract} extract(Article article)
         + extractAndNormalize(Article article): double
     }
     class ArticleLengthExtractor {
@@ -283,13 +283,13 @@ package metric {
 ```plantuml
 package measure {
     interface Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
+        + calculateMeasure(string text1, string text2): Double
     }
     class GeneralizedNgramMeasure implements Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
+        + calculateMeasure(string text1, string text2): Double
     }
     class GeneralizedNgramMeasureWithLimitations implements Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
+        + calculateMeasure(string text1, string text2): Double
     }
     
     class MeasureFactory {
@@ -298,7 +298,6 @@ package measure {
     MeasureFactory ..> Measure
     MeasureFactory ..> MeasureType
     enum MeasureType {
-        GENERALIZED_NGRAM
         GENERALIZED_NGRAM_WITH_LIMITATIONS
         - Measure measure
         + getMeasure()
@@ -311,13 +310,37 @@ package knn {
     class Knn {
         - int k
         - string[][][] trainData
-        + Knn(int k, string[][] trainData)
-        + calculateKnn(string text)
+        + Knn(int k, string[][] trainData, Metric metric, Measure measure)
+        + calculateKnn(Object[] vector): string
     }
     class KnnFactory {
         + {static} createKnn(int k): Knn
     }
    KnnFactory ..> Knn
+}
+package metric {
+    Metric ..> Knn
+}
+package measure {
+    Measure ..> Knn
+}
+```
+### statistics package and dependencies
+```plantuml
+package statistics {
+    class Statistics {
+        - total: int
+        - confusionMatrix: int[][]
+        + Statistics(string[][] expectedToReceivedValues)
+        + getAccuracy(): double
+        + getPrecision(): double[]
+        + getRecall(): double[]
+        + getF1Score(): double[]
+    }
+    class StatisticsFactory {
+        + {static} createStatistics(string[][] expectedToReceivedValues): Statistics
+    }
+    StatisticsFactory ..> Statistics
 }
 ```
 ### process package and dependencies
@@ -364,14 +387,20 @@ package knn {
 package model {
     class Root
 }
+package statistics {
+    class Statistics
+    class StatisticsFactory
+}
 Process ...> ReaderFactory
 Process ...> ExtractorFactory
 Process ...> MetricFactory
 Process ...> MeasureFactory
 Process ...> KnnFactory
+Process ...> StatisticsFactory
 Process --> FileReader
 Process --> Metric
 Process --> Measure
+Process --> Statistics
 Process --> Knn
 Process ..> Root
 ProcessFactory ..> Process
@@ -379,24 +408,6 @@ ProcessFactory ..> FileType
 ProcessFactory ..> MetricType
 ProcessFactory ..> MeasureType
 ReaderFactory ..> ExtractorType
-```
-### statistics package and dependencies
-```plantuml
-package statistics {
-    class Statistics {
-        - total: int
-        - confusionMatrix: int[][]
-        + Statistics(string[][] expectedToReceivedValues)
-        + getAccuracy(): double
-        + getPrecision(): double[]
-        + getRecall(): double[]
-        + getF1Score(): double[]
-    }
-    class StatisticsFactory {
-        + {static} createStatistics(string[][] expectedToReceivedValues): Statistics
-    }
-    StatisticsFactory ..> Statistics
-}
 ```
 ### backend package and dependencies
 ```plantuml
