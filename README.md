@@ -75,7 +75,7 @@ package backend {
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
     class KnnFacade {
-        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, Double teachPart): string[][]
+        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, double teachPart): string[][]
     }
 }
 MainController ---> KnnFacade
@@ -249,19 +249,19 @@ PeopleCountryExtractor ..> CsvReader
 ```plantuml
 package metric {
     interface Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(Object[] vector1, Object[] vector2): double
     }
     class EuclideanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(Object[] vector1, Object[] vector2): double
     }
     class ManhattanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(Object[] vector1, Object[] vector2): double
     }
     class ChebyshevMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(Object[] vector1, Object[] vector2): double
     }
     class CustomMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(Object[] vector1, Object[] vector2): double
     }
     
     class MetricFactory {
@@ -283,13 +283,13 @@ package metric {
 ```plantuml
 package measure {
     interface Measure {
-        + calculateMeasure(string text1, string text2): Double
+        + calculateMeasure(string text1, string text2): double
     }
     class GeneralizedNgramMeasure implements Measure {
-        + calculateMeasure(string text1, string text2): Double
+        + calculateMeasure(string text1, string text2): double
     }
     class GeneralizedNgramMeasureWithLimitations implements Measure {
-        + calculateMeasure(string text1, string text2): Double
+        + calculateMeasure(string text1, string text2): double
     }
     
     class MeasureFactory {
@@ -353,7 +353,7 @@ package process {
         - Metric metric
         - Measure measure
         - Knn knn
-        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart)
+        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, double teachPart)
         + process(string[] paths)
     }
     class ProcessFactory {
@@ -414,7 +414,7 @@ ReaderFactory ..> ExtractorType
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, string path, Double teachPart, string[][] features): double[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, string path, double teachPart, string[][] features): double[]
     }
     package process {
         class Process
