@@ -87,8 +87,6 @@ MainController ..> ExtractorType
 ## Backend
 ### reader package and dependencies
 ```plantuml
-### Reader package and dependencies
-```plantuml
 package reader {
     interface FileReader {
         + read(String path): Root
@@ -132,9 +130,22 @@ package model {
     Root o-- Article
     Article o-- TextContent
 }
+FileReader ..> Root
 ```
 ### extractor package and dependencies
 ```plantuml
+package model {
+    class Article {
+        - date: String
+        - topics: String[]
+        - places: String[]
+        - people: String[]
+        - orgs: String[]
+        - exchanges: String[]
+        - companies: String[]
+        - text: TextContent
+    }
+}
 package extractor {
     abstract class Extractor {
         - domainMin: double
@@ -153,18 +164,23 @@ package extractor {
     }
     class MostUsedCityNameMappedToCountryExtractor {
         + extract(Article article): String
+        - getCitiesInCountries(): String[][]
     }
     class MostUsedCountryNameExtractor {
         + extract(Article article): String
+        - getCountriesSynonyms(): String[][]
     }
     class MostUsedCountryNameInTitle {
         + extract(Article article): String
+        - getCountriesSynonyms(): String[][]
     }
     class MostUsedCurrencyExtractor {
         + extract(Article article): String
+        - getCurrenciesSynonyms(): String[][]
     }
     class MostUsedWordAtTheBeginningExtractor {
         + extract(Article article): String
+        - getStopWords(): String[][]
     }
     class MostUsedWordStartingInCapitalLetterExtractor {
         + extract(Article article): String
@@ -174,6 +190,7 @@ package extractor {
     }
     class PeopleCountryExtractor {
         + extract(Article article): String
+        - getPeopleCountries(): String[][]
     }
     class SentenceAverageLengthExtractor {
         + extract(Article article): double
@@ -214,6 +231,19 @@ package extractor {
     ExtractorFactory ..> Extractor
     ExtractorFactory ..> ExtractorType
 }
+package reader {
+    class CsvReader {
+        + {static} readDictionary(String path): String[][]
+    }
+}
+Extractor ..> Article
+
+MostUsedCityNameMappedToCountryExtractor ..> CsvReader
+MostUsedCountryNameExtractor ..> CsvReader
+MostUsedCountryNameInTitle ..> CsvReader
+MostUsedCurrencyExtractor ..> CsvReader
+MostUsedWordAtTheBeginningExtractor ..> CsvReader
+PeopleCountryExtractor ..> CsvReader
 ```
 ### metric package and dependencies
 ```plantuml
@@ -280,7 +310,9 @@ package measure {
 package knn {
     class Knn {
         - int k
-        + calculateKnn(String[] texts, String[] expected, String text)
+        - String[][][] trainData
+        + Knn(int k, String[][] trainData)
+        + calculateKnn(String text)
     }
     class KnnFactory {
         + {static} createKnn(int k): Knn
@@ -291,36 +323,62 @@ package knn {
 ### process package and dependencies
 ```plantuml
 package process {
-        class Process {
-            - FileReader fileReader
-            - String[] countriesOfInterest
-            - Extractor[] extractors
-            - Metric metric
-            - Measure measure
-            - Knn knn
-            + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart)
-            + process(String[] paths)
-        }
-        Process ...> ReaderFactory
-        Process ...> ExtractorFactory
-        Process ...> MetricFactory
-        Process ...> MeasureFactory
-        Process ...> KnnFactory
-        Process --> FileReader
-        Process --> Metric
-        Process --> Measure
-        Process --> Knn
-        FileReader ..> Root
-        Extractor ..> Root
-        Process ..> Root
-        class ProcessFactory {
-            + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
-        }
-        ProcessFactory ..> Process
-        ProcessFactory ..> FileType
-        ProcessFactory ..> MetricType
-        ProcessFactory ..> MeasureType
+    class Process {
+        - FileReader fileReader
+        - String[] countriesOfInterest
+        - Extractor[] extractors
+        - Metric metric
+        - Measure measure
+        - Knn knn
+        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart)
+        + process(String[] paths)
     }
+    class ProcessFactory {
+        + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
+    }
+}
+package reader {
+    class FileReader
+    class ReaderFactory
+    enum FileType
+}
+package extractor {
+    class Extractor
+    class ExtractorFactory
+    enum ExtractorType
+}
+package knn {
+    class Knn
+    class KnnFactory
+    package metric {
+        class Metric
+        class MetricFactory
+        enum MetricType
+    }
+    package measure {
+        class Measure
+        class MeasureFactory
+        enum MeasureType
+    }
+}
+package model {
+    class Root
+}
+Process ...> ReaderFactory
+Process ...> ExtractorFactory
+Process ...> MetricFactory
+Process ...> MeasureFactory
+Process ...> KnnFactory
+Process --> FileReader
+Process --> Metric
+Process --> Measure
+Process --> Knn
+Process ..> Root
+ProcessFactory ..> Process
+ProcessFactory ..> FileType
+ProcessFactory ..> MetricType
+ProcessFactory ..> MeasureType
+ReaderFactory ..> ExtractorType
 ```
 ### statistics package and dependencies
 ```plantuml
@@ -347,8 +405,11 @@ package backend {
     class KnnFacade {
         + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): double[]
     }
+    package process {
+        class Process
+        class ProcessFactory
+    }
     KnnFacade ..> ProcessFactory
-    Process ..> StatisticsFactory
-    Process ..> Statistics
+    KnnFacade ..> Process
 }
 ```
