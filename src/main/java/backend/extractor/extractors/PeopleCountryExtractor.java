@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PeopleCountryExtractor implements Extractor<String> {
+public class PeopleCountryExtractor extends Extractor<String> {
     private final Map<String, List<String>> peopleCountry = getPeopleCountries();
 
     @Override

@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MostUsedCityNameMappedToCountryExtractor implements Extractor<String> {
+public class MostUsedCityNameMappedToCountryExtractor extends Extractor<String> {
     private final Map<String, List<String>> citiesInCountries = getCitiesInCountries();
 
     @SuppressWarnings("DuplicatedCode")

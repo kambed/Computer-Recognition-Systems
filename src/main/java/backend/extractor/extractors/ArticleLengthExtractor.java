@@ -5,16 +5,15 @@ import backend.model.Article;
 
 import java.util.Optional;
 
-public class ArticleLengthExtractor implements Extractor<Integer> {
+public class ArticleLengthExtractor extends Extractor<Integer> {
+    public ArticleLengthExtractor() {
+        domainMax = 15000.0;
+    }
+
     @Override
     public Integer extract(Article article) {
         return Optional.ofNullable(article.getText().getText())
                 .map(String::length)
                 .orElse(0);
-    }
-
-    @Override
-    public Double normalize(Integer value) {
-        return value / 15000.0;
     }
 }

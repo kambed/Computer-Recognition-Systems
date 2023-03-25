@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MostUsedCountryNameExtractor implements Extractor<String> {
+public class MostUsedCountryNameExtractor extends Extractor<String> {
     private final Map<String, List<String>> countriesSynonyms = getCountriesSynonyms();
 
     @SuppressWarnings("DuplicatedCode")

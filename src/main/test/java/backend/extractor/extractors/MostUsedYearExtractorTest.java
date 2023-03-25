@@ -70,6 +70,10 @@ class MostUsedYearExtractorTest {
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
     void extractAndNormalizeTest(Article article, Integer expectedLength) {
-        assertEquals(expectedLength / 1999.0, extractor.extractAndNormalize(article));
+        double expected = (expectedLength - 1000.0) / 1999.0;
+        if (expected < 0) {
+            expected = 0;
+        }
+        assertEquals(expected, extractor.extractAndNormalize(article));
     }
 }
