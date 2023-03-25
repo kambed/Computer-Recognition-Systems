@@ -30,14 +30,14 @@ extractor ..reader: <<import>>
 package frontend {
     class MainApplication {
         + start()
-        + {static} main(String[] args)
+        + {static} main(string[] args)
     }
     class MainController {
         + loadFiles()
         + process()
     }
     class FileChooser {
-        + {static} choose(String windowTitle): String[]
+        + {static} choose(string windowTitle): string[]
     }
     MainController ..> FileChooser
     MainApplication --> MainController
@@ -75,7 +75,7 @@ package backend {
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
     class KnnFacade {
-        + process(FileType fileType, String[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, Double teachPart): String[][]
+        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, Double teachPart): string[][]
     }
 }
 MainController ---> KnnFacade
@@ -89,13 +89,13 @@ MainController ..> ExtractorType
 ```plantuml
 package reader {
     interface FileReader {
-        + read(String path): Root
+        + read(string path): Root
     }
     class SgmReader implements FileReader {
-        + read(String path): Root
+        + read(string path): Root
     }
     class CsvReader {
-        + {static} readDictionary(String path): String[][]
+        + {static} readDictionary(string path): string[][]
     }
     class ReaderFactory {
         + {static} createFileReader(FileType fileType): FileReader
@@ -113,19 +113,19 @@ package model {
         - articles: Article[]
     }
     class Article {
-        - date: String
-        - topics: String[]
-        - places: String[]
-        - people: String[]
-        - orgs: String[]
-        - exchanges: String[]
-        - companies: String[]
+        - date: string
+        - topics: string[]
+        - places: string[]
+        - people: string[]
+        - orgs: string[]
+        - exchanges: string[]
+        - companies: string[]
         - text: TextContent
     }
     class TextContent {
-        - title: String
-        - dateline: String
-        - text: String
+        - title: string
+        - dateline: string
+        - text: string
     }
     Root o-- Article
     Article o-- TextContent
@@ -136,13 +136,13 @@ FileReader ..> Root
 ```plantuml
 package model {
     class Article {
-        - date: String
-        - topics: String[]
-        - places: String[]
-        - people: String[]
-        - orgs: String[]
-        - exchanges: String[]
-        - companies: String[]
+        - date: string
+        - topics: string[]
+        - places: string[]
+        - people: string[]
+        - orgs: string[]
+        - exchanges: string[]
+        - companies: string[]
         - text: TextContent
     }
 }
@@ -157,40 +157,40 @@ package extractor {
         + extract(Article article): int
     }
     class CityFromDatelineExtractor {
-        + extract(Article article): String
+        + extract(Article article): string
     }
     class DaysFromCreationDateExtractor {
         + extract(Article article): int
     }
     class MostUsedCityNameMappedToCountryExtractor {
-        + extract(Article article): String
-        - getCitiesInCountries(): String[][]
+        + extract(Article article): string
+        - getCitiesInCountries(): string[][]
     }
     class MostUsedCountryNameExtractor {
-        + extract(Article article): String
-        - getCountriesSynonyms(): String[][]
+        + extract(Article article): string
+        - getCountriesSynonyms(): string[][]
     }
     class MostUsedCountryNameInTitle {
-        + extract(Article article): String
-        - getCountriesSynonyms(): String[][]
+        + extract(Article article): string
+        - getCountriesSynonyms(): string[][]
     }
     class MostUsedCurrencyExtractor {
-        + extract(Article article): String
-        - getCurrenciesSynonyms(): String[][]
+        + extract(Article article): string
+        - getCurrenciesSynonyms(): string[][]
     }
     class MostUsedWordAtTheBeginningExtractor {
-        + extract(Article article): String
-        - getStopWords(): String[][]
+        + extract(Article article): string
+        - getStopWords(): string[][]
     }
     class MostUsedWordStartingInCapitalLetterExtractor {
-        + extract(Article article): String
+        + extract(Article article): string
     }
     class MostUsedYearExtractor {
         + extract(Article article): long
     }
     class PeopleCountryExtractor {
-        + extract(Article article): String
-        - getPeopleCountries(): String[][]
+        + extract(Article article): string
+        - getPeopleCountries(): string[][]
     }
     class SentenceAverageLengthExtractor {
         + extract(Article article): double
@@ -233,7 +233,7 @@ package extractor {
 }
 package reader {
     class CsvReader {
-        + {static} readDictionary(String path): String[][]
+        + {static} readDictionary(string path): string[][]
     }
 }
 Extractor ..> Article
@@ -310,9 +310,9 @@ package measure {
 package knn {
     class Knn {
         - int k
-        - String[][][] trainData
-        + Knn(int k, String[][] trainData)
-        + calculateKnn(String text)
+        - string[][][] trainData
+        + Knn(int k, string[][] trainData)
+        + calculateKnn(string text)
     }
     class KnnFactory {
         + {static} createKnn(int k): Knn
@@ -325,13 +325,13 @@ package knn {
 package process {
     class Process {
         - FileReader fileReader
-        - String[] countriesOfInterest
+        - string[] countriesOfInterest
         - Extractor[] extractors
         - Metric metric
         - Measure measure
         - Knn knn
         + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart)
-        + process(String[] paths)
+        + process(string[] paths)
     }
     class ProcessFactory {
         + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
@@ -386,14 +386,14 @@ package statistics {
     class Statistics {
         - total: int
         - confusionMatrix: int[][]
-        + Statistics(String[][] expectedToReceivedValues)
+        + Statistics(string[][] expectedToReceivedValues)
         + getAccuracy(): double
         + getPrecision(): double[]
         + getRecall(): double[]
         + getF1Score(): double[]
     }
     class StatisticsFactory {
-        + {static} createStatistics(String[][] expectedToReceivedValues): Statistics
+        + {static} createStatistics(string[][] expectedToReceivedValues): Statistics
     }
     StatisticsFactory ..> Statistics
 }
@@ -403,7 +403,7 @@ package statistics {
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, String path, Double teachPart, String[][] features): double[]
+        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, string path, Double teachPart, string[][] features): double[]
     }
     package process {
         class Process
