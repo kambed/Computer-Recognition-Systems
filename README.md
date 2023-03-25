@@ -256,7 +256,7 @@ package backend {
             + calculateKnn(String[] texts, String[] expected, String text)
         }
         class KnnFactory {
-            + createKnn(int k): Knn
+            + {static} createKnn(int k): Knn
         }
        KnnFactory ..> Knn
     }
