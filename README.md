@@ -314,7 +314,7 @@ package knn {
         + calculateKnn(Object[] vector): string
     }
     class KnnFactory {
-        + {static} createKnn(int k): Knn
+        + {static} createKnn(int k, string[][] trainData, Metric metric, Measure measure): Knn
     }
    KnnFactory ..> Knn
 }
