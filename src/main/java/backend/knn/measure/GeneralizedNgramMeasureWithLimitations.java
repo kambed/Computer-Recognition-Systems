@@ -13,6 +13,11 @@ public class GeneralizedNgramMeasureWithLimitations implements Measure {
     }
 
     @Override
+    public double calculateMetric(String text1, String text2) {
+        return 1.0 - calculateMeasure(text1, text2);
+    }
+
+    @Override
     public double calculateMeasure(String text1, String text2) {
         int N = Math.max(text1.length(), text2.length());
         String text1Preformatted = text1.toLowerCase().trim();

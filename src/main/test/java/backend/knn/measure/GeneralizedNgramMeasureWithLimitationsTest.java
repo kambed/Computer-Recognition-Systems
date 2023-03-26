@@ -21,8 +21,24 @@ class GeneralizedNgramMeasureWithLimitationsTest {
 
     @ParameterizedTest
     @MethodSource("generateData")
-    void ChebyshevMetricCalculationTest(String text1, String text2, Double expected) {
+    void GeneralizedNgramMeasureCalculationTest(String text1, String text2, Double expected) {
         assertEquals(expected, MeasureFactory.createGeneralizedNgramWithLimitations(2, 3)
                 .calculateMeasure(text1, text2), 0.001);
+    }
+
+    static Stream<Arguments> generateDataForMetric() {
+        return Stream.of(
+                Arguments.of("NORTH AMERICA", "AMERICA", 0.522),
+                Arguments.of("uNiTeD sTaTeS", "UnItEd KiNgDoM", 0.56),
+                Arguments.of("AMERICA", "AMERICA", 0.0),
+                Arguments.of("NONO", "YES", 1.0)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateDataForMetric")
+    void GeneralizedNgramMetricCalculationTest(String text1, String text2, Double expected) {
+        assertEquals(expected, MeasureFactory.createGeneralizedNgramWithLimitations(2, 3)
+                .calculateMetric(text1, text2), 0.001);
     }
 }
