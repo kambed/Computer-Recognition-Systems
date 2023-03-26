@@ -3,6 +3,11 @@ package backend.process;
 import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
+import backend.knn.Knn;
+import backend.knn.measure.Measure;
+import backend.knn.metric.Metric;
+import backend.knn.metric.MetricFactory;
+import backend.knn.metric.MetricType;
 import backend.model.Article;
 import backend.reader.FileReader;
 import backend.reader.FileType;
@@ -16,31 +21,54 @@ import java.util.*;
 public class Process {
     private final List<Extractor<?>> extractors = new LinkedList<>();
     private final FileReader reader;
-    private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
+    private final Metric metric;
+    private final Measure measure;
+    private final int k;
 
-    public Process(List<ExtractorType> extractorTypes, FileType fileType) {
+    private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
+    public Process(
+            List<ExtractorType> extractorTypes,
+            FileType fileType,
+            MetricType metricType,
+            Measure measure,
+            int k
+    ) {
         extractorTypes.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
         reader = ReaderFactory.createReader(fileType);
+        metric = MetricFactory.createMetric(metricType);
+        this.measure = measure;
+        this.k = k;
     }
 
-    public Map<String, Double> process(List<String> filePaths) {
-        List<Article> articles = filePaths.stream()
+    public Map<String, Double> process(List<String> paths, double teachPart) {
+        List<Article> articles = paths.stream()
                 .map(path -> reader.read(path).orElse(null))
                 .filter(Objects::nonNull)
                 .flatMap(list -> list.getArticles().stream())
                 .filter(article -> article.getPlaces().size() == 1
                         && countriesOfInterest.contains(article.getPlaces().get(0)))
                 .toList();
-        List<Pair<String, String>> expectedToReceivedValues = new ArrayList<>();
+        List<Pair<String,List<Object>>> expectedValueWithVector = new ArrayList<>();
         for (Article article : articles) {
             List<Object> extractedFeatures = new ArrayList<>();
             for (Extractor<?> extractor : extractors) {
-                extractedFeatures.add(extractor.extract(article));
+                extractedFeatures.add(extractor.extractAndNormalize(article));
             }
-            // TODO: KNN
-            String valueReceivedFromKnn = "Value received from KNN";
-            expectedToReceivedValues.add(new Pair<>(article.getPlaces().get(0), valueReceivedFromKnn));
+            expectedValueWithVector.add(new Pair<>(article.getPlaces().get(0), extractedFeatures));
         }
+
+        List<Pair<String, List<Object>>> trainData = expectedValueWithVector.stream()
+                .limit((int) (expectedValueWithVector.size() * teachPart))
+                .toList();
+        List<Pair<String, List<Object>>> testData = expectedValueWithVector.stream()
+                .skip((int) (expectedValueWithVector.size() * teachPart))
+                .toList();
+
+        Knn knn = new Knn(k, metric, measure, trainData);
+
+        List<Pair<String, String>> expectedToReceivedValues = testData.stream()
+                .map(pair -> new Pair<>(pair.getKey(), knn.calculateKnn(pair.getValue())))
+                .toList();
 
         Statistics statistics = StatisticsFactory.createStatistics(expectedToReceivedValues);
         Map<String, Double> statisticsMap = new LinkedHashMap<>();

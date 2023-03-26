@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MostUsedCurrencyExtractor implements Extractor<String> {
+public class MostUsedCurrencyExtractor extends Extractor<String> {
     private final Map<String, List<String>> currenciesSynonyms = getCurrenciesSynonyms();
 
     @SuppressWarnings("DuplicatedCode")

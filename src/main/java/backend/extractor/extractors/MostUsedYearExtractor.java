@@ -10,7 +10,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MostUsedYearExtractor implements Extractor<Integer> {
+public class MostUsedYearExtractor extends Extractor<Integer> {
+    public MostUsedYearExtractor() {
+        domainMax = 2999.0;
+        domainMin = 1000.0;
+    }
     @Override
     public Integer extract(Article article) {
         return Integer.parseInt(Arrays.stream(Optional.ofNullable(article.getText()

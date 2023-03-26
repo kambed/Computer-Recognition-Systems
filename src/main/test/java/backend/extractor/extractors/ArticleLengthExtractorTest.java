@@ -47,4 +47,11 @@ class ArticleLengthExtractorTest {
     void extractTest(Article article, int expectedLength) {
         assertEquals(expectedLength, extractor.extract(article));
     }
+
+
+    @ParameterizedTest
+    @MethodSource("extractTestDataProvider")
+    void extractAndNormalizeTest(Article article, int expectedLength) {
+        assertEquals(expectedLength / 15000.0, extractor.extractAndNormalize(article));
+    }
 }

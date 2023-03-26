@@ -69,13 +69,15 @@ package backend {
         MANHATTAN
         CHEBYSHEV
         CUSTOM
+        - Metric metric
+        + getMetric(): Metric
     }
     enum MeasureType {
-        GENERALIZED_NGRAM
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
     class KnnFacade {
-        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, Double teachPart): string[][]
+        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, Measure measure, int k, double teachPart): string[][]
+        + createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
 }
 MainController ---> KnnFacade
@@ -130,7 +132,7 @@ package model {
     Root o-- Article
     Article o-- TextContent
 }
-FileReader ..> Root
+FileReader .> Root
 ```
 ### extractor package and dependencies
 ```plantuml
@@ -150,7 +152,7 @@ package extractor {
     abstract class Extractor {
         - domainMin: double
         - domainMax: double
-        + extract(Article article)
+        + {abstract} extract(Article article)
         + extractAndNormalize(Article article): double
     }
     class ArticleLengthExtractor {
@@ -249,19 +251,19 @@ PeopleCountryExtractor ..> CsvReader
 ```plantuml
 package metric {
     interface Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class EuclideanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class ManhattanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class ChebyshevMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class CustomMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): Double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     
     class MetricFactory {
@@ -283,25 +285,22 @@ package metric {
 ```plantuml
 package measure {
     interface Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
-    }
-    class GeneralizedNgramMeasure implements Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
+        + calculateMeasure(string text1, string text2): double
     }
     class GeneralizedNgramMeasureWithLimitations implements Measure {
-        + calculateMeasure(Object[] vector1, Object[] vector2): Double
+        - shortestGram: int
+        - longestGram: int
+        + GeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram)
+        + calculateMetric(string text1, string text2): double
+        + calculateMeasure(string text1, string text2): double
+        - countCommonNgrams(string text1, string text2): int
     }
-    
     class MeasureFactory {
-        + {static} createMeasure(): Measure
+        + {static} createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
     MeasureFactory ..> Measure
-    MeasureFactory ..> MeasureType
     enum MeasureType {
-        GENERALIZED_NGRAM
         GENERALIZED_NGRAM_WITH_LIMITATIONS
-        - Measure measure
-        + getMeasure()
     }
 }
 ```
@@ -311,13 +310,42 @@ package knn {
     class Knn {
         - int k
         - string[][][] trainData
-        + Knn(int k, string[][] trainData)
-        + calculateKnn(string text)
+        - Metric metric
+        - Measure measures
+        + Knn(int k, string[][] trainData, Metric metric, Measure measure)
+        + calculateKnn(Object[] vector): string
     }
     class KnnFactory {
-        + {static} createKnn(int k): Knn
+        + {static} createKnn(int k, string[][] trainData, Metric metric, Measure measure): Knn
     }
    KnnFactory ..> Knn
+   
+    package metric {
+        interface Metric
+        Knn ..> Metric
+    }
+    package measure {
+        interface Measure
+        Knn ..> Measure
+    }
+}
+```
+### statistics package and dependencies
+```plantuml
+package statistics {
+    class Statistics {
+        - total: int
+        - confusionMatrix: int[][]
+        + Statistics(string[][] expectedToReceivedValues)
+        + getAccuracy(): double
+        + getPrecision(): double[]
+        + getRecall(): double[]
+        + getF1Score(): double[]
+    }
+    class StatisticsFactory {
+        + {static} createStatistics(string[][] expectedToReceivedValues): Statistics
+    }
+    StatisticsFactory ..> Statistics
 }
 ```
 ### process package and dependencies
@@ -330,11 +358,12 @@ package process {
         - Metric metric
         - Measure measure
         - Knn knn
-        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, Double teachPart)
-        + process(string[] paths)
+        - double k
+        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k)
+        + process(string[] paths, double teachPart): string[][]
     }
     class ProcessFactory {
-        + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
+        + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k): Process
     }
 }
 package reader {
@@ -357,53 +386,39 @@ package knn {
     }
     package measure {
         class Measure
-        class MeasureFactory
-        enum MeasureType
     }
 }
 package model {
     class Root
 }
+package statistics {
+    class Statistics
+    class StatisticsFactory
+}
 Process ...> ReaderFactory
 Process ...> ExtractorFactory
 Process ...> MetricFactory
-Process ...> MeasureFactory
 Process ...> KnnFactory
+Process ...> StatisticsFactory
 Process --> FileReader
 Process --> Metric
 Process --> Measure
+Process --> Statistics
 Process --> Knn
 Process ..> Root
+ProcessFactory ..> Measure
 ProcessFactory ..> Process
 ProcessFactory ..> FileType
 ProcessFactory ..> MetricType
-ProcessFactory ..> MeasureType
 ReaderFactory ..> ExtractorType
-```
-### statistics package and dependencies
-```plantuml
-package statistics {
-    class Statistics {
-        - total: int
-        - confusionMatrix: int[][]
-        + Statistics(string[][] expectedToReceivedValues)
-        + getAccuracy(): double
-        + getPrecision(): double[]
-        + getRecall(): double[]
-        + getF1Score(): double[]
-    }
-    class StatisticsFactory {
-        + {static} createStatistics(string[][] expectedToReceivedValues): Statistics
-    }
-    StatisticsFactory ..> Statistics
-}
 ```
 ### backend package and dependencies
 ```plantuml
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, string path, Double teachPart, string[][] features): double[]
+        + process(ExtractorType[] extractorTypes, FileType fileType, string[] paths, MetricType metricType, Measure measure, int k, double teachPart): double[]
+        + createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
     package process {
         class Process

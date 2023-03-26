@@ -60,10 +60,20 @@ class MostUsedYearExtractorTest {
         );
     }
 
-
     @ParameterizedTest
     @MethodSource("extractTestDataProvider")
     void extractTest(Article article, Integer expectedLength) {
         assertEquals(expectedLength, extractor.extract(article));
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("extractTestDataProvider")
+    void extractAndNormalizeTest(Article article, Integer expectedLength) {
+        double expected = (expectedLength - 1000.0) / 1999.0;
+        if (expected < 0) {
+            expected = 0;
+        }
+        assertEquals(expected, extractor.extractAndNormalize(article));
     }
 }

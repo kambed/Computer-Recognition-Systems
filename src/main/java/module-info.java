@@ -14,6 +14,8 @@ module pl.ksr.computerrecognitionsystems {
     exports backend.model;
     exports backend.process;
     exports backend.model.adapter;
+    exports backend.knn.metric;
+    exports backend.knn.measure;
     opens backend.reader;
     opens backend.model;
 }
