@@ -288,8 +288,11 @@ package measure {
         + calculateMeasure(string text1, string text2): double
     }
     class GeneralizedNgramMeasureWithLimitations implements Measure {
+        - shortestGram: int
+        - longestGram: int
         + GeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram)
         + calculateMeasure(string text1, string text2): double
+        - countCommonNgrams(string text1, string text2): int
     }
     class MeasureFactory {
         + {static} createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
