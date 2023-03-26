@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Knn {
     private final int k;
@@ -35,15 +36,15 @@ public class Knn {
                                 }
                             })
                             .toList();
-                    List<Double> vectorToCalculate = values.stream()
-                            .map(value -> {
-                                if (value instanceof String stringValue) {
-                                    return measure.calculateMetric(stringValue, (String) vector.get(values.indexOf(value)));
-                                } else {
-                                    return ((Number) value).doubleValue();
+                    List<Double> vectorToCalculate = IntStream.range(0, vector.size())
+                            .mapToDouble(i -> {
+                                if (vector.get(i) instanceof String stringFeature) {
+                                    return measure.calculateMetric(stringFeature, (String) values.get(i));
+                                } else if (vector.get(i) instanceof Double numberFeature) {
+                                    return numberFeature;
                                 }
-                            })
-                            .toList();
+                                return 0.0;
+                            }).boxed().toList();
                     return new Pair<>(pair.getKey(), metric.calculateDistance(trainingVector, vectorToCalculate));
                 })
                 .toList();
