@@ -29,7 +29,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    protected void loadFiles(ActionEvent actionEvent) {
+    public void loadFiles(ActionEvent actionEvent) {
         pathToArticles = FileChoose.choose("Open articles", actionEvent);
         startProcessButton.setDisable(false);
     }
