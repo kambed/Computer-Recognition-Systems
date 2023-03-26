@@ -69,19 +69,24 @@ package backend {
         MANHATTAN
         CHEBYSHEV
         CUSTOM
+        - Metric metric
+        + getMetric(): Metric
     }
     enum MeasureType {
-        GENERALIZED_NGRAM
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
+    class MeasureFactory {
+        + {static} createGeneralizedNgramWithLimitationsMeasure(int n, int k): Measure
+    }
     class KnnFacade {
-        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, MeasureType measureType, int k, double teachPart): string[][]
+        + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, Measure measure, int k, double teachPart): string[][]
     }
 }
 MainController ---> KnnFacade
 MainController ..> FileType
 MainController ..> MetricType
 MainController ..> MeasureType
+MainController ..> MeasureFactory
 MainController ..> ExtractorType
 ```
 ## Backend
@@ -249,19 +254,19 @@ PeopleCountryExtractor ..> CsvReader
 ```plantuml
 package metric {
     interface Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class EuclideanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class ManhattanMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class ChebyshevMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     class CustomMetric implements Metric {
-        + calculateDistance(Object[] vector1, Object[] vector2): double
+        + calculateDistance(double[] vector1, double[] vector2): double
     }
     
     class MetricFactory {
@@ -285,22 +290,16 @@ package measure {
     interface Measure {
         + calculateMeasure(string text1, string text2): double
     }
-    class GeneralizedNgramMeasure implements Measure {
-        + calculateMeasure(string text1, string text2): double
-    }
     class GeneralizedNgramMeasureWithLimitations implements Measure {
+        + GeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram)
         + calculateMeasure(string text1, string text2): double
     }
-    
     class MeasureFactory {
-        + {static} createMeasure(): Measure
+        + {static} createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
     MeasureFactory ..> Measure
-    MeasureFactory ..> MeasureType
     enum MeasureType {
         GENERALIZED_NGRAM_WITH_LIMITATIONS
-        - Measure measure
-        + getMeasure()
     }
 }
 ```
@@ -353,11 +352,11 @@ package process {
         - Metric metric
         - Measure measure
         - Knn knn
-        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k, double teachPart)
+        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k, double teachPart)
         + process(string[] paths)
     }
     class ProcessFactory {
-        + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, MeasureType measureType, int k): Process
+        + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k): Process
     }
 }
 package reader {
@@ -380,8 +379,6 @@ package knn {
     }
     package measure {
         class Measure
-        class MeasureFactory
-        enum MeasureType
     }
 }
 package model {
@@ -414,7 +411,7 @@ ReaderFactory ..> ExtractorType
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, MeasureType measureType, int k, string path, double teachPart, string[][] features): double[]
+        + process(FileType fileType, MetricType metricType, Measure measure, int k, string path, double teachPart, string[][] features): double[]
     }
     package process {
         class Process
