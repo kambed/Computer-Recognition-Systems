@@ -200,16 +200,16 @@ package extractor {
     
     Extractor <|.. ArticleLengthExtractor
     Extractor <|.. CityFromDatelineExtractor
-    Extractor <|... DaysFromCreationDateExtractor
-    Extractor <|... MostUsedCityNameMappedToCountryExtractor
-    Extractor <|.... MostUsedCountryNameExtractor
-    Extractor <|.... MostUsedCountryNameInTitle
-    Extractor <|..... MostUsedCurrencyExtractor
-    Extractor <|..... MostUsedWordAtTheBeginningExtractor
-    Extractor <|...... MostUsedWordStartingInCapitalLetterExtractor
-    Extractor <|...... MostUsedYearExtractor
-    Extractor <|....... PeopleCountryExtractor
-    Extractor <|....... SentenceAverageLengthExtractor
+    Extractor <|.. DaysFromCreationDateExtractor
+    Extractor <|.... MostUsedWordStartingInCapitalLetterExtractor
+    Extractor <|.... MostUsedYearExtractor
+    Extractor <|.... SentenceAverageLengthExtractor
+    Extractor <|...... MostUsedCountryNameExtractor
+    Extractor <|...... MostUsedCountryNameInTitle
+    Extractor <|...... MostUsedCurrencyExtractor
+    Extractor <|...... MostUsedCityNameMappedToCountryExtractor
+    Extractor <|...... MostUsedWordAtTheBeginningExtractor
+    Extractor <|...... PeopleCountryExtractor
     
     class ExtractorFactory {
         + {static} createExtractor(extractorType: ExtractorType): Extractor
@@ -230,7 +230,7 @@ package extractor {
         - extractor: Extractor
         + getExtractor(): Extractor
     }
-    ExtractorFactory ..> Extractor
+    ExtractorFactory ...> Extractor
     ExtractorFactory ..> ExtractorType
 }
 package reader {
