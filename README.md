@@ -310,6 +310,8 @@ package knn {
     class Knn {
         - int k
         - string[][][] trainData
+        - Metric metric
+        - Measure measures
         + Knn(int k, string[][] trainData, Metric metric, Measure measure)
         + calculateKnn(Object[] vector): string
     }

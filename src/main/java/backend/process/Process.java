@@ -3,6 +3,7 @@ package backend.process;
 import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
+import backend.knn.Knn;
 import backend.knn.measure.Measure;
 import backend.knn.metric.Metric;
 import backend.knn.metric.MetricFactory;
@@ -47,16 +48,27 @@ public class Process {
                 .filter(article -> article.getPlaces().size() == 1
                         && countriesOfInterest.contains(article.getPlaces().get(0)))
                 .toList();
-        List<Pair<String, String>> expectedToReceivedValues = new ArrayList<>();
+        List<Pair<String,List<Object>>> expectedValueWithVector = new ArrayList<>();
         for (Article article : articles) {
             List<Object> extractedFeatures = new ArrayList<>();
             for (Extractor<?> extractor : extractors) {
                 extractedFeatures.add(extractor.extractAndNormalize(article));
             }
-            // TODO: KNN
-            String valueReceivedFromKnn = "Value received from KNN";
-            expectedToReceivedValues.add(new Pair<>(article.getPlaces().get(0), valueReceivedFromKnn));
+            expectedValueWithVector.add(new Pair<>(article.getPlaces().get(0), extractedFeatures));
         }
+
+        List<Pair<String, List<Object>>> trainData = expectedValueWithVector.stream()
+                .limit((int) (expectedValueWithVector.size() * teachPart))
+                .toList();
+        List<Pair<String, List<Object>>> testData = expectedValueWithVector.stream()
+                .skip((int) (expectedValueWithVector.size() * teachPart))
+                .toList();
+
+        Knn knn = new Knn(k, metric, measure, trainData);
+
+        List<Pair<String, String>> expectedToReceivedValues = testData.stream()
+                .map(pair -> new Pair<>(pair.getKey(), knn.calculateKnn(pair.getValue())))
+                .toList();
 
         Statistics statistics = StatisticsFactory.createStatistics(expectedToReceivedValues);
         Map<String, Double> statisticsMap = new LinkedHashMap<>();
