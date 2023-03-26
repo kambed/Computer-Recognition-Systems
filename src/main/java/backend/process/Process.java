@@ -3,6 +3,10 @@ package backend.process;
 import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
+import backend.knn.measure.Measure;
+import backend.knn.metric.Metric;
+import backend.knn.metric.MetricFactory;
+import backend.knn.metric.MetricType;
 import backend.model.Article;
 import backend.reader.FileReader;
 import backend.reader.FileType;
@@ -16,15 +20,27 @@ import java.util.*;
 public class Process {
     private final List<Extractor<?>> extractors = new LinkedList<>();
     private final FileReader reader;
-    private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
+    private final Metric metric;
+    private final Measure measure;
+    private final int k;
 
-    public Process(List<ExtractorType> extractorTypes, FileType fileType) {
+    private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
+    public Process(
+            List<ExtractorType> extractorTypes,
+            FileType fileType,
+            MetricType metricType,
+            Measure measure,
+            int k
+    ) {
         extractorTypes.forEach(type -> extractors.add(ExtractorFactory.createExtractor(type)));
         reader = ReaderFactory.createReader(fileType);
+        metric = MetricFactory.createMetric(metricType);
+        this.measure = measure;
+        this.k = k;
     }
 
-    public Map<String, Double> process(List<String> filePaths) {
-        List<Article> articles = filePaths.stream()
+    public Map<String, Double> process(List<String> paths, double teachPart) {
+        List<Article> articles = paths.stream()
                 .map(path -> reader.read(path).orElse(null))
                 .filter(Objects::nonNull)
                 .flatMap(list -> list.getArticles().stream())

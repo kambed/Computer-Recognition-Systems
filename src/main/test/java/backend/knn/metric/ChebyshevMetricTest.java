@@ -2,7 +2,6 @@ package backend.knn.metric;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
@@ -23,7 +22,7 @@ class ChebyshevMetricTest {
     @ParameterizedTest
     @MethodSource("generateData")
     void chebyshevMetricCalculationTest(List<Double> vector1, List<Double> vector2, Double expected) {
-        assertEquals(expected, MetricFactory.createExtractor(MetricType.CHEBYSHEV)
+        assertEquals(expected, MetricFactory.createMetric(MetricType.CHEBYSHEV)
                 .calculateDistance(vector1, vector2), 0.001);
     }
 }

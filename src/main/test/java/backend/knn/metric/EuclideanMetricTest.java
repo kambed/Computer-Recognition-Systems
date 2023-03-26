@@ -22,7 +22,7 @@ class EuclideanMetricTest {
     @ParameterizedTest
     @MethodSource("generateData")
     void euclideanMetricCalculationTest(List<Double> vector1, List<Double> vector2, Double expected) {
-        assertEquals(expected, MetricFactory.createExtractor(MetricType.EUCLIDEAN)
+        assertEquals(expected, MetricFactory.createMetric(MetricType.EUCLIDEAN)
                 .calculateDistance(vector1, vector2), 0.001);
     }
 }
