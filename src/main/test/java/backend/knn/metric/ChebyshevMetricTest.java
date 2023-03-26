@@ -14,7 +14,7 @@ class ChebyshevMetricTest {
 
     static Stream<Arguments> generateData() {
         return Stream.of(
-                Arguments.of(List.of(0.3267, 0.8773, 0.44), List.of(0.6547, 0.8776, 0.0), 0.44),
+                Arguments.of(List.of(0.3267, 0.8773, 0.56), List.of(0.6547, 0.8776, 0.0), 0.56),
                 Arguments.of(List.of(1.0, 1.0, 1.0), List.of(0.0, 0.0, 0.0), 1.0),
                 Arguments.of(List.of(0.0, 0.0, 0.0), List.of(0.0, 0.0, 0.0), 0.0)
         );

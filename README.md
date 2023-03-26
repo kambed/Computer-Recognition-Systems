@@ -291,6 +291,7 @@ package measure {
         - shortestGram: int
         - longestGram: int
         + GeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram)
+        + calculateMetric(string text1, string text2): double
         + calculateMeasure(string text1, string text2): double
         - countCommonNgrams(string text1, string text2): int
     }
