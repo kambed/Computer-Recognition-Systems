@@ -23,6 +23,7 @@ class DaysFromCreationDateExtractorTest {
     public Stream<Arguments> extractTestDataProvider() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -10);
+        calendar.add(Calendar.HOUR, -2);
         return Stream.of(
                 Arguments.of(
                         Article.builder()
