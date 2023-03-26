@@ -394,7 +394,6 @@ package statistics {
 Process ...> ReaderFactory
 Process ...> ExtractorFactory
 Process ...> MetricFactory
-Process ...> MeasureFactory
 Process ...> KnnFactory
 Process ...> StatisticsFactory
 Process --> FileReader
@@ -403,10 +402,11 @@ Process --> Measure
 Process --> Statistics
 Process --> Knn
 Process ..> Root
+Process --> Measure
+ProcessFactory ..> Measure
 ProcessFactory ..> Process
 ProcessFactory ..> FileType
 ProcessFactory ..> MetricType
-ProcessFactory ..> MeasureType
 ReaderFactory ..> ExtractorType
 ```
 ### backend package and dependencies
