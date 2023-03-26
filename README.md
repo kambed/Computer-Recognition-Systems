@@ -75,18 +75,15 @@ package backend {
     enum MeasureType {
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
-    class MeasureFactory {
-        + {static} createGeneralizedNgramWithLimitationsMeasure(int n, int k): Measure
-    }
     class KnnFacade {
         + process(FileType fileType, string[] paths, ExtractorType[] extractorTypes, MetricType metricType, Measure measure, int k, double teachPart): string[][]
+        + createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
 }
 MainController ---> KnnFacade
 MainController ..> FileType
 MainController ..> MetricType
 MainController ..> MeasureType
-MainController ..> MeasureFactory
 MainController ..> ExtractorType
 ```
 ## Backend
@@ -319,11 +316,11 @@ package knn {
    
     package metric {
         interface Metric
-        Metric ..> Knn
+        Knn ..> Metric
     }
     package measure {
         interface Measure
-        Measure ..> Knn
+        Knn ..> Measure
     }
 }
 ```
@@ -402,7 +399,6 @@ Process --> Measure
 Process --> Statistics
 Process --> Knn
 Process ..> Root
-Process --> Measure
 ProcessFactory ..> Measure
 ProcessFactory ..> Process
 ProcessFactory ..> FileType
@@ -415,6 +411,7 @@ top to bottom direction
 package backend {
     class KnnFacade {
         + process(FileType fileType, MetricType metricType, Measure measure, int k, string path, double teachPart, string[][] features): double[]
+        + createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
     package process {
         class Process
