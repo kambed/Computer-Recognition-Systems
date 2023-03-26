@@ -316,12 +316,15 @@ package knn {
         + {static} createKnn(int k, string[][] trainData, Metric metric, Measure measure): Knn
     }
    KnnFactory ..> Knn
-}
-package metric {
-    Metric ..> Knn
-}
-package measure {
-    Measure ..> Knn
+   
+    package metric {
+        interface Metric
+        Metric ..> Knn
+    }
+    package measure {
+        interface Measure
+        Measure ..> Knn
+    }
 }
 ```
 ### statistics package and dependencies
