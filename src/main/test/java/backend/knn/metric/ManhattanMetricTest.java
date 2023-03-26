@@ -22,7 +22,7 @@ class ManhattanMetricTest {
     @ParameterizedTest
     @MethodSource("generateData")
     void manhattanMetricCalculationTest(List<Double> vector1, List<Double> vector2, Double expected) {
-        assertEquals(expected, MetricFactory.createExtractor(MetricType.MANHATTAN)
+        assertEquals(expected, MetricFactory.createMetric(MetricType.MANHATTAN)
                 .calculateDistance(vector1, vector2), 0.001);
     }
 }

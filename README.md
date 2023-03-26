@@ -356,8 +356,9 @@ package process {
         - Metric metric
         - Measure measure
         - Knn knn
-        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k, double teachPart)
-        + process(string[] paths)
+        - double k
+        + Process(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k)
+        + process(string[] paths, double teachPart): string[][]
     }
     class ProcessFactory {
         + {static} createProcess(ExtractorType[] extractorTypes, FileType fileType, MetricType metricType, Measure measure, int k): Process
@@ -414,7 +415,7 @@ ReaderFactory ..> ExtractorType
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(FileType fileType, MetricType metricType, Measure measure, int k, string path, double teachPart, string[][] features): double[]
+        + process(ExtractorType[] extractorTypes, FileType fileType, string[] paths, MetricType metricType, Measure measure, int k, double teachPart): double[]
         + createGeneralizedNgramMeasureWithLimitations(int shortestGram, int longestGram): Measure
     }
     package process {

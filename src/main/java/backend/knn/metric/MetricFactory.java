@@ -4,7 +4,7 @@ public class MetricFactory {
     private MetricFactory() {
     }
 
-    public static Metric createExtractor(MetricType type) {
+    public static Metric createMetric(MetricType type) {
         return type.getMetric();
     }
 }
