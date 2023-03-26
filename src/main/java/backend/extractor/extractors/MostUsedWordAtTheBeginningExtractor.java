@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MostUsedWordAtTheBeginningExtractor implements Extractor<String> {
+public class MostUsedWordAtTheBeginningExtractor extends Extractor<String> {
 
     private final List<String> stopWords = getStopWords().get("words");
     @Override

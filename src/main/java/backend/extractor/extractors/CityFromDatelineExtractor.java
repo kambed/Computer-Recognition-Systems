@@ -5,7 +5,7 @@ import backend.model.Article;
 
 import java.util.Optional;
 
-public class CityFromDatelineExtractor implements Extractor<String> {
+public class CityFromDatelineExtractor extends Extractor<String> {
     @Override
     public String extract(Article article) {
         return Optional.ofNullable(

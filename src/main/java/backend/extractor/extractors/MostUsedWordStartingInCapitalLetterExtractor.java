@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class MostUsedWordStartingInCapitalLetterExtractor implements Extractor<String> {
+public class MostUsedWordStartingInCapitalLetterExtractor extends Extractor<String> {
     @Override
     public String extract(Article article) {
         List<String> articleWords = List.of(article.getText().getText().trim().split("\\s+"));

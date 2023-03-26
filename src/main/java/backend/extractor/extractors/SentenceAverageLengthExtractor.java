@@ -6,7 +6,10 @@ import backend.model.Article;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class SentenceAverageLengthExtractor implements Extractor<Double> {
+public class SentenceAverageLengthExtractor extends Extractor<Double> {
+    public SentenceAverageLengthExtractor() {
+        domainMax = 150.0;
+    }
     @Override
     public Double extract(Article article) {
         return Optional.ofNullable(article.getText().getText())

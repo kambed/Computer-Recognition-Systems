@@ -6,12 +6,11 @@ import backend.model.Article;
 import backend.reader.CsvReader;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MostUsedCountryNameInTitleExtractor implements Extractor<String> {
+public class MostUsedCountryNameInTitleExtractor extends Extractor<String> {
     private final Map<String, List<String>> countriesSynonyms = getCountriesSynonyms();
 
     @SuppressWarnings("DuplicatedCode")
