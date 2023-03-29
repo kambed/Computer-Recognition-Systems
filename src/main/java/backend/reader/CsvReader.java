@@ -36,7 +36,7 @@ public class CsvReader {
             return Optional.empty();
         }
         return Optional.of(dictionary.entrySet()
-                .stream()
+                .parallelStream()
                 .sorted(Comparator.comparingInt(entry -> entry.getValue().size()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,

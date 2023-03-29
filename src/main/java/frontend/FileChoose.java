@@ -37,7 +37,7 @@ public class FileChoose {
             return Collections.emptyList();
         }
         lastUsedDir = chosenFiles.get(0).getAbsoluteFile().getParentFile().getAbsolutePath();
-        return chosenFiles.stream().map(File::getAbsolutePath).toList();
+        return chosenFiles.parallelStream().map(File::getAbsolutePath).toList();
     }
 }
 

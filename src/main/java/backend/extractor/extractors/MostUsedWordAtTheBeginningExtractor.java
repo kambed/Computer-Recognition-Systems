@@ -26,7 +26,7 @@ public class MostUsedWordAtTheBeginningExtractor extends Extractor<String> {
                         LinkedHashMap::new,
                         Collectors.counting()))
                 .entrySet()
-                .stream()
+                .parallelStream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse("");

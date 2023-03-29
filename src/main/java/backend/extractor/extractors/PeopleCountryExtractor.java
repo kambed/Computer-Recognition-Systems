@@ -16,11 +16,11 @@ public class PeopleCountryExtractor extends Extractor<String> {
     @Override
     public String extract(Article article) {
         return Optional.ofNullable(article.getPeople()).orElse(List.of())
-                .stream()
+                .parallelStream()
                 .map(String::toUpperCase)
-                .filter(person -> peopleCountry.values().stream().flatMap(Collection::stream).toList().contains(person))
+                .filter(person -> peopleCountry.values().parallelStream().flatMap(Collection::stream).toList().contains(person))
                 .map(person -> peopleCountry.entrySet()
-                        .stream()
+                        .parallelStream()
                         .filter(entry -> entry.getValue().contains(person))
                         .map(Map.Entry::getKey)
                         .findFirst()
@@ -31,7 +31,7 @@ public class PeopleCountryExtractor extends Extractor<String> {
                         LinkedHashMap::new,
                         Collectors.counting()))
                 .entrySet()
-                .stream()
+                .parallelStream()
                 .max(Map.Entry.comparingByValue())
                 .map(entry -> entry.getKey().toLowerCase())
                 .orElse("");

@@ -19,16 +19,16 @@ public class MostUsedCountryNameInTitleExtractor extends Extractor<String> {
         String title = article.getText().getTitle().toLowerCase();
 
         return countriesSynonyms.entrySet()
-                .stream()
+                .parallelStream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue()
-                                .stream()
+                                .parallelStream()
                                 .map(value -> StringUtils.countMatches(title, value))
                                 .reduce(0, Integer::sum)
                 ))
                 .entrySet()
-                .stream()
+                .parallelStream()
                 .max(Map.Entry.comparingByValue())
                 .filter(entry -> entry.getValue() > 0)
                 .map(Map.Entry::getKey)
