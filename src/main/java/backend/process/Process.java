@@ -17,7 +17,6 @@ import backend.statistics.StatisticsFactory;
 import javafx.util.Pair;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class Process {
     private final List<Extractor<?>> extractors = new LinkedList<>();
@@ -25,8 +24,6 @@ public class Process {
     private final Metric metric;
     private final Measure measure;
     private final int k;
-
-    private static final Logger LOGGER = Logger.getLogger(Process.class.getName());
 
     private final List<String> countriesOfInterest = List.of("west-germany", "usa", "france", "uk", "canada", "japan");
     public Process(
@@ -44,7 +41,6 @@ public class Process {
     }
 
     public Map<String, Double> process(List<String> paths, double teachPart) {
-        long start = System.currentTimeMillis();
         List<Article> articles = paths.parallelStream()
                 .map(path -> reader.read(path).orElse(null))
                 .filter(Objects::nonNull)
@@ -52,8 +48,6 @@ public class Process {
                 .filter(article -> article.getPlaces().size() == 1
                         && countriesOfInterest.contains(article.getPlaces().get(0)))
                 .toList();
-        LOGGER.info("Load files: " + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
         List<Pair<String,List<Object>>> expectedValueWithVector = articles.parallelStream()
                 .map(article -> new Pair<>(
                         article.getPlaces().get(0),
@@ -62,8 +56,6 @@ public class Process {
                                 .toList())
                 )
                 .toList();
-        LOGGER.info("Extract: " + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
 
         List<Pair<String, List<Object>>> trainData = expectedValueWithVector.parallelStream()
                 .limit((int) (expectedValueWithVector.size() * teachPart))
@@ -71,8 +63,6 @@ public class Process {
         List<Pair<String, List<Object>>> testData = expectedValueWithVector.parallelStream()
                 .skip((int) (expectedValueWithVector.size() * teachPart))
                 .toList();
-        LOGGER.info("Divide to test and teach parts: " + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
 
         Knn knn = new Knn(k, metric, measure, trainData);
 
@@ -80,18 +70,12 @@ public class Process {
                 .map(pair -> new Pair<>(pair.getKey(), knn.calculateKnn(pair.getValue())))
                 .toList();
 
-        LOGGER.info("Classification: " + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
-
         Statistics statistics = StatisticsFactory.createStatistics(expectedToReceivedValues);
         Map<String, Double> statisticsMap = new LinkedHashMap<>();
         statisticsMap.put("accuracy", statistics.calculateAccuracy());
         statistics.calculatePrecision().forEach((key, value) -> statisticsMap.put("Precision for " + key, value));
         statistics.calculateRecall().forEach((key, value) -> statisticsMap.put("Recall for " + key, value));
         statistics.calculateF1Score().forEach((key, value) -> statisticsMap.put("F1 score for " + key, value));
-
-        LOGGER.info("Calculate stats: " + (System.currentTimeMillis() - start));
-
         return statisticsMap;
     }
 }
