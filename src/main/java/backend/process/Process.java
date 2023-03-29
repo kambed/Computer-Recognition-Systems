@@ -73,9 +73,9 @@ public class Process {
         Statistics statistics = StatisticsFactory.createStatistics(expectedToReceivedValues);
         Map<String, Double> statisticsMap = new LinkedHashMap<>();
         statisticsMap.put("accuracy", statistics.calculateAccuracy());
-        statistics.calculatePrecision().forEach((key, value) -> statisticsMap.put("precision for " + key, value));
-        statistics.calculateRecall().forEach((key, value) -> statisticsMap.put("recall for " + key, value));
-        statistics.calculateF1Score().forEach((key, value) -> statisticsMap.put("f1Score for " + key, value));
+        statistics.calculatePrecision().forEach((key, value) -> statisticsMap.put("Precision for " + key, value));
+        statistics.calculateRecall().forEach((key, value) -> statisticsMap.put("Recall for " + key, value));
+        statistics.calculateF1Score().forEach((key, value) -> statisticsMap.put("F1 score for " + key, value));
         return statisticsMap;
     }
 }
