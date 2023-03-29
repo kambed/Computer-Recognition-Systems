@@ -15,9 +15,9 @@ import backend.reader.ReaderFactory;
 import backend.statistics.Statistics;
 import backend.statistics.StatisticsFactory;
 import javafx.util.Pair;
-import java.util.logging.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class Process {
     private final List<Extractor<?>> extractors = new LinkedList<>();
@@ -54,14 +54,14 @@ public class Process {
                 .toList();
         LOGGER.info("Load files: " + (System.currentTimeMillis() - start));
         start = System.currentTimeMillis();
-        List<Pair<String,List<Object>>> expectedValueWithVector = new ArrayList<>();
-        for (Article article : articles) {
-            List<Object> extractedFeatures = new ArrayList<>();
-            for (Extractor<?> extractor : extractors) {
-                extractedFeatures.add(extractor.extractAndNormalize(article));
-            }
-            expectedValueWithVector.add(new Pair<>(article.getPlaces().get(0), extractedFeatures));
-        }
+        List<Pair<String,List<Object>>> expectedValueWithVector = articles.parallelStream()
+                .map(article -> new Pair<>(
+                        article.getPlaces().get(0),
+                        extractors.parallelStream()
+                                .map(extractor -> extractor.extractAndNormalize(article))
+                                .toList())
+                )
+                .toList();
         LOGGER.info("Extract: " + (System.currentTimeMillis() - start));
         start = System.currentTimeMillis();
 
