@@ -27,7 +27,7 @@ public class MostUsedYearExtractor extends Extractor<Integer> {
                         LinkedHashMap::new,
                         Collectors.counting()))
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey).orElse("0"));
     }

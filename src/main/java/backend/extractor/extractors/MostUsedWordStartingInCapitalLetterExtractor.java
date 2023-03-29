@@ -30,7 +30,7 @@ public class MostUsedWordStartingInCapitalLetterExtractor extends Extractor<Stri
                         LinkedHashMap::new,
                         Collectors.counting()))
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .filter(entry -> entry.getKey().length() > 1)
                 .filter(entry -> (entry.getKey().charAt(0)) >= 65 &&
                         (entry.getKey().charAt(0)) <= 90)

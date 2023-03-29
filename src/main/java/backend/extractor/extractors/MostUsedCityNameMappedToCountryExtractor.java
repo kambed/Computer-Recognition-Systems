@@ -25,17 +25,17 @@ public class MostUsedCityNameMappedToCountryExtractor extends Extractor<String> 
                 .collect(Collectors.joining(" "));
 
         return citiesInCountries.entrySet()
-                .parallelStream()
+                .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue()
-                                .parallelStream()
+                                .stream()
                                 .filter(value -> StringUtils.countMatches(text, value) > 0)
                                 .distinct()
                                 .count()
                 ))
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .max(Map.Entry.comparingByValue())
                 .filter(entry -> entry.getValue() > 0)
                 .map(entry -> entry.getKey().toLowerCase())

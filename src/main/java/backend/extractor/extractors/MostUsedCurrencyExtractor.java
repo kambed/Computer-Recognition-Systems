@@ -18,16 +18,16 @@ public class MostUsedCurrencyExtractor extends Extractor<String> {
         String text = article.getText().getText().toLowerCase();
 
         return currenciesSynonyms.entrySet()
-                .parallelStream()
+                .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue()
-                                .parallelStream()
+                                .stream()
                                 .map(value -> StringUtils.countMatches(text, value))
                                 .reduce(0, Integer::sum)
                 ))
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .max(Map.Entry.comparingByValue())
                 .filter(entry -> entry.getValue() > 0)
                 .map(Map.Entry::getKey)
