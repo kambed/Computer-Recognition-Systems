@@ -9,6 +9,7 @@ import java.util.Map;
 public class Statistics {
     private final int total;
     private final Map<String, Map<String, Integer>> confusionMatrix = new HashMap<>();
+
     public Statistics(List<Pair<String, String>> expectedToReceivedValues) {
         total = expectedToReceivedValues.size();
         expectedToReceivedValues.forEach(pair -> {
@@ -43,13 +44,16 @@ public class Statistics {
         });
         precision.put("all", precision.entrySet()
                 .parallelStream()
-                .mapToDouble(e -> e.getValue() *
-                        confusionMatrix.get(e.getKey())
-                                .values()
-                                .stream()
-                                .mapToDouble(v -> v)
-                                .sum()
-                ).sum() / total);
+                .mapToDouble(e -> {
+                    if (Double.isNaN(e.getValue())) {
+                        return 0.0;
+                    }
+                    return e.getValue() * confusionMatrix.get(e.getKey())
+                            .values()
+                            .stream()
+                            .mapToDouble(v -> v)
+                            .sum();
+                }).sum() / total);
         return precision;
     }
 
@@ -64,13 +68,16 @@ public class Statistics {
         });
         recall.put("all", recall.entrySet()
                 .parallelStream()
-                .mapToDouble(e -> e.getValue() *
-                        confusionMatrix.get(e.getKey())
-                                .values()
-                                .stream()
-                                .mapToDouble(v -> v)
-                                .sum()
-                ).sum() / total);
+                .mapToDouble(e -> {
+                    if (Double.isNaN(e.getValue())) {
+                        return 0.0;
+                    }
+                    return e.getValue() * confusionMatrix.get(e.getKey())
+                            .values()
+                            .stream()
+                            .mapToDouble(v -> v)
+                            .sum();
+                }).sum() / total);
         return recall;
     }
 
@@ -86,13 +93,16 @@ public class Statistics {
         });
         f1Score.put("all", f1Score.entrySet()
                 .parallelStream()
-                .mapToDouble(e -> e.getValue() *
-                        confusionMatrix.get(e.getKey())
-                                .values()
-                                .stream()
-                                .mapToDouble(v -> v)
-                                .sum()
-                ).sum() / total);
+                .mapToDouble(e -> {
+                    if (Double.isNaN(e.getValue())) {
+                        return 0.0;
+                    }
+                    return e.getValue() * confusionMatrix.get(e.getKey())
+                            .values()
+                            .stream()
+                            .mapToDouble(v -> v)
+                            .sum();
+                }).sum() / total);
         return f1Score;
     }
 
