@@ -9,9 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -34,6 +36,9 @@ public class MainController implements Initializable {
     private TextField numberOfNeighborsTextField;
     @FXML
     private Slider teachPartSizeSlider;
+    @FXML
+    private GridPane resultGridPane;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.getItems().addAll(ExtractorType.values());
@@ -50,9 +55,10 @@ public class MainController implements Initializable {
         pathToArticles = FileChoose.choose("Open articles", actionEvent);
         startProcessButton.setDisable(false);
     }
+
     @FXML
     public void process() {
-        knnFacade.process(
+        Map<String, Double> results = knnFacade.process(
                 listView.getSelectionModel().getSelectedItems(),
                 FileType.SGM,
                 pathToArticles,
@@ -65,5 +71,17 @@ public class MainController implements Initializable {
                 teachPartSizeSlider.getValue() / 100.0
 
         );
+        resultGridPane.getChildren().clear();
+        results.forEach((key, value) -> {
+            resultGridPane.add(new Label(key), 0, resultGridPane.getRowCount());
+            if (!Double.isNaN(value)) {
+                value = Math.round(value * 1000) / 1000.0;
+            }
+            resultGridPane.add(
+                    new Label(Double.toString(value)),
+                    1,
+                    resultGridPane.getRowCount() - 1
+            );
+        });
     }
 }
