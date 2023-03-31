@@ -1,6 +1,7 @@
 package backend;
 
 import backend.extractor.ExtractorType;
+import backend.knn.dto.StatisticsDto;
 import backend.knn.measure.Measure;
 import backend.knn.measure.MeasureFactory;
 import backend.knn.metric.MetricType;
@@ -8,10 +9,9 @@ import backend.process.ProcessFactory;
 import backend.reader.FileType;
 
 import java.util.List;
-import java.util.Map;
 
 public class KnnFacade {
-    public Map<String, Double> process(
+    public StatisticsDto process(
             List<ExtractorType> types,
             FileType fileType,
             List<String> paths,

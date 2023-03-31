@@ -1,6 +1,7 @@
 package backend.statistics;
 
 import javafx.util.Pair;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 public class Statistics {
     private final int total;
+    @Getter
     private final Map<String, Map<String, Integer>> confusionMatrix = new HashMap<>();
     public Statistics(List<Pair<String, String>> expectedToReceivedValues) {
         total = expectedToReceivedValues.size();
@@ -100,7 +102,4 @@ public class Statistics {
         return total;
     }
 
-    public Map<String, Map<String, Integer>> getConfusionMatrix() {
-        return confusionMatrix;
-    }
 }
