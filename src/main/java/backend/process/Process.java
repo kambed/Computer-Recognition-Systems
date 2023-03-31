@@ -4,6 +4,7 @@ import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
 import backend.knn.Knn;
+import backend.knn.dto.StatisticsDto;
 import backend.knn.KnnFactory;
 import backend.knn.measure.Measure;
 import backend.knn.metric.Metric;
@@ -41,7 +42,7 @@ public class Process {
         this.k = k;
     }
 
-    public Map<String, Double> process(List<String> paths, double teachPart) {
+    public StatisticsDto process(List<String> paths, double teachPart) {
         List<Article> articles = paths.parallelStream()
                 .map(path -> reader.read(path).orElse(null))
                 .filter(Objects::nonNull)
@@ -77,6 +78,6 @@ public class Process {
         statistics.calculatePrecision().forEach((key, value) -> statisticsMap.put("Precision for " + key, value));
         statistics.calculateRecall().forEach((key, value) -> statisticsMap.put("Recall for " + key, value));
         statistics.calculateF1Score().forEach((key, value) -> statisticsMap.put("F1 score for " + key, value));
-        return statisticsMap;
+        return new StatisticsDto(statisticsMap, statistics.getConfusionMatrix(), countriesOfInterest);
     }
 }
