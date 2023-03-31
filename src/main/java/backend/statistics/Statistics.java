@@ -25,7 +25,7 @@ public class Statistics {
             return 0;
         }
         int correct = confusionMatrix.entrySet()
-                .stream()
+                .parallelStream()
                 .map(entry -> entry.getValue().getOrDefault(entry.getKey(), 0))
                 .reduce(0, Integer::sum);
         return (double) correct / total;
@@ -36,7 +36,7 @@ public class Statistics {
         confusionMatrix.forEach((expectedValue, receivedValues) -> {
             int classCorrect = receivedValues.getOrDefault(expectedValue, 0);
             int classTotal = confusionMatrix.values()
-                    .stream()
+                    .parallelStream()
                     .mapToInt(map -> map.getOrDefault(expectedValue, 0))
                     .sum();
             precision.put(expectedValue, (double) classCorrect / classTotal);
@@ -49,7 +49,7 @@ public class Statistics {
         confusionMatrix.forEach((expectedValue, receivedValues) -> {
             int classCorrect = receivedValues.getOrDefault(expectedValue, 0);
             int classExpectedTotal = receivedValues.values()
-                    .stream()
+                    .parallelStream()
                     .reduce(0, Integer::sum);
             recall.put(expectedValue, (double) classCorrect / classExpectedTotal);
         });

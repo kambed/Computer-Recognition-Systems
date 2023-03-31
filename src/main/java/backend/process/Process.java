@@ -41,32 +41,32 @@ public class Process {
     }
 
     public Map<String, Double> process(List<String> paths, double teachPart) {
-        List<Article> articles = paths.stream()
+        List<Article> articles = paths.parallelStream()
                 .map(path -> reader.read(path).orElse(null))
                 .filter(Objects::nonNull)
-                .flatMap(list -> list.getArticles().stream())
+                .flatMap(list -> list.getArticles().parallelStream())
                 .filter(article -> article.getPlaces().size() == 1
                         && countriesOfInterest.contains(article.getPlaces().get(0)))
                 .toList();
-        List<Pair<String,List<Object>>> expectedValueWithVector = new ArrayList<>();
-        for (Article article : articles) {
-            List<Object> extractedFeatures = new ArrayList<>();
-            for (Extractor<?> extractor : extractors) {
-                extractedFeatures.add(extractor.extractAndNormalize(article));
-            }
-            expectedValueWithVector.add(new Pair<>(article.getPlaces().get(0), extractedFeatures));
-        }
+        List<Pair<String,List<Object>>> expectedValueWithVector = articles.parallelStream()
+                .map(article -> new Pair<>(
+                        article.getPlaces().get(0),
+                        extractors.parallelStream()
+                                .map(extractor -> extractor.extractAndNormalize(article))
+                                .toList())
+                )
+                .toList();
 
-        List<Pair<String, List<Object>>> trainData = expectedValueWithVector.stream()
+        List<Pair<String, List<Object>>> trainData = expectedValueWithVector.parallelStream()
                 .limit((int) (expectedValueWithVector.size() * teachPart))
                 .toList();
-        List<Pair<String, List<Object>>> testData = expectedValueWithVector.stream()
+        List<Pair<String, List<Object>>> testData = expectedValueWithVector.parallelStream()
                 .skip((int) (expectedValueWithVector.size() * teachPart))
                 .toList();
 
         Knn knn = new Knn(k, metric, measure, trainData);
 
-        List<Pair<String, String>> expectedToReceivedValues = testData.stream()
+        List<Pair<String, String>> expectedToReceivedValues = testData.parallelStream()
                 .map(pair -> new Pair<>(pair.getKey(), knn.calculateKnn(pair.getValue())))
                 .toList();
 
