@@ -49,6 +49,7 @@ class StatisticsTest {
         assertEquals(1.0, precision.get("a"));
         assertEquals(0.5, precision.get("b"));
         assertEquals(1.0 / 3.0, precision.get("c"));
+        assertEquals(0.638, precision.get("all"), 0.001);
     }
 
     @Test
@@ -57,6 +58,7 @@ class StatisticsTest {
         assertEquals(0.5, recall.get("a"));
         assertEquals(1.0 / 3.0, recall.get("b"));
         assertEquals(1.0, recall.get("c"));
+        assertEquals(0.500, recall.get("all"), 0.001);
     }
 
     @Test
@@ -65,5 +67,6 @@ class StatisticsTest {
         assertEquals(1.0 / 1.5, f1Score.get("a"));
         assertEquals(0.4, f1Score.get("b"));
         assertEquals(0.5, f1Score.get("c"));
+        assertEquals(0.505, f1Score.get("all"), 0.001);
     }
 }

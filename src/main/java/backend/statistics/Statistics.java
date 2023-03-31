@@ -41,6 +41,15 @@ public class Statistics {
                     .sum();
             precision.put(expectedValue, (double) classCorrect / classTotal);
         });
+        precision.put("all", precision.entrySet()
+                .parallelStream()
+                .mapToDouble(e -> e.getValue() *
+                        confusionMatrix.get(e.getKey())
+                                .values()
+                                .stream()
+                                .mapToDouble(v -> v)
+                                .sum()
+                ).sum() / total);
         return precision;
     }
 
@@ -53,6 +62,15 @@ public class Statistics {
                     .reduce(0, Integer::sum);
             recall.put(expectedValue, (double) classCorrect / classExpectedTotal);
         });
+        recall.put("all", recall.entrySet()
+                .parallelStream()
+                .mapToDouble(e -> e.getValue() *
+                        confusionMatrix.get(e.getKey())
+                                .values()
+                                .stream()
+                                .mapToDouble(v -> v)
+                                .sum()
+                ).sum() / total);
         return recall;
     }
 
@@ -60,10 +78,21 @@ public class Statistics {
         Map<String, Double> f1Score = new HashMap<>();
         Map<String, Double> precision = calculatePrecision();
         Map<String, Double> recall = calculateRecall();
+        precision.remove("all");
+        recall.remove("all");
         precision.forEach((key, value) -> {
             double recallValue = recall.get(key);
             f1Score.put(key, 2 * value * recallValue / (value + recallValue));
         });
+        f1Score.put("all", f1Score.entrySet()
+                .parallelStream()
+                .mapToDouble(e -> e.getValue() *
+                        confusionMatrix.get(e.getKey())
+                                .values()
+                                .stream()
+                                .mapToDouble(v -> v)
+                                .sum()
+                ).sum() / total);
         return f1Score;
     }
 
