@@ -4,6 +4,7 @@ import backend.extractor.Extractor;
 import backend.extractor.ExtractorFactory;
 import backend.extractor.ExtractorType;
 import backend.knn.Knn;
+import backend.knn.KnnFactory;
 import backend.knn.measure.Measure;
 import backend.knn.metric.Metric;
 import backend.knn.metric.MetricFactory;
@@ -64,7 +65,7 @@ public class Process {
                 .skip((int) (expectedValueWithVector.size() * teachPart))
                 .toList();
 
-        Knn knn = new Knn(k, metric, measure, trainData);
+        Knn knn = KnnFactory.createKnn(k, metric, measure, trainData);
 
         List<Pair<String, String>> expectedToReceivedValues = testData.parallelStream()
                 .map(pair -> new Pair<>(pair.getKey(), knn.calculateKnn(pair.getValue())))
