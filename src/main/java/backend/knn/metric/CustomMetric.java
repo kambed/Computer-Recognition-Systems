@@ -10,8 +10,12 @@ public class CustomMetric implements Metric {
             return Double.MAX_VALUE;
         }
         return Math.sqrt(IntStream.range(0, vector1.size())
-                .mapToDouble(i -> (vector1.get(i) - vector2.get(i) + Math.max(((1 - Math.sin(vector1.get(i) * Math.PI)) / 10), ((1 - Math.sin(vector2.get(i) * Math.PI)) / 10))) *
-                        (vector1.get(i) - vector2.get(i) + Math.max(((1 - Math.sin(vector1.get(i) * Math.PI)) / 10), ((1 - Math.sin(vector2.get(i) * Math.PI)) / 10))))
+                .mapToDouble(i -> (vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20))) *
+                        (vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20))))
                 .sum());
+    }
+
+    private double calculateGaussian(double x) {
+        return (1 / (0.17 * Math.sqrt(2 * Math.PI))) * Math.exp((-((x - 0.5) * (x - 0.5)))/(2 * 0.17 * 0.17));
     }
 }
