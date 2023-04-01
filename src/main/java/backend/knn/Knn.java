@@ -24,10 +24,10 @@ public class Knn {
     }
 
     public String calculateKnn(List<Object> vector) {
-        List<Pair<String, Double>> distances = trainingData.parallelStream()
+        List<Pair<String, Double>> distances = trainingData.stream()
                 .map(pair -> {
                     List<Object> values = pair.getValue();
-                    List<Double> trainingVector = values.parallelStream()
+                    List<Double> trainingVector = values.stream()
                             .map(value -> {
                                 if (value instanceof Number numberValue) {
                                     return numberValue.doubleValue();
@@ -49,12 +49,12 @@ public class Knn {
                 })
                 .toList();
         return distances
-                .parallelStream()
+                .stream()
                 .sorted(Comparator.comparing(Pair::getValue))
                 .limit(k)
                 .collect(Collectors.groupingBy(Pair::getKey, Collectors.counting()))
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .max(Map.Entry.comparingByValue())
                 .orElseThrow()
                 .getKey();
