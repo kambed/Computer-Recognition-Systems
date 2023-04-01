@@ -9,8 +9,13 @@ public class CustomMetric implements Metric {
         if (vector1.size() != vector2.size()) {
             return Double.MAX_VALUE;
         }
+        return Math.max(calculateMeasure(vector1, vector2), calculateMeasure(vector2, vector1));
+    }
+
+    private double calculateMeasure(List<Double> vector1, List<Double> vector2) {
         return Math.sqrt(IntStream.range(0, vector1.size())
-                .mapToDouble(i -> Math.abs((vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20)))))
+                .mapToDouble(i -> Math.abs((vector1.get(i) - vector2.get(i) +
+                        Math.max(((2.4 - calculateGaussian(vector1.get(i))) / 20), ((2.4 - calculateGaussian(vector2.get(i))) / 20)))))
                 .sum());
     }
 
