@@ -10,8 +10,7 @@ public class CustomMetric implements Metric {
             return Double.MAX_VALUE;
         }
         return Math.sqrt(IntStream.range(0, vector1.size())
-                .mapToDouble(i -> (vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20))) *
-                        (vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20))))
+                .mapToDouble(i -> Math.abs((vector1.get(i) - vector2.get(i) + Math.max(((1 - calculateGaussian(vector1.get(i))) / 20), ((1 - calculateGaussian(vector2.get(i))) / 20)))))
                 .sum());
     }
 
