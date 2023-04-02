@@ -20,6 +20,6 @@ public class CustomMetric implements Metric {
     }
 
     private double calculateGaussian(double x) {
-        return (1 / (0.17 * Math.sqrt(2 * Math.PI))) * Math.exp((-((x - 0.5) * (x - 0.5)))/(2 * 0.17 * 0.17));
+        return (1 / (0.17 * Math.sqrt(2 * Math.PI))) * Math.exp((-((x - 0.5) * (x - 0.5))) / (2 * 0.17 * 0.17));
     }
 }
