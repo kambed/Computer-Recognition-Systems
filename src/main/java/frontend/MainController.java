@@ -2,6 +2,7 @@ package frontend;
 
 import backend.KnnFacade;
 import backend.extractor.ExtractorType;
+import backend.knn.dto.StatisticsDto;
 import backend.knn.measure.MeasureType;
 import backend.knn.metric.MetricType;
 import backend.reader.FileType;
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController implements Initializable {
     public static final String RESOURCE = "main-view.fxml";
@@ -38,6 +40,8 @@ public class MainController implements Initializable {
     private Slider teachPartSizeSlider;
     @FXML
     private GridPane resultGridPane;
+    @FXML
+    public GridPane confusionMatrixGrid;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,7 +62,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void process() {
-        Map<String, Double> results = knnFacade.process(
+        StatisticsDto results = knnFacade.process(
                 listView.getSelectionModel().getSelectedItems(),
                 FileType.SGM,
                 pathToArticles,
@@ -72,7 +76,7 @@ public class MainController implements Initializable {
 
         );
         resultGridPane.getChildren().clear();
-        results.forEach((key, value) -> {
+        results.statistics().forEach((key, value) -> {
             resultGridPane.add(new Label(key), 0, resultGridPane.getRowCount());
             if (!Double.isNaN(value)) {
                 value = Math.round(value * 1000) / 1000.0;
@@ -82,6 +86,26 @@ public class MainController implements Initializable {
                     1,
                     resultGridPane.getRowCount() - 1
             );
+        });
+        confusionMatrixGrid.getChildren().clear();
+        AtomicInteger labelColumn = new AtomicInteger(1);
+        results.classes().forEach(country -> confusionMatrixGrid.add(
+                new Label(country),
+                labelColumn.getAndIncrement(),
+                0
+        ));
+        AtomicInteger row = new AtomicInteger(1);
+        AtomicInteger column = new AtomicInteger(1);
+        results.classes().forEach(countryRow -> {
+            confusionMatrixGrid.add(new Label(countryRow), 0, row.get());
+            Map<String, Integer> confusionMatrixRow = results.confusionMatrix().getOrDefault(countryRow, Map.of());
+            results.classes().forEach(countryColumn -> confusionMatrixGrid.add(
+                    new Label(confusionMatrixRow.getOrDefault(countryColumn, 0).toString()),
+                    column.getAndIncrement(),
+                    row.get()
+            ));
+            row.getAndIncrement();
+            column.set(1);
         });
     }
 }

@@ -1,6 +1,7 @@
 package backend.statistics;
 
 import javafx.util.Pair;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 public class Statistics {
     private final int total;
+    @Getter
     private final Map<String, Map<String, Integer>> confusionMatrix = new HashMap<>();
 
     public Statistics(List<Pair<String, String>> expectedToReceivedValues) {
@@ -42,18 +44,22 @@ public class Statistics {
                     .sum();
             precision.put(expectedValue, (double) classCorrect / classTotal);
         });
+        int weightSum = (int) precision.entrySet()
+                .parallelStream()
+                .filter(e -> !Double.isNaN(e.getValue()))
+                .mapToDouble(e -> confusionMatrix.get(e.getKey())
+                        .values()
+                        .stream()
+                        .mapToDouble(v -> v)
+                        .sum()).sum();
         precision.put("all", precision.entrySet()
                 .parallelStream()
-                .mapToDouble(e -> {
-                    if (Double.isNaN(e.getValue())) {
-                        return 0.0;
-                    }
-                    return e.getValue() * confusionMatrix.get(e.getKey())
-                            .values()
-                            .stream()
-                            .mapToDouble(v -> v)
-                            .sum();
-                }).sum() / total);
+                .filter(e -> !Double.isNaN(e.getValue()))
+                .mapToDouble(e -> e.getValue() * confusionMatrix.get(e.getKey())
+                        .values()
+                        .stream()
+                        .mapToDouble(v -> v)
+                        .sum()).sum() / weightSum);
         return precision;
     }
 
@@ -68,16 +74,11 @@ public class Statistics {
         });
         recall.put("all", recall.entrySet()
                 .parallelStream()
-                .mapToDouble(e -> {
-                    if (Double.isNaN(e.getValue())) {
-                        return 0.0;
-                    }
-                    return e.getValue() * confusionMatrix.get(e.getKey())
-                            .values()
-                            .stream()
-                            .mapToDouble(v -> v)
-                            .sum();
-                }).sum() / total);
+                .mapToDouble(e -> e.getValue() * confusionMatrix.get(e.getKey())
+                        .values()
+                        .stream()
+                        .mapToDouble(v -> v)
+                        .sum()).sum() / total);
         return recall;
     }
 
@@ -91,6 +92,14 @@ public class Statistics {
             double recallValue = recall.get(key);
             f1Score.put(key, 2 * value * recallValue / (value + recallValue));
         });
+        int weightSum = (int) precision.entrySet()
+                .parallelStream()
+                .filter(e -> !Double.isNaN(e.getValue()))
+                .mapToDouble(e -> confusionMatrix.get(e.getKey())
+                        .values()
+                        .stream()
+                        .mapToDouble(v -> v)
+                        .sum()).sum();
         f1Score.put("all", f1Score.entrySet()
                 .parallelStream()
                 .mapToDouble(e -> {
@@ -102,7 +111,7 @@ public class Statistics {
                             .stream()
                             .mapToDouble(v -> v)
                             .sum();
-                }).sum() / total);
+                }).sum() / weightSum);
         return f1Score;
     }
 
@@ -110,7 +119,4 @@ public class Statistics {
         return total;
     }
 
-    public Map<String, Map<String, Integer>> getConfusionMatrix() {
-        return confusionMatrix;
-    }
 }

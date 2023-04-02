@@ -76,7 +76,7 @@ package backend {
         GENERALIZED_NGRAM_WITH_LIMITATIONS
     }
     class KnnFacade {
-        + process(fileType: FileType, paths: String[], extractorTypes: ExtractorType[], metricType: MetricType, measure: Measure, k: int, teachPart: double): String[][]
+        + process(fileType: FileType, paths: String[], extractorTypes: ExtractorType[], metricType: MetricType, measure: Measure, k: int, teachPart: double): StatisticsDto
         + createGeneralizedNgramMeasureWithLimitations(shortestGram: int, longestGram: int): Measure
     }
 }
@@ -360,7 +360,7 @@ package process {
         - knn: Knn
         - k: double
         + Process(extractorTypes: ExtractorType[], fileType: FileType, metricType: MetricType, measure: Measure, k: int)
-        + process(paths: String[], teachPart: double): String[][]
+        + process(paths: String[], teachPart: double): StatisticsDto
     }
     class ProcessFactory {
         + {static} createProcess(extractorTypes: ExtractorType[], fileType: FileType, metricType: MetricType, measure: Measure, k:int): Process
@@ -417,8 +417,13 @@ ReaderFactory ..> ExtractorType
 top to bottom direction
 package backend {
     class KnnFacade {
-        + process(extractorTypes: ExtractorType[], fileType: FileType, paths: String[], metricType: MetricType, measure: Measure, k: int, teachPart: double): double[]
+        + process(extractorTypes: ExtractorType[], fileType: FileType, paths: String[], metricType: MetricType, measure: Measure, k: int, teachPart: double): StatisticsDto
         + createGeneralizedNgramMeasureWithLimitations(shortestGram: int, longestGram: int): Measure
+    }
+    class StatisticsDto {
+        + statistics: double[]
+        + confusionMatrix: int[][]
+        + classes: String[]
     }
     package process {
         class Process

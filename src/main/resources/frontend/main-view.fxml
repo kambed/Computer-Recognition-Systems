@@ -55,7 +55,8 @@
         </VBox>
         <VBox spacing="10" HBox.hgrow="ALWAYS">
             <Label text="Extractors:" />
-            <ListView fx:id="listView" maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" />
+            <ListView fx:id="listView" />
+            <GridPane fx:id="confusionMatrixGrid" gridLinesVisible="true" alignment="CENTER" hgap="5" vgap="5" />
         </VBox>
     </HBox>
 </VBox>
