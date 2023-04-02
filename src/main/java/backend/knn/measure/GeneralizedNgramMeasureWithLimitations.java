@@ -19,9 +19,6 @@ public class GeneralizedNgramMeasureWithLimitations implements Measure {
 
     @Override
     public double calculateMeasure(String text1, String text2) {
-        if (text1.isEmpty() && text2.isEmpty()) {
-            return 1;
-        }
         int N = Math.max(text1.length(), text2.length());
         String text1Preformatted = text1.toLowerCase().trim();
         String text2Preformatted = text2.toLowerCase().trim();
