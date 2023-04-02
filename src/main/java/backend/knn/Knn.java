@@ -27,19 +27,19 @@ public class Knn {
         List<Pair<String, Double>> distances = trainingData.stream()
                 .map(pair -> {
                     List<Object> values = pair.getValue();
-                    List<Double> trainingVector = values.stream()
-                            .map(value -> {
-                                if (value instanceof Number numberValue) {
+                    List<Double> trainingVector = IntStream.range(0, values.size())
+                            .mapToDouble(i -> {
+                                if (values.get(i) instanceof Number numberValue) {
                                     return numberValue.doubleValue();
-                                } else {
-                                    return 0.0;
+                                } else if(values.get(i) instanceof String stringFeature) {
+                                    return 0.5 - (measure.calculateMetric(stringFeature, (String) vector.get(i)) / 2);
                                 }
-                            })
-                            .toList();
+                                return 0.0;
+                            }).boxed().toList();
                     List<Double> vectorToCalculate = IntStream.range(0, vector.size())
                             .mapToDouble(i -> {
                                 if (vector.get(i) instanceof String stringFeature) {
-                                    return measure.calculateMetric(stringFeature, (String) values.get(i));
+                                    return 0.5 + (measure.calculateMetric(stringFeature, (String) values.get(i)) / 2);
                                 } else if (vector.get(i) instanceof Double numberFeature) {
                                     return numberFeature;
                                 }
