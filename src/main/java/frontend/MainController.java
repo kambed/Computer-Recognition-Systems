@@ -77,7 +77,9 @@ public class MainController implements Initializable {
                 "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" color=\"black\">"
         );
         int numCols = gridPane.getColumnCount();
-        html.append("<tr><td></td>");
+        if (gridPane.getId().equals(confusionMatrixGrid.getId())) {
+            html.append("<tr><td></td>");
+        }
         gridPane.getChildren().forEach(node -> {
             if (GridPane.getColumnIndex(node) == 0) {
                 html.append("<tr>");
