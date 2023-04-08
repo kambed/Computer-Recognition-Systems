@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -52,6 +54,43 @@ public class MainController implements Initializable {
 
         measureComboBox.getItems().addAll(MeasureType.values());
         measureComboBox.getSelectionModel().select(MeasureType.GENERALIZED_NGRAM_WITH_LIMITATIONS);
+
+        resultGridPane.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode().toString().equals("C")) {
+                copyToClipboard(resultGridPane);
+            }
+        });
+        resultGridPane.setOnMouseEntered(mouseEvent -> resultGridPane.requestFocus());
+        resultGridPane.setOnMouseExited(mouseEvent -> resultGridPane.getParent().requestFocus());
+
+        confusionMatrixGrid.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode().toString().equals("C")) {
+                copyToClipboard(confusionMatrixGrid);
+            }
+        });
+        confusionMatrixGrid.setOnMouseEntered(mouseEvent -> confusionMatrixGrid.requestFocus());
+        confusionMatrixGrid.setOnMouseExited(mouseEvent -> confusionMatrixGrid.getParent().requestFocus());
+    }
+
+    private void copyToClipboard(GridPane gridPane) {
+        StringBuilder html = new StringBuilder(
+                "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" color=\"black\">"
+        );
+        int numCols = gridPane.getColumnCount();
+        html.append("<tr><td></td>");
+        gridPane.getChildren().forEach(node -> {
+            if (GridPane.getColumnIndex(node) == 0) {
+                html.append("<tr>");
+            }
+            html.append("<td>").append(((Label)node).getText()).append("</td>");
+            if (GridPane.getColumnIndex(node) == numCols - 1) {
+                html.append("</tr>");
+            }
+        });
+        html.append("</table>");
+        ClipboardContent content = new ClipboardContent();
+        content.putHtml(html.toString());
+        Clipboard.getSystemClipboard().setContent(content);
     }
 
     @FXML
