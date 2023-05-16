@@ -1,62 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox maxHeight="Infinity" maxWidth="Infinity" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.MainController" prefHeight="700" prefWidth="800">
-    <padding>
-        <Insets bottom="10" left="10" right="10" top="10" />
-    </padding>
-    <HBox spacing="10" VBox.vgrow="ALWAYS">
-        <VBox spacing="10" VBox.vgrow="ALWAYS">
-            <GridPane hgap="10" vgap="10">
-                <Label text="Files:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <Button maxWidth="Infinity" text="Load files"
-                        GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                <Label text="Metric:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <ComboBox fx:id="metricComboBox" promptText="Choose metric" GridPane.columnIndex="1"
-                          GridPane.rowIndex="1" maxWidth="Infinity" />
-
-                <Label text="Measure:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <ComboBox fx:id="measureComboBox" disable="true" promptText="Choose measure" GridPane.columnIndex="1"
-                          GridPane.rowIndex="2" maxWidth="Infinity" />
-
-                <Label text="Shortest gram:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <TextField fx:id="shortestGramTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                <Label text="Longest gram:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                <TextField fx:id="longestGramTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                <Label text="Number of neighbors:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <TextField fx:id="numberOfNeighborsTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                <Label text="First x% is teach part:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <Slider fx:id="teachPartSizeSlider" majorTickUnit="20.0" max="90" min="10" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <columnConstraints>
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
-            </GridPane>
-            <Button fx:id="startProcessButton" disable="true" maxWidth="Infinity" text="Start processing" />
-
-            <GridPane fx:id="resultGridPane" hgap="10" />
-        </VBox>
-        <VBox spacing="10" HBox.hgrow="ALWAYS">
-            <Label text="Extractors:" />
-            <ListView fx:id="listView" />
-            <GridPane fx:id="confusionMatrixGrid" gridLinesVisible="true" alignment="CENTER" hgap="5" vgap="5" />
-        </VBox>
-    </HBox>
 </VBox>
