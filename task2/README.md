@@ -44,3 +44,16 @@ package data {
     end note
 }
 ```
+## Functions
+
+```plantuml
+package functions {
+    abstract class AbstractFunction {
+        - function: Function
+        + getValue(double): double
+    }
+    class GaussianFunction extends AbstractFunction
+    class TrapezoidalFunction extends AbstractFunction
+    class TriangularFunction extends TrapezoidalFunction
+}
+```

@@ -1,13 +1,10 @@
 package backend.functions;
 
-import java.util.function.Function;
 
-public class TrapezoidalFunction {
-
-    private final Function<Double, Double> trapezoidal;
+public class TrapezoidalFunction extends AbstractFunction {
 
     public TrapezoidalFunction(double minSupp, double minHeight, double maxHeight, double maxSupp) {
-        this.trapezoidal = x -> {
+        super(x -> {
             if (x < minSupp || x > maxSupp) {
                 return 0.0;
             } else if (x >= minSupp && x <= minHeight) {
@@ -17,10 +14,6 @@ public class TrapezoidalFunction {
             } else {
                 return 1.0;
             }
-        };
-    }
-
-    public double getValue(double x) {
-        return trapezoidal.apply(x);
+        });
     }
 }
