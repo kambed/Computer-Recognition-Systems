@@ -54,9 +54,24 @@ package data {
 
 ```plantuml
 package functions {
+    package {
+        interface Domain {
+            + isMember(double): boolean
+        }
+        class ContinuousDomain interface Domain {
+            - from: double
+            - to: double
+        }
+        class DiscreteDomain interface Domain {
+            - values: double[]
+        }
+    }
     abstract class AbstractFunction {
         - function: Function
+        - domain: Domain
         + getValue(double): double
+        + isDiscrete(): boolean
+        + isContinuous(): boolean
     }
     class GaussianFunction extends AbstractFunction
     class TrapezoidalFunction extends AbstractFunction
