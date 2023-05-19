@@ -13,12 +13,13 @@ frontend ..> backend: <<import>>
 package data {
     package model {
         class Stats {
+            - id: int
             - driver: String
             - team: String
             - track: String
-            - year: double
-            - finishPosition: double
-            - startPosition: double
+            - year: int
+            - finishPosition: int
+            - startPosition: int
             - numberOfLaps: double
             - numberOfPoints: double
             - driverAge: double
@@ -26,6 +27,11 @@ package data {
             - fastestLap: double
             - fastestLapSpeed: double
             - fastestPitStop: double
+            - fastestQualificationLap: double
+            - raceDate: Date
+            - raceTime: Time
+            - trackLatitude: double
+            - trackLongitude: double
         }
     }
     package repository {
