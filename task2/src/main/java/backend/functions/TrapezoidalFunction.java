@@ -1,10 +1,17 @@
 package backend.functions;
 
 
+import backend.domain.ContinuousDomain;
+import backend.domain.Domain;
+
 public class TrapezoidalFunction extends AbstractFunction {
 
     public TrapezoidalFunction(double minSupp, double minHeight, double maxHeight, double maxSupp) {
-        super(x -> {
+        this(new ContinuousDomain(-Double.MAX_VALUE, Double.MAX_VALUE), minSupp, minHeight, maxHeight, maxSupp);
+    }
+
+    public TrapezoidalFunction(Domain domain, double minSupp, double minHeight, double maxHeight, double maxSupp) {
+        super(domain, x -> {
             if (x < minSupp || x > maxSupp) {
                 return 0.0;
             } else if (x >= minSupp && x <= minHeight) {
