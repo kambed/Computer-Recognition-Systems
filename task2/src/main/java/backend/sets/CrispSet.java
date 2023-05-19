@@ -1,16 +1,13 @@
 package backend.sets;
 
-import backend.functions.AbstractFunction;
-import backend.functions.RectangularFunction;
+import backend.functions.DefaultFunction;
+import lombok.Getter;
 
+@Getter
 public class CrispSet {
-    private final AbstractFunction function;
+    private final DefaultFunction function;
 
-    public CrispSet(RectangularFunction function) {
-        this.function = function;
-    }
-
-    protected CrispSet(AbstractFunction function) {
+    public CrispSet(DefaultFunction function) {
         this.function = function;
     }
 }

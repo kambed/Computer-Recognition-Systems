@@ -4,7 +4,7 @@ package backend.functions;
 import backend.domain.ContinuousDomain;
 import backend.domain.Domain;
 
-public class TrapezoidalFunction extends AbstractFunction {
+public class TrapezoidalFunction extends DefaultFunction {
 
     public TrapezoidalFunction(double minSupp, double minHeight, double maxHeight, double maxSupp) {
         this(new ContinuousDomain(-Double.MAX_VALUE, Double.MAX_VALUE), minSupp, minHeight, maxHeight, maxSupp);

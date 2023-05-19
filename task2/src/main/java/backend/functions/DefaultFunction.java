@@ -1,14 +1,16 @@
 package backend.functions;
 
 import backend.domain.Domain;
+import lombok.Getter;
 
 import java.util.function.DoubleFunction;
 
-public class AbstractFunction {
+@Getter
+public class DefaultFunction {
     protected final DoubleFunction<Double> function;
     protected final Domain domain;
 
-    public AbstractFunction(Domain domain, DoubleFunction<Double> function) {
+    public DefaultFunction(Domain domain, DoubleFunction<Double> function) {
         this.domain = domain;
         this.function = function;
     }
