@@ -22,22 +22,21 @@ public class StatsRepository {
         password = dotenv.get("MYSQL_PASSWORD");
     }
 
-    public static StatsRepository getInstance() {
+    public static List<Stats> getStats() {
         if (instance == null) {
             instance = new StatsRepository();
         }
-        return instance;
-    }
-
-    public List<Stats> getStats() {
-        try (Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+        if (!instance.stats.isEmpty()) {
+            return new ArrayList<>(instance.stats);
+        }
+        try (Connection conn = DriverManager.getConnection(instance.connectionUrl, instance.user, instance.password);
              PreparedStatement ps = conn.prepareStatement("SELECT * FROM stats");
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Time raceTime = rs.getTime("race_time");
                 Date raceDate = rs.getDate("race_date");
-                stats.add(
+                instance.stats.add(
                         Stats.builder()
                                 .id(rs.getInt("id"))
                                 .driver(rs.getString("driver"))
@@ -61,7 +60,7 @@ public class StatsRepository {
                                 .build()
                 );
             }
-            return stats;
+            return new ArrayList<>(instance.stats);
         } catch (SQLException e) {
             //ignored
         }
