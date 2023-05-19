@@ -1,5 +1,6 @@
 package backend.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DiscreteDomain implements Domain {
@@ -12,6 +13,16 @@ public class DiscreteDomain implements Domain {
     @Override
     public boolean isMember(double value) {
         return values.contains(value);
+    }
+
+    @Override
+    public double getMin() {
+        return Collections.min(values);
+    }
+
+    @Override
+    public double getMax() {
+        return Collections.max(values);
     }
 
     @Override

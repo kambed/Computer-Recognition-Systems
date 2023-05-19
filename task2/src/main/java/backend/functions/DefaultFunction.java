@@ -21,4 +21,12 @@ public class DefaultFunction {
         }
         return function.apply(x);
     }
+
+    public double getMin() {
+        return domain.getMin();
+    }
+
+    public double getMax() {
+        return domain.getMax();
+    }
 }

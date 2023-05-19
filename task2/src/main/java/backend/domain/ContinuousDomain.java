@@ -15,6 +15,16 @@ public class ContinuousDomain implements Domain {
     }
 
     @Override
+    public double getMin() {
+        return from;
+    }
+
+    @Override
+    public double getMax() {
+        return to;
+    }
+
+    @Override
     public String toString() {
         return "[%s,%s]".formatted(from, to);
     }
