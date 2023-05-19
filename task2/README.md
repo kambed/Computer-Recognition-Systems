@@ -54,15 +54,15 @@ package data {
 
 ```plantuml
 package functions {
-    package domain {
+    package domains {
         interface Domain {
             + isMember(double): boolean
         }
-        class ContinuousDomain interface Domain {
+        class ContinuousDomain implements Domain {
             - from: double
             - to: double
         }
-        class DiscreteDomain interface Domain {
+        class DiscreteDomain implements Domain {
             - values: double[]
         }
     }
