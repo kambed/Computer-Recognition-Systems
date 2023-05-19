@@ -2,15 +2,16 @@ package backend.operators;
 
 import backend.functions.DefaultFunction;
 import backend.sets.CrispSet;
-import backend.sets.FuzzySet;
 
-public class Complementer {
+public class Complementer extends AbstractOperator {
 
-    public CrispSet complement(CrispSet set) {
-        DefaultFunction function = new DefaultFunction(set.getFunction().getDomain(),
+    public DefaultFunction operation(CrispSet set) {
+        return new DefaultFunction(set.getFunction().getDomain(),
                 x -> 1 - set.getFunction().getValue(x));
-        if (set instanceof FuzzySet)
-            return new FuzzySet(function);
-        return new CrispSet(function);
+    }
+
+    @Override
+    public DefaultFunction operation(CrispSet s1, CrispSet s2) {
+        return operation(s1);
     }
 }
