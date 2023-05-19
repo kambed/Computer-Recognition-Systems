@@ -6,6 +6,9 @@ import backend.sets.CrispSet;
 public class Multiplier extends AbstractOperator {
 
     public DefaultFunction operation(CrispSet s1, CrispSet s2) {
+        if (s2 == null) {
+            throw new IllegalArgumentException("Second set cannot be null");
+        }
         return new DefaultFunction(s1.getFunction().getDomain(),
                 x -> Math.min(s1.getFunction().getValue(x), s2.getFunction().getValue(x)));
     }
