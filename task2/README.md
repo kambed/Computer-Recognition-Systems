@@ -54,7 +54,7 @@ package data {
 
 ```plantuml
 package functions {
-    package {
+    package domain {
         interface Domain {
             + isMember(double): boolean
         }
