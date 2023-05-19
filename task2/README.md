@@ -61,5 +61,6 @@ package functions {
     class GaussianFunction extends AbstractFunction
     class TrapezoidalFunction extends AbstractFunction
     class TriangularFunction extends TrapezoidalFunction
+    class RectangularFunction extends TrapezoidalFunction
 }
 ```
