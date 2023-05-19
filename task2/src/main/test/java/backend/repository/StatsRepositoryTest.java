@@ -11,7 +11,7 @@ class StatsRepositoryTest {
 
     @Test
     void getStats() {
-        StatsRepository statsRepository = new StatsRepository();
+        StatsRepository statsRepository = StatsRepository.getInstance();
         List<Stats> stats = statsRepository.getStats();
         assertEquals(11073, stats.size());
     }

@@ -9,16 +9,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class StatsRepository {
-    private List<Stats> stats = new ArrayList<>();
+    private static StatsRepository instance;
+    private final List<Stats> stats = new ArrayList<>();
     private final String connectionUrl;
     private final String user;
     private final String password;
 
-    public StatsRepository() {
+    private StatsRepository() {
         Dotenv dotenv = Dotenv.load();
         connectionUrl = dotenv.get("MYSQL_URL");
         user = dotenv.get("MYSQL_USER");
         password = dotenv.get("MYSQL_PASSWORD");
+    }
+
+    public static StatsRepository getInstance() {
+        if (instance == null) {
+            instance = new StatsRepository();
+        }
+        return instance;
     }
 
     public List<Stats> getStats() {
