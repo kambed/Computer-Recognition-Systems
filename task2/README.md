@@ -117,6 +117,7 @@ package functions {
 ```
 
 ## Sets
+
 ```plantuml
 package sets {
     class CrispSet {
@@ -171,8 +172,47 @@ package operations {
 }
 ```
 
+## Linguistic
+
+```plantuml
+package linguistic {
+    class LinguisticSummary {
+        - quantifiers: AbstractQuantifier[]
+        - qualifiers: Label[]
+        - summarizers: Label[]
+        - stats: Stats[]
+    }
+    LinguisticSummary "1" *--> "0..*" AbstractQuantifier: has
+    LinguisticSummary "1" *--> "0..*" Label: has
+    
+    class Label {
+        - name: String
+    }
+    class Variable {
+        - name: String
+        - labels: Label[]
+    }
+    Variable "1" *--> "0..*" Label: has
+    
+    abstract class AbstractQuantifier {
+        # name: String
+        # function: BaseFunction
+    }
+    class Quantifier extends AbstractQuantifier
+    class AbsoluteQuantifier extends AbstractQuantifier
+}
+package model {
+    class Stats
+}
+package sets {
+    class FuzzySet
+}
+LinguisticSummary "1" *--> "0..*" Stats: has
+FuzzySet <|-- Label
+```
 
 ## Utils
+
 ```plantuml
 package utils {
     class Rounder {
