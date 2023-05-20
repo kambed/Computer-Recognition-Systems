@@ -1,5 +1,6 @@
 package backend.functions;
 
+import backend.functions.factory.FunctionFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,7 +9,7 @@ class GaussianFunctionTest {
 
     @Test
     void getValueOfTheFunction() {
-        GaussianFunction gaussianFunction = new GaussianFunction(210, 70);
+        GaussianFunction gaussianFunction = FunctionFactory.createGaussianFunction(210, 70, 0, 300);
         assertEquals(0.03, gaussianFunction.getValue(282), 0.01);
         assertEquals(0.32, gaussianFunction.getValue(252), 0.01);
         assertEquals(0.69, gaussianFunction.getValue(234), 0.01);
