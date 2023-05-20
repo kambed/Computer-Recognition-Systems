@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.lingustic.Variable;
+import backend.lingustic.predefined.PredefinedVariables;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBoxTreeItem;
@@ -15,21 +17,22 @@ public class SummariesGeneratorController implements Initializable {
 
     @FXML
     private TreeView<String> tree;
+    private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         CheckBoxTreeItem<String> root = new CheckBoxTreeItem<>("Linguistic variables");
         root.setExpanded(true);
-        for (int i = 0; i < 5; i++) {
-            CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>("Linguistic variable " + (i + 1));
-            item.setExpanded(true);
-            for (int j = 0; j < 5; j++) {
-                CheckBoxTreeItem<String> item2 = new CheckBoxTreeItem<>("Label " + (i * 5 + j + 1));
-                item2.setExpanded(true);
-                item.getChildren().add(item2);
-            }
-            root.getChildren().add(item);
-        }
+        variables.forEach(variable -> {
+                    CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(variable.getName());
+                    item.setExpanded(true);
+                    variable.getLabeledFuzzySets().forEach(labeledFuzzySet -> {
+                        CheckBoxTreeItem<String> item2 = new CheckBoxTreeItem<>(labeledFuzzySet.getLabel());
+                        item2.setExpanded(true);
+                        item.getChildren().add(item2);
+                    });
+                    root.getChildren().add(item);
+                });
 
         tree.setRoot(root);
         tree.setShowRoot(false);
@@ -38,7 +41,7 @@ public class SummariesGeneratorController implements Initializable {
 
     public void generate() {
         List<CheckBoxTreeItem<String>> selected = getSelectedLastChildren((CheckBoxTreeItem<String>) tree.getRoot());
-        selected.forEach(item -> System.out.println(item.getValue()));
+        selected.forEach(item -> System.out.println(item.getParent().getValue() + " - " + item.getValue()));
     }
 
     private List<CheckBoxTreeItem<String>> getSelectedLastChildren(CheckBoxTreeItem<String> item) {
