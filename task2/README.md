@@ -120,7 +120,7 @@ package functions {
 ```plantuml
 package sets {
     class CrispSet {
-        # function: DefaultFunction
+        # function: BaseFunction
     }
     class FuzzySet extends CrispSet {
         + getSupport(): CrispSet
@@ -131,8 +131,8 @@ package sets {
         + isConvex(): boolean
     }
     class SetFactory {
-        + {static} createFuzzySet(DefaultFunction): FuzzySet
-        + {static} createCrispSet(DefaultFunction): CrispSet
+        + {static} createFuzzySet(BaseFunction): FuzzySet
+        + {static} createCrispSet(BaseFunction): CrispSet
     }
     SetFactory ..> FuzzySet
     SetFactory ..> CrispSet
