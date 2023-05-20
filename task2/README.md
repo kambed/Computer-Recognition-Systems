@@ -2,7 +2,9 @@
 
 ```plantuml
 package backend {
-    package functions
+    package functions {
+        package domains
+    }
     package data {
         package model
         package repository
@@ -52,6 +54,7 @@ package data {
     package repository {
         class StatsRepository {
             - stats: Stats[]
+            - {static} instance: StatsRepository
             + {static} getStats(): Stats[]
         }
         StatsRepository *--> Stats: has
@@ -84,17 +87,33 @@ package functions {
             - values: double[]
         }
     }
-    abstract class DefaultFunction {
+    class BaseFunction {
         - function: Function
         - domain: Domain
         + getValue(double): double
         + isDiscrete(): boolean
         + isContinuous(): boolean
     }
-    class GaussianFunction extends DefaultFunction
-    class TrapezoidalFunction extends DefaultFunction
+    class GaussianFunction extends BaseFunction
+    class TrapezoidalFunction extends BaseFunction
     class TriangularFunction extends TrapezoidalFunction
     class RectangularFunction extends TrapezoidalFunction
+    
+    BaseFunction ..> Domain
+    
+    class FunctionFactory {
+        + {static} createFunction(function: Function, discreteDomain: double[]): BaseFunction
+        + {static} createFunction(function: Function, domainFrom: double, domainTo: double): BaseFunction
+        + {static} createGaussianFunction(average: double, standardDeviation: double, discreteDomain: double[]): GaussianFunction
+        + {static} createGaussianFunction(average: double, standardDeviation: double, from: double, to: double): GaussianFunction
+        + {static} createTrapezoidalFunction(minSupp: double, minHeight: double, maxHeight: double, maxSupp: double, discreteDomain: double[]): TrapezoidalFunction
+        + {static} createTrapezoidalFunction(minSupp: double, minHeight: double, maxHeight: double, maxSupp: double, from: double, to: double): TrapezoidalFunction
+        + {static} createTriangularFunction(minSupp: double,  max: double, discreteDomain: double[]): TriangularFunction
+        + {static} createTriangularFunction(minSupp: double,  max: double, from: double, to: double): TriangularFunction
+        + {static} createRectangularFunction(minSupp: double, maxSupp: double, discreteDomain: double[]): RectangularFunction
+        + {static} createRectangularFunction(minSupp: double, maxSupp: double, from: double, to: double): RectangularFunction
+    }
+    FunctionFactory ..> BaseFunction
 }
 ```
 
@@ -104,12 +123,18 @@ package sets {
     class CrispSet {
         # function: DefaultFunction
     }
-    class FuzzySet {
+    class FuzzySet extends CrispSet {
         + getSupport(): CrispSet
         + getAlphaCut(double): CrispSet
         + getHeight(): double
         + isNormal(): boolean
     }
+    class SetFactory {
+        + {static} createFuzzySet(DefaultFunction): FuzzySet
+        + {static} createCrispSet(DefaultFunction): CrispSet
+    }
+    SetFactory ..> FuzzySet
+    SetFactory ..> CrispSet
 }
 ```
 
@@ -118,8 +143,8 @@ package sets {
 package utils {
     class Rounder {
         - {static} DECIMAL_PLACES_DIVISION
-        + round(double): double
-        + floor(double): double
+        + {static} round(double): double
+        + {static} floor(double): double
     }
 }
 ```
