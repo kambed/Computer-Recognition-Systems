@@ -1,22 +1,28 @@
 package frontend;
 
+import frontend.utils.AlertBox;
+import frontend.utils.FileChoose;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SummaryController implements Initializable {
@@ -73,12 +79,49 @@ public class SummaryController implements Initializable {
         t2Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT2()));
         t3Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT3()));
     }
+
+    public void copyToClipboard() {
+        StringBuilder html = new StringBuilder(
+                "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" color=\"black\">"
+        );
+        table.getColumns()
+                .stream()
+                .skip(1)
+                .forEach(column -> html.append("<th>").append(column.getText()).append("</th>"));
+        getSelectedSummaries().forEach(summary -> html.append(summary.toHtmlTableRow()));
+        html.append("</table>");
+        ClipboardContent content = new ClipboardContent();
+        content.putHtml(html.toString());
+        Clipboard.getSystemClipboard().setContent(content);
+    }
+
+    public void saveToFile(ActionEvent actionEvent) {
+        String path = FileChoose.choose("Save to file", actionEvent);
+        if (path.isEmpty()) {
+            return;
+        }
+
+        StringBuilder text = new StringBuilder();
+        getSelectedSummaries().forEach(summary -> text.append(summary.toString()));
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(text.toString());
+            writer.flush();
+        } catch (IOException e) {
+            AlertBox.show("Error", "Error while saving to file: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private List<Summary> getSelectedSummaries() {
+        return data.filtered(Summary::isSelected);
+    }
 }
 
 @Getter
 @Setter
 @AllArgsConstructor
 class Summary {
+    private static final String CELL_PATTERN = "<td>%s</td>";
     private String summary;
     private Double t1;
     private Double t2;
@@ -91,5 +134,23 @@ class Summary {
         this.t2 = t2;
         this.t3 = t3;
         this.selected = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Summary: \n" + summary + "\n" +
+                "T1: " + t1 + "\n" +
+                "T2: " + t2 + "\n" +
+                "T3: " + t3 + "\n" +
+                "\n";
+    }
+
+    public String toHtmlTableRow() {
+        return "<tr>" +
+                CELL_PATTERN.formatted(summary) +
+                CELL_PATTERN.formatted(t1) +
+                CELL_PATTERN.formatted(t2) +
+                CELL_PATTERN.formatted(t3) +
+                "</tr>";
     }
 }

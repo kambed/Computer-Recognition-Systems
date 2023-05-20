@@ -11,4 +11,6 @@ module pl.ksr.computerrecognitionsystems {
 
     opens frontend to javafx.fxml;
     exports frontend;
+    exports frontend.utils;
+    opens frontend.utils to javafx.fxml;
 }
