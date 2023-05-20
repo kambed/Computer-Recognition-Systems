@@ -51,6 +51,7 @@ public class SummaryController implements Initializable {
             for (Summary summary : data) {
                 summary.setSelected(selectAllCheckBox.isSelected());
             }
+            table.refresh();
         });
         selectColumn.setGraphic(selectAllCheckBox);
 
@@ -70,6 +71,7 @@ public class SummaryController implements Initializable {
         table.setItems(data);
     }
 }
+
 @Getter
 @Setter
 @AllArgsConstructor
