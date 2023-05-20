@@ -38,7 +38,20 @@ public class SummaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        prepareColumns();
 
+        data = FXCollections.observableArrayList();
+        data.addAll(
+                new Summary("Name 1", 1.0, 1.0, 1.0),
+                new Summary("Name 2", 1.0, 2.0, 1.0),
+                new Summary("Name 3", 3.0, 1.0, 1.0),
+                new Summary("Name 4", 2.0, 2.0, 1.0),
+                new Summary("Name 5", 1.5, 4.0, 1.0)
+        );
+        table.setItems(data);
+    }
+
+    private void prepareColumns() {
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
         selectColumn.setCellValueFactory(param -> {
             Summary summary = param.getValue();
@@ -59,16 +72,6 @@ public class SummaryController implements Initializable {
         t1Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT1()));
         t2Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT2()));
         t3Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT3()));
-
-        data = FXCollections.observableArrayList();
-        data.addAll(
-                new Summary("Name 1", 1.0, 1.0, 1.0),
-                new Summary("Name 2", 1.0, 2.0, 1.0),
-                new Summary("Name 3", 3.0, 1.0, 1.0),
-                new Summary("Name 4", 2.0, 2.0, 1.0),
-                new Summary("Name 5", 1.5, 4.0, 1.0)
-        );
-        table.setItems(data);
     }
 }
 
