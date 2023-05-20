@@ -57,6 +57,8 @@ package functions {
     package domains {
         interface Domain {
             + isMember(double): boolean
+            - getMin(): double
+            - getMax(): double
         }
         class ContinuousDomain implements Domain {
             - from: double
@@ -66,15 +68,15 @@ package functions {
             - values: double[]
         }
     }
-    abstract class AbstractFunction {
+    abstract class DefaultFunction {
         - function: Function
         - domain: Domain
         + getValue(double): double
         + isDiscrete(): boolean
         + isContinuous(): boolean
     }
-    class GaussianFunction extends AbstractFunction
-    class TrapezoidalFunction extends AbstractFunction
+    class GaussianFunction extends DefaultFunction
+    class TrapezoidalFunction extends DefaultFunction
     class TriangularFunction extends TrapezoidalFunction
     class RectangularFunction extends TrapezoidalFunction
 }
