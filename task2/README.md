@@ -84,24 +84,24 @@ package data {
 package functions {
     package domains {
         interface Domain {
-            + isMember(double): boolean
-            - getMin(): double
+            + isMember(value: double): boolean
+            + getMin(): double
             - getMax(): double
         }
         class ContinuousDomain implements Domain {
-            + isMember(double): boolean
+            + isMember(value: double): boolean
             - from: double
             - to: double
         }
         class DiscreteDomain implements Domain {
-            + isMember(double): boolean
+            + isMember(value: double): boolean
             - values: double[]
         }
     }
     class BaseFunction {
         - function: Function
         - domain: Domain
-        + getValue(double): double
+        + getValue(value: double): double
     }
     class GaussianFunction extends BaseFunction
     class TrapezoidalFunction extends BaseFunction
@@ -130,7 +130,7 @@ package functions {
 ```plantuml
 package sets {
     class CrispSet {
-        # function: DefaultFunction
+        # function: BaseFunction
     }
     class FuzzySet extends CrispSet {
         + getSupport(): CrispSet
@@ -141,8 +141,8 @@ package sets {
         + isConvex(): boolean
     }
     class SetFactory {
-        + {static} createFuzzySet(DefaultFunction): FuzzySet
-        + {static} createCrispSet(DefaultFunction): CrispSet
+        + {static} createFuzzySet(function: BaseFunction: FuzzySet
+        + {static} createCrispSet(function: BaseFunction: CrispSet
     }
     SetFactory ..> FuzzySet
     SetFactory ..> CrispSet
@@ -154,26 +154,26 @@ package sets {
 ```plantuml
 package operations {
     abstract class AbstractOperator {
-        + execute(CrispSet, [CrispSet]): double
-        # {abstract} operation(CrispSet, [CrispSet]): BaseFunction
+        + execute(crispSet: CrispSet[1..2]): double
+        # {abstract} operation(crispSet: CrispSet[1..2]): BaseFunction
     }
     class Complement extends AbstractOperator {
-        # operation(CrispSet, [CrispSet]): BaseFunction
+        # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
     class Multiply extends AbstractOperator {
-        # operation(CrispSet, CrispSet): BaseFunction
+        # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
     class Sum extends AbstractOperator {
-        # operation(CrispSet, CrispSet): BaseFunction
+        # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
     
     class SetOperationFacade {
         - {static} complement: Complement
         - {static} multiply: Multiply
         - {static} sum: Sum
-        + {static} complement(CrispSet): CrispSet
-        + {static} multiply(CrispSet, CrispSet): CrispSet
-        + {static} sum(CrispSet, CrispSet): CrispSet
+        + {static} complement(crispSet: CrispSet): CrispSet
+        + {static} multiply(crispSet: CrispSet, crispSet: CrispSet): CrispSet
+        + {static} sum(crispSet: CrispSet, crispSet: CrispSet): CrispSet
     }
     SetOperationFacade *--> Complement: has
     SetOperationFacade *--> Multiply: has
@@ -188,9 +188,9 @@ package utils {
     class Rounder {
         - {static} DECIMAL_PLACES_DIVISION: double
         - {static} NUMBER_OF_STEPS: double
-        + {static} round(double): double
-        + {static} floor(double): double
-        + {static} getStep(double, double): double
+        + {static} round(value: double): double
+        + {static} floor(value: double): double
+        + {static} getStep(min: double, max: double): double
     }
 }
 ```
