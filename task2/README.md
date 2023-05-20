@@ -178,28 +178,36 @@ package operations {
 package linguistic {
     class LinguisticSummary {
         - quantifiers: AbstractQuantifier[]
-        - qualifiers: Label[]
-        - summarizers: Label[]
+        - qualifiers: LabeledFuzzySet[]
+        - summarizers: LabeledFuzzySet[]
         - stats: Stats[]
     }
     LinguisticSummary "1" *--> "0..*" AbstractQuantifier: has
-    LinguisticSummary "1" *--> "0..*" Label: has
+    LinguisticSummary "1" *--> "0..*" LabeledFuzzySet: has
     
-    class Label {
-        - name: String
+    class LabeledFuzzySet {
+        # label: String
     }
     class Variable {
         - name: String
-        - labels: Label[]
+        - labels: LabeledFuzzySet[]
     }
-    Variable "1" *--> "0..*" Label: has
+    Variable "1" *--> "0..*" LabeledFuzzySet: has
     
-    abstract class AbstractQuantifier {
-        # name: String
-        # function: BaseFunction
-    }
+    abstract class AbstractQuantifier extends LabeledFuzzySet
     class Quantifier extends AbstractQuantifier
     class AbsoluteQuantifier extends AbstractQuantifier
+    
+    class LinguisticFactory {
+        + {static} createLabel(label: String, function: BaseFunction): LabeledFuzzySet
+        + {static} createVariable(name: String, labels: LabeledFuzzySet[]): Variable
+        + {static} createQuantifier(label: String, function: BaseFunction): Quantifier
+        + {static} createAbsoluteQuantifier(label: String, function: BaseFunction): AbsoluteQuantifier
+    }
+    LinguisticFactory ..> LabeledFuzzySet
+    LinguisticFactory ..> Variable
+    LinguisticFactory ..> AbstractQuantifier
+    LinguisticFactory ..> Quantifier
 }
 package model {
     class Stats
@@ -208,7 +216,7 @@ package sets {
     class FuzzySet
 }
 LinguisticSummary "1" *--> "0..*" Stats: has
-FuzzySet <|-- Label
+FuzzySet <|-- LabeledFuzzySet
 ```
 
 ## Utils
