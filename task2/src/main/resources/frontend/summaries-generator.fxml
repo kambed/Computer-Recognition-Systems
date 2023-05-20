@@ -5,12 +5,23 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
 <VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="frontend.SummariesGeneratorController">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>
     <Label text="Computer Recognition System task 2 - Database summarization" textAlignment="CENTER"/>
-    <TreeView VBox.vgrow="ALWAYS" fx:id="tree"/>
+    <HBox spacing="10">
+        <VBox spacing="10">
+            <Label text="Variables with labels:"/>
+            <TreeView VBox.vgrow="ALWAYS" fx:id="variablesLabelsTree"/>
+        </VBox>
+        <VBox spacing="10">
+            <Label text="Quantifiers:"/>
+            <ListView fx:id="quantifiersList" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
     <Button text="Generate" onAction="#generate" VBox.vgrow="ALWAYS"/>
 </VBox>
