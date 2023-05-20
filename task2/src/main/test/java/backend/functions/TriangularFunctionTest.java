@@ -24,4 +24,13 @@ class TriangularFunctionTest {
         assertEquals(0.5, triangularFunction.getValue(2.5), 0.01);
         assertEquals(0, triangularFunction.getValue(5), 0.01);
     }
+
+    @Test
+    void getValueOfFunctionNotEquallyEndingOnLeft() {
+        TriangularFunction triangularFunction = FunctionFactory.createTriangularFunction(-3, 2, 7, 0, 26);
+        assertEquals(0.6, triangularFunction.getValue(0), 0.01);
+        assertEquals(0.8, triangularFunction.getValue(1), 0.01);
+        assertEquals(1, triangularFunction.getValue(2), 0.01);
+        assertEquals(0.5, triangularFunction.getValue(4.5), 0.01);
+    }
 }
