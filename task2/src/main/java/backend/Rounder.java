@@ -2,7 +2,7 @@ package backend;
 
 public class Rounder {
     public static final double DECIMAL_PLACES_DIVISION = 100.0;
-    public static final double NUMBER_OF_STEPS = 10000.0;
+    public static final double NUMBER_OF_STEPS = 100.0;
 
     private Rounder() {
     }

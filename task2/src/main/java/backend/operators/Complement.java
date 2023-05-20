@@ -3,7 +3,7 @@ package backend.operators;
 import backend.functions.DefaultFunction;
 import backend.sets.CrispSet;
 
-public class Complementer extends AbstractOperator {
+public class Complement extends AbstractOperator {
 
     public DefaultFunction operation(CrispSet set) {
         return new DefaultFunction(set.getFunction().getDomain(),
