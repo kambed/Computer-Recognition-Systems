@@ -18,5 +18,5 @@ public abstract class AbstractOperator {
         return new CrispSet(function);
     }
 
-    protected abstract BaseFunction operation(CrispSet s1, CrispSet s2);
+    public abstract BaseFunction operation(CrispSet s1, CrispSet s2);
 }
