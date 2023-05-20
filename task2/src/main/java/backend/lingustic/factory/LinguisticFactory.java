@@ -4,7 +4,6 @@ import backend.functions.BaseFunction;
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Variable;
 import backend.lingustic.quantifier.AbsoluteQuantifier;
-import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.quantifier.RelativeQuantifier;
 
 import java.util.List;

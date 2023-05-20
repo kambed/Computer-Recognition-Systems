@@ -9,6 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class StatsRepository {
+
+    private StatsRepository() {
+    }
+
     private static final List<Stats> stats = new ArrayList<>();
 
     public static List<Stats> getStats() {
@@ -52,7 +56,6 @@ public class StatsRepository {
             }
             return new ArrayList<>(stats);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             //ignored
         }
         return Collections.emptyList();
