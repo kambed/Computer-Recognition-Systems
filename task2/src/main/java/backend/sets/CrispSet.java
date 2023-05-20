@@ -1,13 +1,13 @@
 package backend.sets;
 
-import backend.functions.DefaultFunction;
+import backend.functions.BaseFunction;
 import lombok.Getter;
 
 @Getter
 public class CrispSet {
-    private final DefaultFunction function;
+    private final BaseFunction function;
 
-    public CrispSet(DefaultFunction function) {
+    public CrispSet(BaseFunction function) {
         this.function = function;
     }
 }

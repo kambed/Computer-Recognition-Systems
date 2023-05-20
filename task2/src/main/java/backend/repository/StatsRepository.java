@@ -9,34 +9,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class StatsRepository {
-    private static StatsRepository instance;
-    private final List<Stats> stats = new ArrayList<>();
-    private final String connectionUrl;
-    private final String user;
-    private final String password;
-
-    private StatsRepository() {
-        Dotenv dotenv = Dotenv.load();
-        connectionUrl = dotenv.get("MYSQL_URL");
-        user = dotenv.get("MYSQL_USER");
-        password = dotenv.get("MYSQL_PASSWORD");
-    }
+    private static final List<Stats> stats = new ArrayList<>();
 
     public static List<Stats> getStats() {
-        if (instance == null) {
-            instance = new StatsRepository();
+        if (!stats.isEmpty()) {
+            return new ArrayList<>(stats);
         }
-        if (!instance.stats.isEmpty()) {
-            return new ArrayList<>(instance.stats);
-        }
-        try (Connection conn = DriverManager.getConnection(instance.connectionUrl, instance.user, instance.password);
+        Dotenv dotenv = Dotenv.load();
+        try (Connection conn = DriverManager.getConnection(
+                dotenv.get("MYSQL_URL"),
+                dotenv.get("MYSQL_USER"),
+                dotenv.get("MYSQL_PASSWORD"));
              PreparedStatement ps = conn.prepareStatement("SELECT * FROM stats");
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Time raceTime = rs.getTime("race_time");
                 Date raceDate = rs.getDate("race_date");
-                instance.stats.add(
+                stats.add(
                         Stats.builder()
                                 .id(rs.getInt("id"))
                                 .driver(rs.getString("driver"))
@@ -60,8 +50,9 @@ public class StatsRepository {
                                 .build()
                 );
             }
-            return new ArrayList<>(instance.stats);
+            return new ArrayList<>(stats);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             //ignored
         }
         return Collections.emptyList();

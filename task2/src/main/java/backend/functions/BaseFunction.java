@@ -6,11 +6,11 @@ import lombok.Getter;
 import java.util.function.DoubleFunction;
 
 @Getter
-public class DefaultFunction {
+public class BaseFunction {
     protected final DoubleFunction<Double> function;
     protected final Domain domain;
 
-    public DefaultFunction(Domain domain, DoubleFunction<Double> function) {
+    public BaseFunction(Domain domain, DoubleFunction<Double> function) {
         this.domain = domain;
         this.function = function;
     }

@@ -13,4 +13,8 @@ public class Rounder {
     public static double floor(double value) {
         return Math.floor(value * DECIMAL_PLACES_DIVISION) / DECIMAL_PLACES_DIVISION;
     }
+
+    public static double getStep(double min, double max) {
+        return Rounder.round((max - min) / Rounder.NUMBER_OF_STEPS);
+    }
 }

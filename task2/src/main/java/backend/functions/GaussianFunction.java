@@ -3,7 +3,7 @@ package backend.functions;
 import backend.domain.ContinuousDomain;
 import backend.domain.Domain;
 
-public class GaussianFunction extends DefaultFunction {
+public class GaussianFunction extends BaseFunction {
 
     public GaussianFunction(double average, double standardDeviation) {
         this(new ContinuousDomain(-Double.MAX_VALUE, Double.MAX_VALUE), average, standardDeviation);
