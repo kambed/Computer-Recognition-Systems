@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class LabeledFuzzySet extends FuzzySet {
 
-    private final String label;
+    protected final String label;
 
     public LabeledFuzzySet(String label, BaseFunction function) {
         super(function);

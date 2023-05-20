@@ -56,8 +56,7 @@ public class StatsRepository {
             }
             return new ArrayList<>(stats);
         } catch (SQLException e) {
-            //ignored
+            throw new DataImportException("Error while importing data from database: " + e.getMessage());
         }
-        return Collections.emptyList();
     }
 }
