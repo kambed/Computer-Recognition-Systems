@@ -80,10 +80,12 @@ package functions {
             - getMax(): double
         }
         class ContinuousDomain implements Domain {
+            + isMember(double): boolean
             - from: double
             - to: double
         }
         class DiscreteDomain implements Domain {
+            + isMember(double): boolean
             - values: double[]
         }
     }
@@ -137,6 +139,40 @@ package sets {
     SetFactory ..> CrispSet
 }
 ```
+
+## Operators
+
+```plantuml
+package operations {
+    abstract class AbstractOperator {
+        + execute(CrispSet, [CrispSet]): double
+        # {abstract} operation(CrispSet, [CrispSet]): BaseFunction
+    }
+    class Complement extends AbstractOperator {
+        # operation(CrispSet, [CrispSet]): BaseFunction
+    }
+    class Multiply extends AbstractOperator {
+        # operation(CrispSet, CrispSet): BaseFunction
+    }
+    class Sum extends AbstractOperator {
+        # operation(CrispSet, CrispSet): BaseFunction
+    }
+    
+    class SetOperationFacade {
+        - complement: Complement
+        - multiply: Multiply
+        - sum: Sum
+        - instance: SetOperationFacade
+        + {static} complement(CrispSet): FuzzySet
+        + {static} multiply(CrispSet, CrispSet): FuzzySet
+        + {static} sum(CrispSet, CrispSet): FuzzySet
+    }
+    SetOperationFacade *--> Complement: has
+    SetOperationFacade *--> Multiply: has
+    SetOperationFacade *--> Sum: has
+}
+```
+
 
 ## Utils
 ```plantuml
