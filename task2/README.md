@@ -178,7 +178,7 @@ package operations {
 ```plantuml
 package utils {
     class Rounder {
-        - {static} DECIMAL_PLACES_DIVISION
+        - {static} DECIMAL_PLACES_DIVISION: double
         + {static} round(double): double
         + {static} floor(double): double
     }
