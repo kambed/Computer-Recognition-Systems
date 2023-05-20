@@ -34,7 +34,7 @@ package data {
             - driver: String
             - team: String
             - track: String
-            - year: int
+            - year: String
             - finishPosition: int
             - startPosition: int
             - numberOfLaps: double
@@ -93,8 +93,6 @@ package functions {
         - function: Function
         - domain: Domain
         + getValue(double): double
-        + isDiscrete(): boolean
-        + isContinuous(): boolean
     }
     class GaussianFunction extends BaseFunction
     class TrapezoidalFunction extends BaseFunction
@@ -107,13 +105,13 @@ package functions {
         + {static} createFunction(function: Function, discreteDomain: double[]): BaseFunction
         + {static} createFunction(function: Function, domainFrom: double, domainTo: double): BaseFunction
         + {static} createGaussianFunction(average: double, standardDeviation: double, discreteDomain: double[]): GaussianFunction
-        + {static} createGaussianFunction(average: double, standardDeviation: double, from: double, to: double): GaussianFunction
+        + {static} createGaussianFunction(average: double, standardDeviation: double, domainFrom: double, domainTo: double): GaussianFunction
         + {static} createTrapezoidalFunction(minSupp: double, minHeight: double, maxHeight: double, maxSupp: double, discreteDomain: double[]): TrapezoidalFunction
-        + {static} createTrapezoidalFunction(minSupp: double, minHeight: double, maxHeight: double, maxSupp: double, from: double, to: double): TrapezoidalFunction
+        + {static} createTrapezoidalFunction(minSupp: double, minHeight: double, maxHeight: double, maxSupp: double, domainFrom: double, domainTo: double): TrapezoidalFunction
         + {static} createTriangularFunction(minSupp: double,  max: double, discreteDomain: double[]): TriangularFunction
-        + {static} createTriangularFunction(minSupp: double,  max: double, from: double, to: double): TriangularFunction
+        + {static} createTriangularFunction(minSupp: double,  max: double, domainFrom: double, domainTo: double): TriangularFunction
         + {static} createRectangularFunction(minSupp: double, maxSupp: double, discreteDomain: double[]): RectangularFunction
-        + {static} createRectangularFunction(minSupp: double, maxSupp: double, from: double, to: double): RectangularFunction
+        + {static} createRectangularFunction(minSupp: double, maxSupp: double, domainFrom: double, domainTo: double): RectangularFunction
     }
     FunctionFactory ..> BaseFunction
 }
@@ -130,6 +128,8 @@ package sets {
         + getAlphaCut(double): CrispSet
         + getHeight(): double
         + isNormal(): boolean
+        + isEmpty(): boolean
+        + isConvex(): boolean
     }
     class SetFactory {
         + {static} createFuzzySet(DefaultFunction): FuzzySet
@@ -163,9 +163,9 @@ package operations {
         - multiply: Multiply
         - sum: Sum
         - instance: SetOperationFacade
-        + {static} complement(CrispSet): FuzzySet
-        + {static} multiply(CrispSet, CrispSet): FuzzySet
-        + {static} sum(CrispSet, CrispSet): FuzzySet
+        + {static} complement(CrispSet): CrispSet
+        + {static} multiply(CrispSet, CrispSet): CrispSet
+        + {static} sum(CrispSet, CrispSet): CrispSet
     }
     SetOperationFacade *--> Complement: has
     SetOperationFacade *--> Multiply: has
@@ -179,8 +179,10 @@ package operations {
 package utils {
     class Rounder {
         - {static} DECIMAL_PLACES_DIVISION: double
+        - {static} NUMBER_OF_STEPS: double
         + {static} round(double): double
         + {static} floor(double): double
+        + {static} getStep(double, double): double
     }
 }
 ```
