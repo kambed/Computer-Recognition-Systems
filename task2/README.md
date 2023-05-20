@@ -53,8 +53,7 @@ package data {
     }
     package repository {
         class StatsRepository {
-            - stats: Stats[]
-            - {static} instance: StatsRepository
+            - {static} stats: Stats[]
             + {static} getStats(): Stats[]
         }
         StatsRepository *--> Stats: has
@@ -159,10 +158,9 @@ package operations {
     }
     
     class SetOperationFacade {
-        - complement: Complement
-        - multiply: Multiply
-        - sum: Sum
-        - instance: SetOperationFacade
+        - {static} complement: Complement
+        - {static} multiply: Multiply
+        - {static} sum: Sum
         + {static} complement(CrispSet): CrispSet
         + {static} multiply(CrispSet, CrispSet): CrispSet
         + {static} sum(CrispSet, CrispSet): CrispSet
