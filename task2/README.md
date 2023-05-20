@@ -1,14 +1,29 @@
 # Linguistic summaries of relational databases
+
 ```plantuml
 package backend {
     package functions
-    package data
+    package data {
+        package model
+        package repository
+        
+        repository ..> model: <<import>>
+    }
+    package sets
+    package operators
+    package utils
+    
+    operators ..> sets: <<import>>
+    sets ..> functions: <<import>>
+    sets ..> utils: <<import>>
 }
 package frontend {
 }
 frontend ..> backend: <<import>>
 ```
+
 ## Data model
+
 ```plantuml
 package data {
     package model {
@@ -50,6 +65,7 @@ package data {
     end note
 }
 ```
+
 ## Functions
 
 ```plantuml
@@ -79,5 +95,31 @@ package functions {
     class TrapezoidalFunction extends DefaultFunction
     class TriangularFunction extends TrapezoidalFunction
     class RectangularFunction extends TrapezoidalFunction
+}
+```
+
+## Sets
+```plantuml
+package sets {
+    class CrispSet {
+        # function: DefaultFunction
+    }
+    class FuzzySet {
+        + getSupport(): CrispSet
+        + getAlphaCut(double): CrispSet
+        + getHeight(): double
+        + isNormal(): boolean
+    }
+}
+```
+
+## Utils
+```plantuml
+package utils {
+    class Rounder {
+        - {static} DECIMAL_PLACES_DIVISION
+        + round(double): double
+        + floor(double): double
+    }
 }
 ```
