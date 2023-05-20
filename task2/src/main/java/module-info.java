@@ -6,6 +6,8 @@ module pl.ksr.computerrecognitionsystems {
     requires com.opencsv;
     requires org.apache.commons.lang3;
     requires java.logging;
+    requires java.sql;
+    requires io.github.cdimascio.dotenv.java;
 
     opens frontend to javafx.fxml;
     exports frontend;

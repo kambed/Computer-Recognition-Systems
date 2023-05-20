@@ -1,3 +1,13 @@
+To start database on docker use command:
+> docker-compose -f docker-compose.yml up db
+
+Alternatively, for JetBrains Intellij users they can use green button on the left in opened docker-compose file in db section.
+
+After this you have to init database with data - run scripts from resources folder in order:
+> 1. init.sql
+> 2. f1stats.sql
+
+
 # Linguistic summaries of relational databases
 
 ```plantuml
