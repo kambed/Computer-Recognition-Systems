@@ -5,7 +5,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class StatsRepository {
@@ -47,8 +46,8 @@ public class StatsRepository {
                                 .fastestLapSpeed(rs.getDouble("fastest_lap_speed"))
                                 .fastestPitStop(rs.getDouble("fastest_pitstop"))
                                 .fastestQualiLap(rs.getDouble("fastest_quali_lap"))
-                                .raceData(raceDate == null ? null : raceDate.toLocalDate())
-                                .raceTime(raceTime == null ? null : raceTime.toLocalTime())
+                                .raceData(raceDate == null ? null : raceDate.toLocalDate().getDayOfYear())
+                                .raceTime(raceTime == null ? null : raceTime.toLocalTime().getHour() + raceTime.toLocalTime().getMinute() / 60.0)
                                 .trackLatitude(rs.getDouble("track_latitude"))
                                 .trackAltitude(rs.getDouble("track_altitude"))
                                 .build()

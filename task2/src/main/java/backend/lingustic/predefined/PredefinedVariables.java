@@ -32,15 +32,15 @@ public class PredefinedVariables {
                 LinguisticFactory.createVariable(
                         "Liczba zdobytych punktów",
                         LinguisticFactory.createLabel("Nieskuteczny kierowca",
-                                FunctionFactory.createTriangularFunction(0, 0, 5, 0, 26)),
+                                FunctionFactory.createTriangularFunction(0, 0, 5, 0, 50)),
                         LinguisticFactory.createLabel("Mało skuteczny kierowca",
-                                FunctionFactory.createTriangularFunction(-3, 2, 7, 0, 26)),
+                                FunctionFactory.createTriangularFunction(-3, 2, 7, 0, 50)),
                         LinguisticFactory.createLabel("Kierowca punktujący średnio",
-                                FunctionFactory.createTriangularFunction(0, 5, 10, 0, 26)),
+                                FunctionFactory.createTriangularFunction(0, 5, 10, 0, 50)),
                         LinguisticFactory.createLabel("Kierowca wysoko punktujący",
-                                FunctionFactory.createTriangularFunction(5, 10, 15, 0, 26)),
+                                FunctionFactory.createTriangularFunction(5, 10, 15, 0, 50)),
                         LinguisticFactory.createLabel("Dominator podium",
-                                FunctionFactory.createTrapezoidalFunction(11, 16, 26, 26, 0, 26))
+                                FunctionFactory.createTrapezoidalFunction(11, 16, 50, 50, 0, 50))
                 ),
                 LinguisticFactory.createVariable(
                         "Wiek kierowcy",
