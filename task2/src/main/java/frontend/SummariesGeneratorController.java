@@ -59,12 +59,17 @@ public class SummariesGeneratorController implements Initializable {
         variablesLabelsTree.setShowRoot(false);
         variablesLabelsTree.setCellFactory(CheckBoxTreeCell.forTreeView());
 
-        IntStream.rangeClosed(1, 10)
+        IntStream.rangeClosed(1, 11)
                 .forEach(i -> {
                     HBox hBox = new HBox();
                     hBox.setSpacing(10);
                     Label label = new Label("T" + i + ": " + (i < 10 ? "  " : ""));
                     Spinner<Double> spinner = new Spinner<>(0.0, 1.0, 0.0, 0.01);
+                    if (i == 1) {
+                        spinner.getValueFactory().setValue(0.3);
+                    } else {
+                        spinner.getValueFactory().setValue(0.07);
+                    }
                     spinner.setEditable(true);
                     spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> validateSpinnerValues());
                     hBox.getChildren().addAll(label, spinner);
@@ -109,12 +114,14 @@ public class SummariesGeneratorController implements Initializable {
     }
 
     private void validateSpinnerValues() {
-        double sum = tMeasures.stream().mapToDouble(Spinner::getValue).sum();
-        if (sum == 1.0) {
-            return;
+        double remaining = 1.0;
+
+        for (int i = 0; i < tMeasures.size() - 1; i++) {
+            double value = tMeasures.get(i).getValue();
+            double maxAllowedValue = Math.min(value, remaining);
+            tMeasures.get(i).getValueFactory().setValue(maxAllowedValue);
+            remaining -= maxAllowedValue;
         }
-        tMeasures.forEach(spinner -> spinner.getValueFactory().setValue(
-                Rounder.round(spinner.getValue() * (1.0 / sum))
-        ));
+        tMeasures.get(tMeasures.size() - 1).getValueFactory().setValue(remaining);
     }
 }
