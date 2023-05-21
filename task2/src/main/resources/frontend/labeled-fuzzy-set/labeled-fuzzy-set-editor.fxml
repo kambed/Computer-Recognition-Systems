@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="frontend.LabeledFuzzySetEditorController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10"/>
+    </padding>
+    <HBox spacing="10">
+        <Label text="Label">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
+        <TextField fx:id="labelTextField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Function">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
+        <ComboBox fx:id="functionComboBox" promptText="Select function"/>
+    </HBox>
+    <!--suppress JavaFxUnresolvedFxIdReference -->
+    <fx:include source="function.fxml" fx:id="function"/>
+</VBox>
