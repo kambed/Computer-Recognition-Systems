@@ -1,6 +1,6 @@
 package frontend;
 
-import frontend.model.Summary;
+import frontend.model.SummaryDto;
 import frontend.utils.AlertBox;
 import frontend.utils.FileChoose;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,19 +25,19 @@ import java.util.ResourceBundle;
 public class SummaryController implements Initializable {
     public static final String RESOURCE = "summary.fxml";
     @FXML
-    private TableView<Summary> table;
+    private TableView<SummaryDto> table;
     @FXML
-    private TableColumn<Summary, Boolean> selectColumn;
+    private TableColumn<SummaryDto, Boolean> selectColumn;
     @FXML
-    private TableColumn<Summary, String> summaryColumn;
+    private TableColumn<SummaryDto, String> summaryColumn;
     @FXML
-    private TableColumn<Summary, Double> t1Column;
+    private TableColumn<SummaryDto, Double> t1Column;
     @FXML
-    private TableColumn<Summary, Double> t2Column;
+    private TableColumn<SummaryDto, Double> t2Column;
     @FXML
-    private TableColumn<Summary, Double> t3Column;
+    private TableColumn<SummaryDto, Double> t3Column;
 
-    private ObservableList<Summary> data;
+    private ObservableList<SummaryDto> data;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,7 +45,7 @@ public class SummaryController implements Initializable {
         prepareColumns();
     }
 
-    public void setData(List<Summary> data) {
+    public void setData(List<SummaryDto> data) {
         this.data = FXCollections.observableArrayList(data);
         table.setItems(this.data);
         table.refresh();
@@ -54,21 +54,21 @@ public class SummaryController implements Initializable {
     private void prepareColumns() {
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
         selectColumn.setCellValueFactory(param -> {
-            Summary summary = param.getValue();
+            SummaryDto summary = param.getValue();
             SimpleBooleanProperty selectedProperty = new SimpleBooleanProperty(summary.isSelected());
             selectedProperty.addListener((obs, oldValue, newValue) -> summary.setSelected(newValue));
             return selectedProperty;
         });
         CheckBox selectAllCheckBox = new CheckBox();
         selectAllCheckBox.setOnAction(event -> {
-            for (Summary summary : data) {
+            for (SummaryDto summary : data) {
                 summary.setSelected(selectAllCheckBox.isSelected());
             }
             table.refresh();
         });
         selectColumn.setGraphic(selectAllCheckBox);
 
-        summaryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSummary()));
+        summaryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSummaryString()));
         t1Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT1()));
         t2Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT2()));
         t3Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT3()));
@@ -106,7 +106,7 @@ public class SummaryController implements Initializable {
         }
     }
 
-    private List<Summary> getSelectedSummaries() {
-        return data.filtered(Summary::isSelected);
+    private List<SummaryDto> getSelectedSummaries() {
+        return data.filtered(SummaryDto::isSelected);
     }
 }
