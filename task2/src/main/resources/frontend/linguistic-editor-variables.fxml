@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="frontend.LinguisticVariablesEditorController">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>
     <HBox spacing="10">
-        <TreeView VBox.vgrow="ALWAYS" fx:id="variablesLabelsTree"/>
+        <Label text="Linguistic variables"/>
+        <ComboBox fx:id="linguisticVariablesComboBox" promptText="Select linguistic variable"
+                  onAction="#variableSelected"/>
     </HBox>
+    <HBox spacing="10" visible="false" fx:id="nameSection">
+        <Label text="Linguistic variable name"/>
+        <TextField fx:id="linguisticVariableNameTextField"/>
+        <Button fx:id="linguisticVariableNameSaveButton" text="Save" onAction="#saveName"/>
+    </HBox>
+    <fx:include source="labeled-fuzzy-set-list.fxml" fx:id="labeledFuzzySetList"/>
 </VBox>

@@ -1,9 +1,10 @@
 package frontend;
 
+import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Variable;
 import backend.lingustic.predefined.PredefinedQuantifiers;
 import backend.lingustic.predefined.PredefinedVariables;
-import backend.lingustic.quantifier.LabeledFuzzySet;
+import backend.lingustic.quantifier.AbstractQuantifier;
 import frontend.model.Summary;
 import frontend.utils.AlertBox;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ public class MainController implements Initializable {
 
     private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
 
-    private final List<LabeledFuzzySet> quantifiers = Stream.concat(
+    private final List<AbstractQuantifier> quantifiers = Stream.concat(
             PredefinedQuantifiers.getPredefinedRelativeQuantifiers().stream(),
             PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().stream()
     ).collect(Collectors.toList());
@@ -48,7 +49,11 @@ public class MainController implements Initializable {
         summariesGeneratorTabController.setQuantifiers(quantifiers);
         variablesEditTabController.setVariables(variables);
         variablesEditTabController.setUpdateVariables(this::updateVariables);
-        quantifiersEditTabController.setLabeledFuzzySets(quantifiers);
+        quantifiersEditTabController.setLabeledFuzzySets(
+                quantifiers.stream()
+                        .map(LabeledFuzzySet.class::cast)
+                        .collect(Collectors.toList())
+        );
         quantifiersEditTabController.setUpdateLabeledFuzzySets(this::updateQuantifiers, true);
     }
 
@@ -73,6 +78,10 @@ public class MainController implements Initializable {
     }
 
     public void updateQuantifiers(List<LabeledFuzzySet> quantifiers) {
-        summariesGeneratorTabController.setQuantifiers(quantifiers);
+        List<AbstractQuantifier> quantifiersMapped = quantifiers.stream()
+                .map(AbstractQuantifier.class::cast)
+                .collect(Collectors.toList());
+
+        summariesGeneratorTabController.setQuantifiers(quantifiersMapped);
     }
 }
