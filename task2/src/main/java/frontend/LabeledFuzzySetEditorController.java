@@ -26,6 +26,9 @@ public class LabeledFuzzySetEditorController {
     public void setLabeledFuzzySet(LabeledFuzzySet labeledFuzzySet) {
         this.labeledFuzzySet = labeledFuzzySet;
         if (labeledFuzzySet == null) {
+            labelTextField.setText("");
+            isAbsoluteCheckBox.setSelected(false);
+            functionController.setFunction(null);
             return;
         }
         labelTextField.setText(labeledFuzzySet.getLabel());

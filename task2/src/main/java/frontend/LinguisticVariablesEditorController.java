@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -48,7 +49,7 @@ public class LinguisticVariablesEditorController {
         if (selectedVariable == null) {
             return;
         }
-        labeledFuzzySetListController.setLabeledFuzzySets(selectedVariable.getLabeledFuzzySets());
+        labeledFuzzySetListController.setLabeledFuzzySets(new ArrayList<>(selectedVariable.getLabeledFuzzySets()));
         labeledFuzzySetListController.setUpdateLabeledFuzzySets(
                 labeledFuzzySets -> {
                     selectedVariable.setLabeledFuzzySets(labeledFuzzySets);

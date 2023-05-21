@@ -37,6 +37,9 @@ public class FunctionDomainController implements Initializable {
     }
 
     public void domainTypeSelected() {
+        if (functionDomainComboBox.getValue() == null) {
+            return;
+        }
         if (functionDomainComboBox.getValue().equals("Continuous")) {
             continuousFunctionDomainSection.setVisible(true);
             discreteFunctionDomainSection.setVisible(false);
@@ -52,18 +55,22 @@ public class FunctionDomainController implements Initializable {
 
     public void setDomain(Domain domain) {
         this.domain = domain;
+        continuousFunctionDomainSection.setVisible(false);
+        discreteFunctionDomainSection.setVisible(false);
         if (domain == null) {
+            functionDomainValuesTextField.setText("");
+            functionDomainStartTextField.setText("");
+            functionDomainEndTextField.setText("");
+            functionDomainComboBox.setValue(null);
             return;
         }
         if (domain instanceof ContinuousDomain) {
             continuousFunctionDomainSection.setVisible(true);
-            discreteFunctionDomainSection.setVisible(false);
             functionDomainComboBox.setValue("Continuous");
             functionDomainStartTextField.setText(String.valueOf(domain.getMin()));
             functionDomainEndTextField.setText(String.valueOf(domain.getMax()));
         } else if (domain instanceof DiscreteDomain discreteDomain) {
             continuousFunctionDomainSection.setVisible(false);
-            discreteFunctionDomainSection.setVisible(true);
             functionDomainComboBox.setValue("Discrete");
             functionDomainValuesTextField.setText(
                     discreteDomain.getValues()

@@ -78,11 +78,13 @@ public class FunctionController implements Initializable {
     }
 
     public void setFunction(BaseFunction function) {
-        if (function == null) {
-            return;
-        }
-        functionComboBox.getSelectionModel().select(function.getClass().getSimpleName());
-        functionDomainController.setDomain(function.getDomain());
+        functionComboBox.getSelectionModel().clearSelection();
+        averageTextField.setText("");
+        standardDeviationTextField.setText("");
+        minimumSupportTextField.setText("");
+        maximumSupportTextField.setText("");
+        minimumHeightTextField.setText("");
+        maximumHeightTextField.setText("");
 
         averageSection.setVisible(false);
         standardDeviationSection.setVisible(false);
@@ -90,6 +92,13 @@ public class FunctionController implements Initializable {
         maximumSupportSection.setVisible(false);
         minimumHeightSection.setVisible(false);
         maximumHeightSection.setVisible(false);
+
+        if (function == null) {
+            functionDomainController.setDomain(null);
+            return;
+        }
+        functionComboBox.getSelectionModel().select(function.getClass().getSimpleName());
+        functionDomainController.setDomain(function.getDomain());
 
         if (function instanceof GaussianFunction gaussianFunction) {
             averageTextField.setText(String.valueOf(gaussianFunction.getAverage()));
