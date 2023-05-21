@@ -75,7 +75,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT9() {
-        return 0;
+        return 1;
     }
 
     @Override

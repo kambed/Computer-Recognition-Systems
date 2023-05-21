@@ -82,7 +82,8 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT9() {
-        return 0;
+        return 1 - Math.pow(qualifiers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
+                1.0 / qualifiers.size());
     }
 
     @Override
