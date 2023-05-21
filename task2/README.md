@@ -119,7 +119,7 @@ package domains {
     interface Domain {
         + isMember(value: double): boolean
         + getMin(): double
-        - getMax(): double
+        + getMax(): double
     }
     class ContinuousDomain implements Domain {
         + isMember(value: double): boolean
