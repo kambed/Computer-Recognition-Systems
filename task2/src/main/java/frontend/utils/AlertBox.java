@@ -7,12 +7,6 @@ public class AlertBox {
     private AlertBox() {
     }
 
-    /**
-     * Method shows alert box with parameters.
-     * @param title String
-     * @param message String
-     * @param alertType AlertType
-     */
     public static void show(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
