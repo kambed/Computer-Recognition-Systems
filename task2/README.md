@@ -141,8 +141,8 @@ BaseFunction *----> Domain
 package sets {
     package factory {
         class SetFactory {
-            + {static} createFuzzySet(function: BaseFunction: FuzzySet
-            + {static} createCrispSet(function: BaseFunction: CrispSet
+            + {static} createFuzzySet(function: BaseFunction): FuzzySet
+            + {static} createCrispSet(function: BaseFunction): CrispSet
         }
     }
     class CrispSet {
