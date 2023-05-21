@@ -31,11 +31,29 @@ public class SummaryController implements Initializable {
     @FXML
     private TableColumn<SummaryDto, String> summaryColumn;
     @FXML
+    private TableColumn<SummaryDto, Double> tavgColumn;
+    @FXML
     private TableColumn<SummaryDto, Double> t1Column;
     @FXML
     private TableColumn<SummaryDto, Double> t2Column;
     @FXML
     private TableColumn<SummaryDto, Double> t3Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t4Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t5Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t6Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t7Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t8Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t9Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t10Column;
+    @FXML
+    private TableColumn<SummaryDto, Double> t11Column;
 
     private ObservableList<SummaryDto> data;
 
@@ -69,9 +87,18 @@ public class SummaryController implements Initializable {
         selectColumn.setGraphic(selectAllCheckBox);
 
         summaryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSummaryString()));
+        tavgColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getFinalDegreeOfTruth()));
         t1Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT1()));
         t2Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT2()));
         t3Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT3()));
+        t4Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT4()));
+        t5Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT5()));
+        t6Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT6()));
+        t7Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT7()));
+        t8Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT8()));
+        t9Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT9()));
+        t10Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT10()));
+        t11Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT11()));
     }
 
     public void copyToClipboard() {
