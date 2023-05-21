@@ -3,6 +3,7 @@ package backend.lingustic.summary;
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
 import backend.lingustic.quantifier.AbstractQuantifier;
+import backend.sets.FuzzySet;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +46,8 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT2() {
-        return 0;
+        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
+                1.0 / summarizers.size());
     }
 
     @Override

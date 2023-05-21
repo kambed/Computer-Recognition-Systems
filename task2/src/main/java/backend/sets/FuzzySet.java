@@ -1,6 +1,7 @@
 package backend.sets;
 
 import backend.Rounder;
+import backend.domain.DiscreteDomain;
 import backend.functions.BaseFunction;
 import lombok.Getter;
 
@@ -52,5 +53,22 @@ public class FuzzySet extends CrispSet {
             }
         }
         return true;
+    }
+
+    public double getDegreeOfFuzziness() {
+        CrispSet support = getSupport();
+        double min = getFunction().getMin();
+        double max = getFunction().getMax();
+        double step = Rounder.getStep(min, max);
+        if (this.getFunction().getDomain() instanceof DiscreteDomain domain) {
+            double sum = domain.getValues().stream().mapToDouble(
+                    d -> support.getFunction().getValue(d)
+            ).sum();
+            return sum / domain.getValues().size();
+        }
+        double sum = DoubleStream.iterate(min, d -> d <= max, d -> d + step).parallel()
+                .map(d -> support.getFunction().getValue(d))
+                .sum();
+        return ((sum - 1) * step) / (support.getFunction().getMax() - support.getFunction().getMin());
     }
 }

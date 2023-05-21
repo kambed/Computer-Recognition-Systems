@@ -1,8 +1,11 @@
 package backend.domain;
 
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class DiscreteDomain implements Domain {
     private final List<Double> values;
 
