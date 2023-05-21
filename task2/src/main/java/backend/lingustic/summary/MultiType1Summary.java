@@ -14,6 +14,7 @@ public class MultiType1Summary extends MultiSubjectSummary {
         super(subjects, summarizers, summarizerVariableNames, "");
         this.quantifier = quantifier;
         this.t1 = calculateT1();
+        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth();
     }
 
     @Override
