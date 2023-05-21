@@ -166,7 +166,7 @@ package sets {
 ## Operators
 
 ```plantuml
-package operations {
+package operators {
     package facade {
         class SetOperationFacade {
             - {static} complement: Complement
