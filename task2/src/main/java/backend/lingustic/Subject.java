@@ -3,10 +3,7 @@ package backend.lingustic;
 import backend.model.Stats;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -27,8 +24,8 @@ public class Subject {
         put("Najszybsze okrążenie kwalifikacyjne", () -> elements.stream().map(Stats::getFastestQualiLap).toList());
         put("Dzień roku wyścigu", () -> elements.stream().map(Stats::getRaceData).map(Double::valueOf).toList());
         put("Godzina rozpoczęcia wyścigu", () -> elements.stream().map(Stats::getRaceTime).toList());
-        put("Wysokość toru n.p.m.", () -> elements.stream().map(Stats::getTrackLatitude).toList());
-        put("Klimat toru", () -> elements.stream().map(Stats::getTrackAltitude).toList());
+        put("Wysokość toru n.p.m.", () -> elements.stream().map(Stats::getTrackAltitude).toList());
+        put("Klimat toru", () -> elements.stream().map(Stats::getTrackLatitude).toList());
     }};
 
     public Subject(String name, List<Stats> elements) {
@@ -40,14 +37,28 @@ public class Subject {
         List<List<Double>> elementsParams = new ArrayList<>();
         IntStream.range(0, summarizerNames.size()).forEach(
                 i -> elementsParams.add(namesToElements.get(summarizerNames.get(i)).get().stream().map(
-                        element -> fuzzySets.get(i).getFunction().getValue(element)
+                        element -> element == null ? null : fuzzySets.get(i).getFunction().getValue(element)
                 ).toList())
         );
-        List<Double> minElementsParams = new ArrayList<>(elementsParams.get(0));
-        elementsParams.forEach(
+
+        List<List<Double>> elementsParamsCopy = new ArrayList<>();
+        elementsParams.forEach(elementsParam -> elementsParamsCopy.add(new ArrayList<>()));
+
+        IntStream.range(0, elementsParams.get(0).size()).forEach(i -> {
+                    if (elementsParams.stream().allMatch(elementsParam -> elementsParam.get(i) != null)) {
+                        IntStream.range(0, elementsParamsCopy.size()).forEach(j -> elementsParamsCopy.get(j).add(elementsParams.get(j).get(i)));
+                    }
+                }
+        );
+
+        List<Double> minElementsParams = new ArrayList<>(elementsParamsCopy.get(0));
+
+        elementsParamsCopy.forEach(
                 elementsParam -> {
                     for (int i = 0; i < elementsParam.size(); i++) {
-                        minElementsParams.set(i, Math.min(minElementsParams.get(i), elementsParam.get(i)));
+                        minElementsParams.set(i, (Math.min(
+                                minElementsParams.get(i),
+                                elementsParam.get(i))));
                     }
                 }
         );
