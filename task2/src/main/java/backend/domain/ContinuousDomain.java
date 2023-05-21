@@ -1,5 +1,8 @@
 package backend.domain;
 
+import lombok.Setter;
+
+@Setter
 public class ContinuousDomain implements Domain {
     private final double from;
     private final double to;

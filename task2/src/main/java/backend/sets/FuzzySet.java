@@ -4,11 +4,13 @@ import backend.Rounder;
 import backend.domain.DiscreteDomain;
 import backend.functions.BaseFunction;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 
 import java.util.stream.DoubleStream;
 
 @Getter
+@Setter
 public class FuzzySet extends CrispSet {
 
     private final SimpsonIntegrator si = new SimpsonIntegrator();
