@@ -3,7 +3,7 @@ package frontend;
 import backend.lingustic.Variable;
 import backend.lingustic.predefined.PredefinedQuantifiers;
 import backend.lingustic.predefined.PredefinedVariables;
-import backend.lingustic.quantifier.AbstractQuantifier;
+import backend.lingustic.quantifier.LabeledFuzzySet;
 import frontend.model.Summary;
 import frontend.utils.AlertBox;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ public class MainController implements Initializable {
     @FXML
     private LinguisticVariablesEditorController variablesEditTabController;
     @FXML
-    private LinguisticQuantifiersEditorController quantifiersEditTabController;
+    private LabeledFuzzySetListController quantifiersEditTabController;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -33,7 +33,7 @@ public class MainController implements Initializable {
 
     private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
 
-    private final List<AbstractQuantifier> quantifiers = Stream.concat(
+    private final List<LabeledFuzzySet> quantifiers = Stream.concat(
             PredefinedQuantifiers.getPredefinedRelativeQuantifiers().stream(),
             PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().stream()
     ).collect(Collectors.toList());
@@ -48,8 +48,8 @@ public class MainController implements Initializable {
         summariesGeneratorTabController.setQuantifiers(quantifiers);
         variablesEditTabController.setVariables(variables);
         variablesEditTabController.setUpdateVariables(this::updateVariables);
-        quantifiersEditTabController.setQuantifiers(quantifiers);
-        quantifiersEditTabController.setUpdateQuantifiers(this::updateQuantifiers);
+        quantifiersEditTabController.setLabeledFuzzySets(quantifiers);
+        quantifiersEditTabController.setUpdateLabeledFuzzySets(this::updateQuantifiers, true);
     }
 
     public void createNewSummaryTab(List<Summary> summaries) {
@@ -72,7 +72,7 @@ public class MainController implements Initializable {
         summariesGeneratorTabController.setVariables(variables);
     }
 
-    public void updateQuantifiers(List<AbstractQuantifier> quantifiers) {
+    public void updateQuantifiers(List<LabeledFuzzySet> quantifiers) {
         summariesGeneratorTabController.setQuantifiers(quantifiers);
     }
 }

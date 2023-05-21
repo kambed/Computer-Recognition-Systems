@@ -3,7 +3,6 @@ package frontend;
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.factory.LinguisticFactory;
 import backend.lingustic.quantifier.AbsoluteQuantifier;
-import backend.lingustic.quantifier.AbstractQuantifier;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;

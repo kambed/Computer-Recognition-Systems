@@ -1,7 +1,7 @@
 package frontend;
 
 import backend.lingustic.Variable;
-import backend.lingustic.quantifier.AbstractQuantifier;
+import backend.lingustic.quantifier.LabeledFuzzySet;
 import frontend.model.Summary;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +21,7 @@ public class SummariesGeneratorController implements Initializable {
     @FXML
     private TreeView<String> variablesLabelsTree;
     @FXML
-    private ListView<AbstractQuantifier> quantifiersList;
+    private ListView<LabeledFuzzySet> quantifiersList;
     @FXML
     private VBox tMeasuresContainer;
     private final List<Spinner<Double>> tMeasures = new ArrayList<>();
@@ -86,7 +86,7 @@ public class SummariesGeneratorController implements Initializable {
         });
     }
 
-    public void setQuantifiers(List<AbstractQuantifier> quantifiers) {
+    public void setQuantifiers(List<LabeledFuzzySet> quantifiers) {
         quantifiersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         quantifiersList.getItems().setAll(quantifiers);
     }
