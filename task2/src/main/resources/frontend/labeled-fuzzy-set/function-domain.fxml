@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.FunctionDomainController">
+    <HBox spacing="10" fx:id="functionDomainSection">
+        <Label text="Function domain" />
+        <ComboBox fx:id="functionDomainComboBox" onAction="#domainTypeSelected" promptText="Select function domain" />
+    </HBox>
+    <HBox fx:id="continuousFunctionDomainSection" visible="false">
+        <Label text="Function domain: [">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="functionDomainStartTextField" />
+        <Label text=",">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="functionDomainEndTextField" />
+        <Label text="]">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+    </HBox>
+    <VBox fx:id="discreteFunctionDomainSection" spacing="10" visible="false">
+        <HBox>
+            <Label text="Function domain: {">
+                <padding>
+                    <Insets top="4.0" />
+                </padding>
+            </Label>
+            <TextField fx:id="functionDomainValuesTextField" />
+            <Label text="}">
+                <padding>
+                    <Insets top="4.0" />
+                </padding>
+            </Label>
+        </HBox>
+        <Label text="Values should be separated by comma">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+    </VBox>
+</VBox>

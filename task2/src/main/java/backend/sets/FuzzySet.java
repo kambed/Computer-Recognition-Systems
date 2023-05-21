@@ -3,10 +3,12 @@ package backend.sets;
 import backend.Rounder;
 import backend.functions.BaseFunction;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.stream.DoubleStream;
 
 @Getter
+@Setter
 public class FuzzySet extends CrispSet {
     public FuzzySet(BaseFunction function) {
         super(function);

@@ -29,4 +29,9 @@ public class BaseFunction {
     public double getMax() {
         return domain.getMax();
     }
+
+    @Override
+    public String toString() {
+        return "Function: " + function + "\nDomain: " + domain.toString();
+    }
 }
