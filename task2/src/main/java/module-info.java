@@ -5,6 +5,7 @@ module pl.ksr.computerrecognitionsystems {
     requires jakarta.xml.bind;
     requires com.opencsv;
     requires org.apache.commons.lang3;
+    requires commons.math3;
     requires java.logging;
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
