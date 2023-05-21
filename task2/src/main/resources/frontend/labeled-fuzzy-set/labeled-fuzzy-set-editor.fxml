@@ -16,14 +16,6 @@
         </Label>
         <TextField fx:id="labelTextField"/>
     </HBox>
-    <HBox spacing="10">
-        <Label text="Function">
-            <padding>
-                <Insets top="4.0"/>
-            </padding>
-        </Label>
-        <ComboBox fx:id="functionComboBox" promptText="Select function"/>
-    </HBox>
     <!--suppress JavaFxUnresolvedFxIdReference -->
     <fx:include source="function.fxml" fx:id="function"/>
 </VBox>

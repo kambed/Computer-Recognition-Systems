@@ -2,7 +2,11 @@ package backend.functions;
 
 import backend.domain.ContinuousDomain;
 import backend.domain.Domain;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RectangularFunction extends TrapezoidalFunction {
 
     public RectangularFunction(double minSupp, double maxSupp) {
