@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.Rounder;
 import backend.lingustic.Variable;
 import backend.lingustic.predefined.PredefinedQuantifiers;
 import backend.lingustic.predefined.PredefinedVariables;
@@ -7,17 +8,17 @@ import backend.lingustic.quantifier.AbstractQuantifier;
 import frontend.model.Summary;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBoxTreeItem;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class SummariesGeneratorController implements Initializable {
@@ -25,6 +26,10 @@ public class SummariesGeneratorController implements Initializable {
     private TreeView<String> variablesLabelsTree;
     @FXML
     private ListView<AbstractQuantifier> quantifiersList;
+    @FXML
+    private VBox tMeasuresContainer;
+    private final List<Spinner<Double>> tMeasures = new ArrayList<>();
+
     private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
 
     private final List<AbstractQuantifier> quantifiers = Stream.concat(
@@ -53,6 +58,19 @@ public class SummariesGeneratorController implements Initializable {
         variablesLabelsTree.setRoot(root);
         variablesLabelsTree.setShowRoot(false);
         variablesLabelsTree.setCellFactory(CheckBoxTreeCell.forTreeView());
+
+        IntStream.rangeClosed(1, 10)
+                .forEach(i -> {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    Label label = new Label("T" + i + ": " + (i < 10 ? "  " : ""));
+                    Spinner<Double> spinner = new Spinner<>(0.0, 1.0, 0.0, 0.01);
+                    spinner.setEditable(true);
+                    spinner.getEditor().textProperty().addListener((observable, oldValue, newValue) -> validateSpinnerValues());
+                    hBox.getChildren().addAll(label, spinner);
+                    tMeasures.add(spinner);
+                    tMeasuresContainer.getChildren().addAll(hBox);
+                });
     }
 
     public void generate() {
@@ -66,7 +84,13 @@ public class SummariesGeneratorController implements Initializable {
                 new Summary("Name 4", 2.0, 2.0, 1.0),
                 new Summary("Name 5", 1.5, 4.0, 1.0)
         );
+        System.out.println("T measures:");
+        tMeasures.forEach(spinner -> System.out.println(spinner.getValue()));
         createSummaryTab.accept(summaries);
+    }
+
+    public void setCreateSummaryTab(Consumer<List<Summary>> createSummaryTab) {
+        this.createSummaryTab = createSummaryTab;
     }
 
     private List<CheckBoxTreeItem<String>> getSelectedLastChildren(CheckBoxTreeItem<String> item) {
@@ -84,7 +108,13 @@ public class SummariesGeneratorController implements Initializable {
         return selected;
     }
 
-    public void setCreateSummaryTab(Consumer<List<Summary>> createSummaryTab) {
-        this.createSummaryTab = createSummaryTab;
+    private void validateSpinnerValues() {
+        double sum = tMeasures.stream().mapToDouble(Spinner::getValue).sum();
+        if (sum == 1.0) {
+            return;
+        }
+        tMeasures.forEach(spinner -> spinner.getValueFactory().setValue(
+                Rounder.round(spinner.getValue() * (1.0 / sum))
+        ));
     }
 }

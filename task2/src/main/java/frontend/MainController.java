@@ -32,7 +32,7 @@ public class MainController implements Initializable {
     public void createNewSummaryTab(List<Summary> summaries) {
         try {
             Tab tab = new Tab();
-            tab.setText("Summary" + summaryTabNumber++);
+            tab.setText("Summary " + summaryTabNumber++);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SummaryController.RESOURCE));
                 tab.setContent(fxmlLoader.load());
             tab.setClosable(true);
