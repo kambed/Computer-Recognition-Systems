@@ -33,6 +33,9 @@ package backend {
     operators ..> sets: <<import>>
     operators ..> functions: <<import>>
     sets ..> functions: <<import>>
+    
+    linguistics ..> functions: <<import>>
+    linguistics ..> sets: <<import>>
 }
 package frontend {
 }
