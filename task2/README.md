@@ -31,6 +31,7 @@ package backend {
     functions ..> domains: <<import>> 
     repository ..> model: <<import>>
     operators ..> sets: <<import>>
+    operators ..> functions: <<import>>
     sets ..> functions: <<import>>
 }
 package frontend {
