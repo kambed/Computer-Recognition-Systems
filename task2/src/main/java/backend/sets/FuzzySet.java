@@ -26,7 +26,7 @@ public class FuzzySet extends CrispSet {
         double min = getFunction().getMin();
         double max = getFunction().getMax();
         double step = Rounder.getStep(min, max);
-        return Rounder.round(DoubleStream.iterate(min, d -> d <= max, d -> d + step).parallel()
+        return Rounder.round(DoubleStream.iterate(min, d -> d <= max, d -> d + step)
                 .map(d -> getFunction().getValue(d))
                 .max()
                 .orElse(Double.NEGATIVE_INFINITY));
@@ -66,7 +66,7 @@ public class FuzzySet extends CrispSet {
             ).sum();
             return sum / domain.getValues().size();
         }
-        double sum = DoubleStream.iterate(min, d -> d <= max, d -> d + step).parallel()
+        double sum = DoubleStream.iterate(min, d -> d <= max, d -> d + step)
                 .map(d -> support.getFunction().getValue(d))
                 .sum();
         return ((sum - 1) * step) / (support.getFunction().getMax() - support.getFunction().getMin());

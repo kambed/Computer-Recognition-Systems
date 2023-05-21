@@ -60,7 +60,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT6() {
-        return 0;
+        return 1 - quantifier.getDegreeOfFuzziness();
     }
 
     @Override

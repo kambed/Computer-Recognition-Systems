@@ -2,7 +2,7 @@ package backend;
 
 public class Rounder {
     public static final double DECIMAL_PLACES_DIVISION = 100.0;
-    public static final double NUMBER_OF_STEPS = 100.0;
+    public static final double NUMBER_OF_STEPS = 1000.0;
 
     private Rounder() {
     }
@@ -15,6 +15,6 @@ public class Rounder {
     }
 
     public static double getStep(double min, double max) {
-        return Rounder.round((max - min) / Rounder.NUMBER_OF_STEPS);
+        return (max - min) / Rounder.NUMBER_OF_STEPS;
     }
 }
