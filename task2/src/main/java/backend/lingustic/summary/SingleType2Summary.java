@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SingleType2Summary extends SingleSubjectSummary {
-    protected List<LabeledFuzzySet> qualifiers;
-    protected List<String> qualifierVariableNames;
+    private final List<LabeledFuzzySet> qualifiers;
+    private final List<String> qualifierVariableNames;
 
-    public SingleType2Summary(AbstractQuantifier quantifier, Subject subject, List<LabeledFuzzySet> qualifiers, List<String> qualifierVariableNames, List<LabeledFuzzySet> summarizers, List<String> summarizerVariableNames, List<Double> weights) {
+    public SingleType2Summary(AbstractQuantifier quantifier, Subject subject, List<LabeledFuzzySet> qualifiers, List<String> qualifierVariableNames,
+                              List<LabeledFuzzySet> summarizers, List<String> summarizerVariableNames, List<Double> weights) {
         super(quantifier, subject, summarizers, summarizerVariableNames,
                 quantifier.getLabel() + " " + subject.getName() + " będących/mających " +
                         qualifiers.stream().map(LabeledFuzzySet::getLabel).collect(Collectors.joining(" i ")) +
