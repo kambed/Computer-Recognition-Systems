@@ -15,27 +15,51 @@
     </HBox>
     <fx:include source="function-domain.fxml" fx:id="functionDomain"/>
     <HBox spacing="10" fx:id="averageSection" visible="false">
-        <Label text="Average"/>
+        <Label text="Average: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="averageTextField"/>
     </HBox>
     <HBox spacing="10" fx:id="standardDeviationSection" visible="false">
-        <Label text="Standard deviation"/>
+        <Label text="Standard deviation: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="standardDeviationTextField"/>
     </HBox>
     <HBox spacing="10" fx:id="minimumSupportSection" visible="false">
-        <Label text="Minimum support"/>
+        <Label text="Minimum support: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="minimumSupportTextField"/>
     </HBox>
     <HBox spacing="10" fx:id="maximumSupportSection" visible="false">
-        <Label text="Maximum support"/>
+        <Label text="Maximum support: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="maximumSupportTextField"/>
     </HBox>
     <HBox spacing="10" fx:id="minimumHeightSection" visible="false">
-        <Label text="Minimum height"/>
+        <Label text="Minimum height: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="minimumHeightTextField"/>
     </HBox>
     <HBox spacing="10" fx:id="maximumHeightSection" visible="false">
-        <Label text="Maximum height"/>
+        <Label text="Maximum height: ">
+            <padding>
+                <Insets top="4.0"/>
+            </padding>
+        </Label>
         <TextField fx:id="maximumHeightTextField"/>
     </HBox>
 </VBox>

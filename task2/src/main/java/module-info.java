@@ -16,5 +16,6 @@ module pl.ksr.computerrecognitionsystems {
     exports backend.lingustic.quantifier;
     exports backend.lingustic;
     exports backend.functions;
+    exports backend.domain;
     opens frontend.utils to javafx.fxml;
 }

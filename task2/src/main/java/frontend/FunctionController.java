@@ -76,12 +76,12 @@ public class FunctionController implements Initializable {
         };
     }
 
-    public void setFunction(BaseFunction function) {
+    public void setFunction(BaseFunction function, boolean isQuantifier) {
         if (function == null) {
             return;
         }
         functionComboBox.getSelectionModel().select(function.getClass().getSimpleName());
-        functionDomainController.setDomain(function.getDomain());
+        functionDomainController.setDomain(function.getDomain(), isQuantifier);
 
         averageSection.setVisible(false);
         standardDeviationSection.setVisible(false);

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.FunctionDomainController">
-    <HBox spacing="10">
+    <HBox spacing="10" fx:id="functionDomainSection">
         <Label text="Function domain" />
         <ComboBox fx:id="functionDomainComboBox" onAction="#domainTypeSelected" promptText="Select function domain" />
     </HBox>

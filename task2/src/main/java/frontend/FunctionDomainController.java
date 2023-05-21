@@ -3,8 +3,6 @@ package frontend;
 import backend.domain.ContinuousDomain;
 import backend.domain.DiscreteDomain;
 import backend.domain.Domain;
-import backend.functions.BaseFunction;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -17,6 +15,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class FunctionDomainController implements Initializable {
+    @FXML
+    private HBox functionDomainSection;
     @FXML
     private ComboBox<String> functionDomainComboBox;
     @FXML
@@ -50,16 +50,23 @@ public class FunctionDomainController implements Initializable {
         return domain;
     }
 
-    public void setDomain(Domain domain) {
+    public void setDomain(Domain domain, boolean isQuantifier) {
         this.domain = domain;
         if (domain == null) {
             return;
         }
+        if (isQuantifier) {
+            functionDomainSection.setVisible(false);
+        }
         if (domain instanceof ContinuousDomain) {
+            continuousFunctionDomainSection.setVisible(true);
+            discreteFunctionDomainSection.setVisible(false);
             functionDomainComboBox.setValue("Continuous");
             functionDomainStartTextField.setText(String.valueOf(domain.getMin()));
             functionDomainEndTextField.setText(String.valueOf(domain.getMax()));
         } else if (domain instanceof DiscreteDomain discreteDomain) {
+            continuousFunctionDomainSection.setVisible(false);
+            discreteFunctionDomainSection.setVisible(true);
             functionDomainComboBox.setValue("Discrete");
             functionDomainValuesTextField.setText(
                     discreteDomain.getValues()
