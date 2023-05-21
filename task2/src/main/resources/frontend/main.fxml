@@ -3,11 +3,14 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <TabPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="frontend.MainController">
+         fx:controller="frontend.MainController" fx:id="tabPane">
+    <Tab closable="false" text="Linguistic editor">
+        <fx:include source="linguistic-editor.fxml"/>
+    </Tab>
     <Tab closable="false" text="Summaries generator">
         <fx:include source="summaries-generator.fxml"/>
     </Tab>
     <Tab text="Summary 1">
-        <fx:include source="summary.fxml"
+        <fx:include source="summary.fxml"/>
     </Tab>
 </TabPane>

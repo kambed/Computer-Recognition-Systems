@@ -13,4 +13,9 @@ public class LabeledFuzzySet extends FuzzySet {
         super(function);
         this.label = label;
     }
+
+    @Override
+    public String toString() {
+        return "Label: " + label + "\n" + super.toString();
+    }
 }

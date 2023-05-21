@@ -10,4 +10,9 @@ public class CrispSet {
     public CrispSet(BaseFunction function) {
         this.function = function;
     }
+
+    @Override
+    public String toString() {
+        return function.toString() + "\n";
+    }
 }
