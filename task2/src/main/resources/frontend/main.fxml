@@ -5,7 +5,14 @@
 <TabPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="frontend.MainController" fx:id="tabPane">
     <Tab closable="false" text="Linguistic editor">
-        <fx:include source="linguistic-editor.fxml"/>
+        <TabPane>
+            <Tab closable="false" text="Variables">
+                <fx:include source="linguistic-editor-variables.fxml" fx:id="variablesEditTab"/>
+            </Tab>
+            <Tab closable="false" text="Linguistic variables">
+                <fx:include source="linguistic-editor-quantifiers.fxml" fx:id="quantifiersEditTab"/>
+            </Tab>
+        </TabPane>
     </Tab>
     <Tab closable="false" text="Summaries generator">
         <fx:include source="summaries-generator.fxml" fx:id="summariesGeneratorTab"/>

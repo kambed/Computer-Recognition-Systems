@@ -1,9 +1,6 @@
 package frontend;
 
-import backend.Rounder;
 import backend.lingustic.Variable;
-import backend.lingustic.predefined.PredefinedQuantifiers;
-import backend.lingustic.predefined.PredefinedVariables;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import frontend.model.Summary;
 import javafx.fxml.FXML;
@@ -19,7 +16,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class SummariesGeneratorController implements Initializable {
     @FXML
@@ -29,36 +25,10 @@ public class SummariesGeneratorController implements Initializable {
     @FXML
     private VBox tMeasuresContainer;
     private final List<Spinner<Double>> tMeasures = new ArrayList<>();
-
-    private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
-
-    private final List<AbstractQuantifier> quantifiers = Stream.concat(
-            PredefinedQuantifiers.getPredefinedRelativeQuantifiers().stream(),
-            PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().stream()
-    ).toList();
     private Consumer<List<Summary>> createSummaryTab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        CheckBoxTreeItem<String> root = new CheckBoxTreeItem<>("Linguistic variables");
-        root.setExpanded(true);
-        variables.forEach(variable -> {
-                    CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(variable.getName());
-                    item.setExpanded(true);
-                    variable.getLabeledFuzzySets().forEach(labeledFuzzySet -> {
-                        CheckBoxTreeItem<String> item2 = new CheckBoxTreeItem<>(labeledFuzzySet.getLabel());
-                        item2.setExpanded(true);
-                        item.getChildren().add(item2);
-                    });
-                    root.getChildren().add(item);
-                });
-        quantifiersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        quantifiersList.getItems().addAll(quantifiers);
-
-        variablesLabelsTree.setRoot(root);
-        variablesLabelsTree.setShowRoot(false);
-        variablesLabelsTree.setCellFactory(CheckBoxTreeCell.forTreeView());
-
         IntStream.rangeClosed(1, 11)
                 .forEach(i -> {
                     HBox hBox = new HBox();
@@ -96,6 +66,29 @@ public class SummariesGeneratorController implements Initializable {
 
     public void setCreateSummaryTab(Consumer<List<Summary>> createSummaryTab) {
         this.createSummaryTab = createSummaryTab;
+    }
+
+    public void setVariables(List<Variable> variables) {
+        CheckBoxTreeItem<String> root = new CheckBoxTreeItem<>("Linguistic variables");
+        root.setExpanded(true);
+        variablesLabelsTree.setRoot(root);
+        variablesLabelsTree.setShowRoot(false);
+        variablesLabelsTree.setCellFactory(CheckBoxTreeCell.forTreeView());
+        variables.forEach(variable -> {
+            CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(variable.getName());
+            item.setExpanded(true);
+            variable.getLabeledFuzzySets().forEach(labeledFuzzySet -> {
+                CheckBoxTreeItem<String> item2 = new CheckBoxTreeItem<>(labeledFuzzySet.getLabel());
+                item2.setExpanded(true);
+                item.getChildren().add(item2);
+            });
+            root.getChildren().add(item);
+        });
+    }
+
+    public void setQuantifiers(List<AbstractQuantifier> quantifiers) {
+        quantifiersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        quantifiersList.getItems().addAll(quantifiers);
     }
 
     private List<CheckBoxTreeItem<String>> getSelectedLastChildren(CheckBoxTreeItem<String> item) {

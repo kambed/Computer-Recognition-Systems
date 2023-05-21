@@ -3,10 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="frontend.LinguisticEditorController">
+      fx:controller="frontend.LinguisticQuantifiersEditorController">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>
-    <Label text="Linguistic Editor"/>
+    <VBox spacing="10">
+        <ListView fx:id="quantifiersList" VBox.vgrow="ALWAYS"/>
+    </VBox>
 </VBox>

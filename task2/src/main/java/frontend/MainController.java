@@ -1,5 +1,9 @@
 package frontend;
 
+import backend.lingustic.Variable;
+import backend.lingustic.predefined.PredefinedQuantifiers;
+import backend.lingustic.predefined.PredefinedVariables;
+import backend.lingustic.quantifier.AbstractQuantifier;
 import frontend.model.Summary;
 import frontend.utils.AlertBox;
 import javafx.fxml.FXML;
@@ -13,13 +17,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainController implements Initializable {
     public static final String RESOURCE = "main.fxml";
     @FXML
+    private LinguisticVariablesEditorController variablesEditTabController;
+    @FXML
+    private LinguisticQuantifiersEditorController quantifiersEditTabController;
+    @FXML
     private TabPane tabPane;
     @FXML
     private SummariesGeneratorController summariesGeneratorTabController;
+
+    private final List<Variable> variables = PredefinedVariables.getPredefinedVariables();
+
+    private final List<AbstractQuantifier> quantifiers = Stream.concat(
+            PredefinedQuantifiers.getPredefinedRelativeQuantifiers().stream(),
+            PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().stream()
+    ).collect(Collectors.toList());
 
     private int summaryTabNumber = 1;
 
@@ -27,6 +44,10 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabPane.getSelectionModel().select(1);
         summariesGeneratorTabController.setCreateSummaryTab(this::createNewSummaryTab);
+        summariesGeneratorTabController.setVariables(variables);
+        summariesGeneratorTabController.setQuantifiers(quantifiers);
+        variablesEditTabController.setVariables(variables);
+        quantifiersEditTabController.setQuantifiers(quantifiers);
     }
 
     public void createNewSummaryTab(List<Summary> summaries) {
@@ -43,5 +64,13 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             AlertBox.show("Error", "Error while creating new summary tab", Alert.AlertType.ERROR);
         }
+    }
+
+    public void updateVariables(List<Variable> variables) {
+        summariesGeneratorTabController.setVariables(variables);
+    }
+
+    public void updateQuantifiers(List<AbstractQuantifier> quantifiers) {
+        summariesGeneratorTabController.setQuantifiers(quantifiers);
     }
 }
