@@ -60,7 +60,7 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT5() {
-        return 0;
+        return 2 * Math.pow(0.5, summarizers.size());
     }
 
     @Override
@@ -90,6 +90,6 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT11() {
-        return 0;
+        return 2 * Math.pow(0.5, qualifiers.size());
     }
 }
