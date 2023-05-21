@@ -18,8 +18,10 @@
             <Label text="Quantifiers:"/>
             <ListView fx:id="quantifiersList" VBox.vgrow="ALWAYS"/>
         </VBox>
+        <VBox spacing="10">
+            <Label text="Weights:"/>
+            <VBox spacing="10" fx:id="tMeasuresContainer"/>
+        </VBox>
     </HBox>
-    <Label text="Weights:"/>
-    <VBox spacing="10" fx:id="tMeasuresContainer"/>
     <Button text="Generate" onAction="#generate" VBox.vgrow="ALWAYS"/>
 </VBox>
