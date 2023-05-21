@@ -36,6 +36,7 @@ package backend {
     
     linguistics ..> functions: <<import>>
     linguistics ..> sets: <<import>>
+    linguistics ..> model
 }
 package frontend {
 }
@@ -394,8 +395,12 @@ package backend {
         }
         class Subject
     }
+    package repository {
+        class Repository
+    }
     LinguisticSummarizationsExecutor ..> Summary
     LinguisticSummarizationsExecutor ..> Subject
+    LinguisticSummarizationsExecutor ..> Repository
 }
 ```
 
