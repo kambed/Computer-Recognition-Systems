@@ -10,7 +10,40 @@ public abstract class SingleSubjectSummary extends Summary {
     protected AbsoluteQuantifier quantifier;
     protected Subject subject;
     protected LabeledFuzzySet summarizer;
-    public abstract double calculateFinalDegreeOfTruth(List<Double> weights);
+
+    protected SingleSubjectSummary(AbsoluteQuantifier quantifier, Subject subject, LabeledFuzzySet summarizer, List<Double> weights, String summary) {
+        super(summary);
+        this.quantifier = quantifier;
+        this.subject = subject;
+        this.summarizer = summarizer;
+        this.t1 = calculateT1();
+        this.t2 = calculateT2();
+        this.t3 = calculateT3();
+        this.t4 = calculateT4();
+        this.t5 = calculateT5();
+        this.t6 = calculateT6();
+        this.t7 = calculateT7();
+        this.t8 = calculateT8();
+        this.t9 = calculateT9();
+        this.t10 = calculateT10();
+        this.t11 = calculateT11();
+        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth(weights);
+    }
+
+    protected double calculateFinalDegreeOfTruth(List<Double> weights) {
+        return (t1 * weights.get(0) +
+                t2 * weights.get(1) +
+                t3 * weights.get(2) +
+                t4 * weights.get(3) +
+                t5 * weights.get(4) +
+                t6 * weights.get(5) +
+                t7 * weights.get(6) +
+                t8 * weights.get(7) +
+                t9 * weights.get(8) +
+                t10 * weights.get(9) +
+                t11 * weights.get(10)) /
+                (weights.stream().mapToDouble(Double::doubleValue).sum());
+    }
     protected abstract double calculateT1();
     protected abstract double calculateT2();
     protected abstract double calculateT3();

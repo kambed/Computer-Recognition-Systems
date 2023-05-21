@@ -1,15 +1,17 @@
 package backend.lingustic.summary;
 
 import backend.lingustic.LabeledFuzzySet;
+import backend.lingustic.Subject;
+import backend.lingustic.quantifier.AbsoluteQuantifier;
 
 import java.util.List;
 
 public class SingleType2Summary extends SingleSubjectSummary {
     protected LabeledFuzzySet qualifier;
 
-    @Override
-    public double calculateFinalDegreeOfTruth(List<Double> weights) {
-        return 0;
+    public SingleType2Summary(AbsoluteQuantifier quantifier, Subject subject, LabeledFuzzySet qualifier, LabeledFuzzySet summarizer, List<Double> weights) {
+        super(quantifier, subject, summarizer, weights, quantifier.getLabel() + " " + subject.getName() + " będących/mających " + qualifier.getLabel() + " jest/ma " + summarizer.getLabel());
+        this.qualifier = qualifier;
     }
 
     @Override
