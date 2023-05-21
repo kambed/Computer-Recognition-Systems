@@ -4,6 +4,7 @@ import backend.lingustic.Variable;
 import backend.lingustic.predefined.PredefinedQuantifiers;
 import backend.lingustic.predefined.PredefinedVariables;
 import backend.lingustic.quantifier.AbstractQuantifier;
+import frontend.model.Summary;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBoxTreeItem;
@@ -16,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class SummariesGeneratorController implements Initializable {
@@ -29,6 +31,7 @@ public class SummariesGeneratorController implements Initializable {
             PredefinedQuantifiers.getPredefinedRelativeQuantifiers().stream(),
             PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().stream()
     ).toList();
+    private Consumer<List<Summary>> createSummaryTab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,6 +59,14 @@ public class SummariesGeneratorController implements Initializable {
         List<CheckBoxTreeItem<String>> selected = getSelectedLastChildren((CheckBoxTreeItem<String>) variablesLabelsTree.getRoot());
         selected.forEach(item -> System.out.println(item.getParent().getValue() + " - " + item.getValue()));
         quantifiersList.getSelectionModel().getSelectedItems().forEach(System.out::println);
+        List<Summary> summaries = List.of(
+                new Summary("Name 1", 1.0, 1.0, 1.0),
+                new Summary("Name 2", 1.0, 2.0, 1.0),
+                new Summary("Name 3", 3.0, 1.0, 1.0),
+                new Summary("Name 4", 2.0, 2.0, 1.0),
+                new Summary("Name 5", 1.5, 4.0, 1.0)
+        );
+        createSummaryTab.accept(summaries);
     }
 
     private List<CheckBoxTreeItem<String>> getSelectedLastChildren(CheckBoxTreeItem<String> item) {
@@ -71,5 +82,9 @@ public class SummariesGeneratorController implements Initializable {
             }
         });
         return selected;
+    }
+
+    public void setCreateSummaryTab(Consumer<List<Summary>> createSummaryTab) {
+        this.createSummaryTab = createSummaryTab;
     }
 }

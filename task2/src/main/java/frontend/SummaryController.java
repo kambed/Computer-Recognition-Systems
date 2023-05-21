@@ -1,5 +1,6 @@
 package frontend;
 
+import frontend.model.Summary;
 import frontend.utils.AlertBox;
 import frontend.utils.FileChoose;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,10 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,6 +23,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class SummaryController implements Initializable {
+    public static final String RESOURCE = "summary.fxml";
     @FXML
     private TableView<Summary> table;
     @FXML
@@ -45,16 +43,12 @@ public class SummaryController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         prepareColumns();
+    }
 
-        data = FXCollections.observableArrayList();
-        data.addAll(
-                new Summary("Name 1", 1.0, 1.0, 1.0),
-                new Summary("Name 2", 1.0, 2.0, 1.0),
-                new Summary("Name 3", 3.0, 1.0, 1.0),
-                new Summary("Name 4", 2.0, 2.0, 1.0),
-                new Summary("Name 5", 1.5, 4.0, 1.0)
-        );
-        table.setItems(data);
+    public void setData(List<Summary> data) {
+        this.data = FXCollections.observableArrayList(data);
+        table.setItems(this.data);
+        table.refresh();
     }
 
     private void prepareColumns() {
@@ -114,43 +108,5 @@ public class SummaryController implements Initializable {
 
     private List<Summary> getSelectedSummaries() {
         return data.filtered(Summary::isSelected);
-    }
-}
-
-@Getter
-@Setter
-@AllArgsConstructor
-class Summary {
-    private static final String CELL_PATTERN = "<td>%s</td>";
-    private String summary;
-    private Double t1;
-    private Double t2;
-    private Double t3;
-    private boolean selected;
-
-    public Summary(String summary, Double t1, Double t2, Double t3) {
-        this.summary = summary;
-        this.t1 = t1;
-        this.t2 = t2;
-        this.t3 = t3;
-        this.selected = false;
-    }
-
-    @Override
-    public String toString() {
-        return "Summary: \n" + summary + "\n" +
-                "T1: " + t1 + "\n" +
-                "T2: " + t2 + "\n" +
-                "T3: " + t3 + "\n" +
-                "\n";
-    }
-
-    public String toHtmlTableRow() {
-        return "<tr>" +
-                CELL_PATTERN.formatted(summary) +
-                CELL_PATTERN.formatted(t1) +
-                CELL_PATTERN.formatted(t2) +
-                CELL_PATTERN.formatted(t3) +
-                "</tr>";
     }
 }

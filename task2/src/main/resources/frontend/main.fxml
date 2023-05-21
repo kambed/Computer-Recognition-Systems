@@ -8,9 +8,6 @@
         <fx:include source="linguistic-editor.fxml"/>
     </Tab>
     <Tab closable="false" text="Summaries generator">
-        <fx:include source="summaries-generator.fxml"/>
-    </Tab>
-    <Tab text="Summary 1">
-        <fx:include source="summary.fxml"/>
+        <fx:include source="summaries-generator.fxml" fx:id="summariesGeneratorTab"/>
     </Tab>
 </TabPane>
