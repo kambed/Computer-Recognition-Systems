@@ -396,3 +396,81 @@ package backend {
     LinguisticSummarizationsExecutor ..> Subject
 }
 ```
+
+## Frontend
+
+```plantuml
+package frontend {
+    class MainApplication
+    class MainController {
+        - variables: Variable[]
+        - quantifiers: AbstractQuantifier[]
+    }
+    
+    class LinguisticVariablesEditorController
+    class LabeledFuzzySetListController
+    class LabeledFuzzySetEditorController
+    
+    class FunctionController
+    class FunctionDomainController
+    
+    class SummariesGeneratorController
+    class SummaryController
+    
+    MainApplication ..> MainController
+    
+    MainController ..> LinguisticVariablesEditorController
+    MainController ..> LabeledFuzzySetListController
+    MainController ..> SummariesGeneratorController
+    MainController ..> SummaryController
+    
+    LinguisticVariablesEditorController ..> LabeledFuzzySetListController
+    
+    LabeledFuzzySetListController ..> LabeledFuzzySetEditorController
+    
+    LabeledFuzzySetEditorController ..> FunctionController
+    
+    FunctionController ..> FunctionDomainController
+    
+    package model {
+        class SummaryDto {
+            - selected: boolean
+            + toHtmlTableRow(): String
+        }
+    }
+    package utils {
+        class AlertBox {
+            + show(title: String, message: String): void
+        }
+        class FileChooser {
+            + {static} chooseFile(): String
+        }
+    }
+    SummaryController ..> SummaryDto
+    SummaryController ..> FileChooser
+    SummaryController ..> AlertBox
+    SummariesGeneratorController ..> AlertBox
+}
+package backend {
+    package linguistic {
+        abstract class Summary {
+            # summaryString: String
+            # finalDegreeOfTruth: double
+            # t1: double
+            # t2: double
+            # t3: double
+            # t4: double
+            # t5: double
+            # t6: double
+            # t7: double
+            # t8: double
+            # t9: double
+            # t10: double
+            # t11: double
+        }
+    }
+    class LinguisticSummarizationsExecutor
+}
+Summary <|----- SummaryDto
+SummariesGeneratorController ......> LinguisticSummarizationsExecutor
+```
