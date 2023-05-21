@@ -77,7 +77,8 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT8() {
-        return 0;
+        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfCardinality).reduce(1, (a, b) -> a * b),
+                1.0 / summarizers.size());
     }
 
     @Override
@@ -88,7 +89,8 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT10() {
-        return 0;
+        return 1 - Math.pow(qualifiers.stream().mapToDouble(FuzzySet::getDegreeOfCardinality).reduce(1, (a, b) -> a * b),
+                1.0 / qualifiers.size());
     }
 
     @Override
