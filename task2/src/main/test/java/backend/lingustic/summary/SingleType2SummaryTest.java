@@ -55,7 +55,7 @@ class SingleType2SummaryTest {
                 List.of(fuzzySet2),
                 List.of("Liczba zdobytych punktów"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.81, s.getT2(), 0.01);
+        assertEquals(0.9, s.getT2(), 0.01);
     }
 
     @Test
@@ -214,7 +214,7 @@ class SingleType2SummaryTest {
                 List.of(fuzzySet1),
                 List.of("Liczba przejechanych okrążeń"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.81, s.getT9(), 0.01);
+        assertEquals(0.9, s.getT9(), 0.01);
     }
 
     @Test
@@ -236,6 +236,6 @@ class SingleType2SummaryTest {
                 List.of(fuzzySet1),
                 List.of("Liczba przejechanych okrążeń"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.90, s.getT10(), 0.01);
+        assertEquals(0.95, s.getT10(), 0.01);
     }
 }

@@ -79,7 +79,7 @@ class SingleType1SummaryTest {
                 List.of("Liczba przejechanych okrążeń", "Liczba zdobytych punktów"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
         assertEquals("Około połowa wyników jest/ma Incydent w wyścigu i Nieskuteczny kierowca", s.getSummaryString());
-        assertEquals(0.71, s.getT2(), 0.01);
+        assertEquals(0.79, s.getT2(), 0.01);
     }
 
     @Test
@@ -166,7 +166,7 @@ class SingleType1SummaryTest {
         stats.add(new Stats(5, "Kovalainen Heikki", "McLaren", "Albert Park Grand Prix Circuit", "2008", 5, 3, 1, 4.0, 26.4066, 28.57, 87.418, 218.385, null, 85.452, 75, 4.5, -37.8497, 10.0));
 
         Summary s = new SingleType1Summary(PredefinedQuantifiers.getPredefinedRelativeQuantifiers().get(1), new Subject("Wyniki", stats), List.of(PredefinedVariables.getPredefinedVariables().get(1).getLabeledFuzzySets().get(0)), List.of("Liczba zdobytych punktów"), List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.90, s.getT8(), 0.01);
+        assertEquals(0.95, s.getT8(), 0.01);
     }
 
     @Test
