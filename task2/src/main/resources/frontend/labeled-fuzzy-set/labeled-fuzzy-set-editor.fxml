@@ -18,4 +18,5 @@
     </HBox>
     <!--suppress JavaFxUnresolvedFxIdReference -->
     <fx:include source="function.fxml" fx:id="function"/>
+    <Button text="Save" onAction="#save"/>
 </VBox>

@@ -88,7 +88,7 @@ public class SummariesGeneratorController implements Initializable {
 
     public void setQuantifiers(List<AbstractQuantifier> quantifiers) {
         quantifiersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        quantifiersList.getItems().addAll(quantifiers);
+        quantifiersList.getItems().setAll(quantifiers);
     }
 
     private List<CheckBoxTreeItem<String>> getSelectedLastChildren(CheckBoxTreeItem<String> item) {

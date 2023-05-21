@@ -7,11 +7,13 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class LinguisticVariablesEditorController {
     @FXML
     private TreeView<String> variablesLabelsTree;
     private List<Variable> variables;
+    private Consumer<List<Variable>> updateVariables;
 
     public void setVariables(List<Variable> variables) {
         CheckBoxTreeItem<String> root = new CheckBoxTreeItem<>("Linguistic variables");
@@ -29,5 +31,9 @@ public class LinguisticVariablesEditorController {
             });
             root.getChildren().add(item);
         });
+    }
+
+    public void setUpdateVariables(Consumer<List<Variable>> updateVariables) {
+        this.updateVariables = updateVariables;
     }
 }

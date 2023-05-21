@@ -47,7 +47,9 @@ public class MainController implements Initializable {
         summariesGeneratorTabController.setVariables(variables);
         summariesGeneratorTabController.setQuantifiers(quantifiers);
         variablesEditTabController.setVariables(variables);
+        variablesEditTabController.setUpdateVariables(this::updateVariables);
         quantifiersEditTabController.setQuantifiers(quantifiers);
+        quantifiersEditTabController.setUpdateQuantifiers(this::updateQuantifiers);
     }
 
     public void createNewSummaryTab(List<Summary> summaries) {
