@@ -41,45 +41,43 @@ frontend ..> backend: <<import>>
 ## Data model
 
 ```plantuml
-package data {
-    package model {
-        class Stats {
-            - id: int
-            - driver: String
-            - team: String
-            - track: String
-            - year: String
-            - finishPosition: int
-            - startPosition: int
-            - numberOfLaps: int
-            - numberOfPoints: double
-            - driverAge: double
-            - percentageOfPointsGotForATeam: double
-            - fastestLap: double
-            - fastestLapSpeed: double
-            - fastestPitStop: double
-            - fastestQualificationLap: double
-            - raceDate: int
-            - raceTime: double
-            - trackLatitude: double
-            - trackLongitude: double
-        }
+package model {
+    class Stats {
+        - id: int
+        - driver: String
+        - team: String
+        - track: String
+        - year: String
+        - finishPosition: int
+        - startPosition: int
+        - numberOfLaps: int
+        - numberOfPoints: double
+        - driverAge: double
+        - percentageOfPointsGotForATeam: double
+        - fastestLap: double
+        - fastestLapSpeed: double
+        - fastestPitStop: double
+        - fastestQualificationLap: double
+        - raceDate: int
+        - raceTime: double
+        - trackLatitude: double
+        - trackLongitude: double
     }
-    package repository {
-        class StatsRepository {
-            - {static} stats: Stats[]
-            + {static} getStats(): Stats[]
-        }
-        StatsRepository *--> Stats: has
-    }
-
-    note left of StatsRepository::stats
-        StatsRepository is a singleton 
-        which set stats while first call 
-        to getStats(), next calls will
-        return data.
-    end note
 }
+package repository {
+    class StatsRepository {
+        - {static} stats: Stats[]
+        + {static} getStats(): Stats[]
+    }
+    StatsRepository *--> Stats: has
+}
+
+note left of StatsRepository::stats
+    StatsRepository is a singleton 
+    which set stats while first call 
+    to getStats(), next calls will
+    return data.
+end note
 ```
 
 ## Functions and domains
