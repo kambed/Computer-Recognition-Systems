@@ -45,7 +45,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT3() {
-        return 0;
+        return subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
     }
 
     @Override

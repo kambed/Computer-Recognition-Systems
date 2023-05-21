@@ -52,7 +52,9 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT3() {
-        return 0;
+        return subject.getElementsSupportCardinality(Stream.concat(summarizers.stream(), qualifiers.stream()).toList(),
+                Stream.concat(summarizerVariableNames.stream(), qualifierVariableNames.stream()).toList()) /
+                subject.getElementsSupportCardinality(qualifiers, qualifierVariableNames);
     }
 
     @Override

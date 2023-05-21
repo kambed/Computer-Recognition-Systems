@@ -36,11 +36,11 @@ public class Subject {
         this.elements = elements;
     }
 
-    public double getElementsCardinality(List<LabeledFuzzySet> summarizers, List<String> summarizerNames) {
+    private List<Double> getSumOfAll(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
         List<List<Double>> elementsParams = new ArrayList<>();
         IntStream.range(0, summarizerNames.size()).forEach(
                 i -> elementsParams.add(namesToElements.get(summarizerNames.get(i)).get().stream().map(
-                        element -> summarizers.get(i).getFunction().getValue(element)
+                        element -> fuzzySets.get(i).getFunction().getValue(element)
                 ).toList())
         );
         List<Double> minElementsParams = new ArrayList<>(elementsParams.get(0));
@@ -51,6 +51,14 @@ public class Subject {
                     }
                 }
         );
-        return minElementsParams.stream().mapToDouble(Double::doubleValue).sum();
+        return minElementsParams;
+    }
+
+    public double getElementsCardinality(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
+        return getSumOfAll(fuzzySets, summarizerNames).stream().mapToDouble(Double::doubleValue).sum();
+    }
+
+    public double getElementsSupportCardinality(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
+        return getSumOfAll(fuzzySets, summarizerNames).stream().mapToDouble(d -> d > 0 ? 1 : 0).sum();
     }
 }
