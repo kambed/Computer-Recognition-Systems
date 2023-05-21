@@ -4,11 +4,15 @@ import backend.Rounder;
 import backend.domain.DiscreteDomain;
 import backend.functions.BaseFunction;
 import lombok.Getter;
+import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 
 import java.util.stream.DoubleStream;
 
 @Getter
 public class FuzzySet extends CrispSet {
+
+    private final SimpsonIntegrator si = new SimpsonIntegrator();
+
     public FuzzySet(BaseFunction function) {
         super(function);
     }
@@ -59,16 +63,26 @@ public class FuzzySet extends CrispSet {
         CrispSet support = getSupport();
         double min = getFunction().getMin();
         double max = getFunction().getMax();
-        double step = Rounder.getStep(min, max);
         if (this.getFunction().getDomain() instanceof DiscreteDomain domain) {
             double sum = domain.getValues().stream().mapToDouble(
                     d -> support.getFunction().getValue(d)
             ).sum();
             return sum / domain.getValues().size();
         }
-        double sum = DoubleStream.iterate(min, d -> d <= max, d -> d + step)
-                .map(d -> support.getFunction().getValue(d))
-                .sum();
-        return ((sum - 1) * step) / (support.getFunction().getMax() - support.getFunction().getMin());
+        double sum = si.integrate(Integer.MAX_VALUE, support.getFunction()::getValue, min, max);
+        return sum / (support.getFunction().getMax() - support.getFunction().getMin());
+    }
+
+    public double getDegreeOfCardinality() {
+        double min = getFunction().getMin();
+        double max = getFunction().getMax();
+        if (this.getFunction().getDomain() instanceof DiscreteDomain domain) {
+            double sum = domain.getValues().stream().mapToDouble(
+                    d -> getFunction().getValue(d)
+            ).sum();
+            return sum / domain.getValues().size();
+        }
+        double sum = si.integrate(Integer.MAX_VALUE, getFunction()::getValue, min, max);
+        return sum / (getFunction().getMax() - getFunction().getMin());
     }
 }

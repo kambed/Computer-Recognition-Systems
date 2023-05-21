@@ -5,6 +5,7 @@ import backend.lingustic.Subject;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.quantifier.RelativeQuantifier;
 import backend.sets.FuzzySet;
+import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,7 +66,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT7() {
-        return 0;
+        return 1 - quantifier.getDegreeOfCardinality();
     }
 
     @Override

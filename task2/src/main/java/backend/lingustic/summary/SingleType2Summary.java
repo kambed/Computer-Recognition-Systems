@@ -72,7 +72,7 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT7() {
-        return 0;
+        return 1 - quantifier.getDegreeOfCardinality();
     }
 
     @Override
