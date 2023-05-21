@@ -13,24 +13,12 @@ public abstract class SingleSubjectSummary extends Summary {
     protected List<String> summarizerVariableNames;
 
     protected SingleSubjectSummary(AbstractQuantifier quantifier, Subject subject, List<LabeledFuzzySet> summarizers,
-                                   List<String> summarizerVariableNames, List<Double> weights, String summary) {
+                                   List<String> summarizerVariableNames, String summary) {
         super(summary);
         this.quantifier = quantifier;
         this.subject = subject;
         this.summarizers = summarizers;
         this.summarizerVariableNames = summarizerVariableNames;
-        this.t1 = calculateT1();
-        this.t2 = calculateT2();
-        this.t3 = calculateT3();
-        this.t4 = calculateT4();
-        this.t5 = calculateT5();
-        this.t6 = calculateT6();
-        this.t7 = calculateT7();
-        this.t8 = calculateT8();
-        this.t9 = calculateT9();
-        this.t10 = calculateT10();
-        this.t11 = calculateT11();
-        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth(weights);
     }
 
     protected double calculateFinalDegreeOfTruth(List<Double> weights) {
