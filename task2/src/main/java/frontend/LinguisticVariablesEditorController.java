@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 
 public class LinguisticVariablesEditorController {
     @FXML
+    private VBox labeledFuzzySetList;
+    @FXML
     private HBox nameSection;
     @FXML
     private ComboBox<Variable> linguisticVariablesComboBox;
@@ -40,13 +42,25 @@ public class LinguisticVariablesEditorController {
     }
 
     public void variableSelected() {
-        Variable selected = linguisticVariablesComboBox.getSelectionModel().getSelectedItem();
-        nameSection.setVisible(selected != null);
-        selectedVariable = selected;
+        selectedVariable  = linguisticVariablesComboBox.getSelectionModel().getSelectedItem();
+        nameSection.setVisible(selectedVariable != null);
+        labeledFuzzySetList.setVisible(selectedVariable != null);
+        if (selectedVariable == null) {
+            return;
+        }
         labeledFuzzySetListController.setLabeledFuzzySets(selectedVariable.getLabeledFuzzySets());
+        labeledFuzzySetListController.setUpdateLabeledFuzzySets(
+                labeledFuzzySets -> {
+                    selectedVariable.setLabeledFuzzySets(labeledFuzzySets);
+                    linguisticVariablesComboBox.getItems().setAll(variables);
+                    updateVariables.accept(variables);
+                },
+                false
+        );
     }
 
     public void saveName() {
+        labeledFuzzySetList.setVisible(selectedVariable != null);
         if (selectedVariable == null) {
             return;
         }

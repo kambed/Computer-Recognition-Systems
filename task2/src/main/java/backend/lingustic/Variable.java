@@ -9,10 +9,15 @@ import java.util.List;
 @Setter
 public class Variable {
     private String name;
-    private final List<LabeledFuzzySet> labeledFuzzySets;
+    private List<LabeledFuzzySet> labeledFuzzySets;
 
     public Variable(String name, List<LabeledFuzzySet> labeledFuzzySets) {
         this.name = name;
         this.labeledFuzzySets = labeledFuzzySets;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

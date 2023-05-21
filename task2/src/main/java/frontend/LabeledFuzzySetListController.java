@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.lingustic.LabeledFuzzySet;
-import backend.lingustic.quantifier.AbstractQuantifier;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -11,30 +10,30 @@ import java.util.function.Consumer;
 
 public class LabeledFuzzySetListController {
     @FXML
-    private ListView<LabeledFuzzySet> quantifiersList;
+    private ListView<LabeledFuzzySet> labeledFuzzySetList;
     @FXML
     public LabeledFuzzySetEditorController labeledFuzzySetEditorController;
-    private List<LabeledFuzzySet> abstractQuantifiers;
-    private LabeledFuzzySet selectedAbstractQuantifier;
+    private List<LabeledFuzzySet> labeledFuzzySets;
+    private LabeledFuzzySet selectedLabeledFuzzySet;
 
     public void setLabeledFuzzySets(List<LabeledFuzzySet> abstractQuantifiers) {
-        this.abstractQuantifiers = abstractQuantifiers;
-        quantifiersList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        quantifiersList.getItems().addAll(abstractQuantifiers);
-        quantifiersList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedAbstractQuantifier = newValue;
-            labeledFuzzySetEditorController.setLabeledFuzzySet(selectedAbstractQuantifier);
+        this.labeledFuzzySets = abstractQuantifiers;
+        labeledFuzzySetList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        labeledFuzzySetList.getItems().setAll(abstractQuantifiers);
+        labeledFuzzySetList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            selectedLabeledFuzzySet = newValue;
+            labeledFuzzySetEditorController.setLabeledFuzzySet(selectedLabeledFuzzySet);
         });
     }
 
     public void setUpdateLabeledFuzzySets(Consumer<List<LabeledFuzzySet>> updateLabeledFuzzySets, boolean isQuantifier) {
         labeledFuzzySetEditorController.setUpdateLabeledFuzzySet(labeledFuzzySet -> {
-            if (selectedAbstractQuantifier == null) {
-                abstractQuantifiers.add((AbstractQuantifier) labeledFuzzySet);
-                quantifiersList.getItems().setAll(abstractQuantifiers);
+            if (selectedLabeledFuzzySet == null) {
+                labeledFuzzySets.add(labeledFuzzySet);
+                labeledFuzzySetList.getItems().setAll(labeledFuzzySets);
             }
-            quantifiersList.refresh();
-            updateLabeledFuzzySets.accept(abstractQuantifiers);
+            labeledFuzzySetList.refresh();
+            updateLabeledFuzzySets.accept(labeledFuzzySets);
         }, isQuantifier);
     }
 }

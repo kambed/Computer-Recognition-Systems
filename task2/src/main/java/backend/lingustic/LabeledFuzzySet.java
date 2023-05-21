@@ -18,6 +18,6 @@ public class LabeledFuzzySet extends FuzzySet {
 
     @Override
     public String toString() {
-        return "Label: " + label + "\n" + super.toString();
+        return label;
     }
 }
