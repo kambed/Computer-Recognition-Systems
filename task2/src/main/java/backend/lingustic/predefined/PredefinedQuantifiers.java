@@ -3,7 +3,6 @@ package backend.lingustic.predefined;
 import backend.functions.factory.FunctionFactory;
 import backend.lingustic.factory.LinguisticFactory;
 import backend.lingustic.quantifier.AbsoluteQuantifier;
-import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.quantifier.RelativeQuantifier;
 
 import java.util.List;

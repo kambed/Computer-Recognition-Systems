@@ -1,5 +1,8 @@
 package backend.lingustic.summary;
 
+import lombok.Getter;
+
+@Getter
 public abstract class Summary {
     protected String summaryString;
     protected Double finalDegreeOfTruth;

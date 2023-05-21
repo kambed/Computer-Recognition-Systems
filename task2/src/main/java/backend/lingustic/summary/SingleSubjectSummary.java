@@ -2,20 +2,23 @@ package backend.lingustic.summary;
 
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
-import backend.lingustic.quantifier.AbsoluteQuantifier;
+import backend.lingustic.quantifier.AbstractQuantifier;
 
 import java.util.List;
 
 public abstract class SingleSubjectSummary extends Summary {
-    protected AbsoluteQuantifier quantifier;
+    protected AbstractQuantifier quantifier;
     protected Subject subject;
-    protected LabeledFuzzySet summarizer;
+    protected List<LabeledFuzzySet> summarizers;
+    protected List<String> summarizerVariableNames;
 
-    protected SingleSubjectSummary(AbsoluteQuantifier quantifier, Subject subject, LabeledFuzzySet summarizer, List<Double> weights, String summary) {
+    protected SingleSubjectSummary(AbstractQuantifier quantifier, Subject subject, List<LabeledFuzzySet> summarizers,
+                                   List<String> summarizerVariableNames, List<Double> weights, String summary) {
         super(summary);
         this.quantifier = quantifier;
         this.subject = subject;
-        this.summarizer = summarizer;
+        this.summarizers = summarizers;
+        this.summarizerVariableNames = summarizerVariableNames;
         this.t1 = calculateT1();
         this.t2 = calculateT2();
         this.t3 = calculateT3();
@@ -44,15 +47,26 @@ public abstract class SingleSubjectSummary extends Summary {
                 t11 * weights.get(10)) /
                 (weights.stream().mapToDouble(Double::doubleValue).sum());
     }
+
     protected abstract double calculateT1();
+
     protected abstract double calculateT2();
+
     protected abstract double calculateT3();
+
     protected abstract double calculateT4();
+
     protected abstract double calculateT5();
+
     protected abstract double calculateT6();
+
     protected abstract double calculateT7();
+
     protected abstract double calculateT8();
+
     protected abstract double calculateT9();
+
     protected abstract double calculateT10();
+
     protected abstract double calculateT11();
 }
