@@ -134,7 +134,7 @@ package domains {
     }
 }
 FunctionFactory ..> BaseFunction
-BaseFunction ....> Domain
+BaseFunction *----> Domain
 ```
 
 ## Sets
