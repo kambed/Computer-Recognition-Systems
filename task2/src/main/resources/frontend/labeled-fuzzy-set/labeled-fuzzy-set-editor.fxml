@@ -16,6 +16,10 @@
         </Label>
         <TextField fx:id="labelTextField"/>
     </HBox>
+    <HBox spacing="10" fx:id="quantifierSection" visible="false">
+        <CheckBox fx:id="isAbsoluteCheckBox"/>
+        <Label text="Is absolute"/>
+    </HBox>
     <!--suppress JavaFxUnresolvedFxIdReference -->
     <fx:include source="function.fxml" fx:id="function"/>
     <Button text="Save" onAction="#save"/>

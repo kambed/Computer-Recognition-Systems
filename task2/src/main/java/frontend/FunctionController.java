@@ -39,6 +39,7 @@ public class FunctionController implements Initializable {
     private TextField standardDeviationTextField;
     @FXML
     private FunctionDomainController functionDomainController;
+    private boolean isQuantifier;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,12 +77,12 @@ public class FunctionController implements Initializable {
         };
     }
 
-    public void setFunction(BaseFunction function, boolean isQuantifier) {
+    public void setFunction(BaseFunction function) {
         if (function == null) {
             return;
         }
         functionComboBox.getSelectionModel().select(function.getClass().getSimpleName());
-        functionDomainController.setDomain(function.getDomain(), isQuantifier);
+        functionDomainController.setDomain(function.getDomain());
 
         averageSection.setVisible(false);
         standardDeviationSection.setVisible(false);
@@ -156,5 +157,9 @@ public class FunctionController implements Initializable {
             }
             default -> throw new IllegalStateException("Unexpected value: " + functionType);
         }
+    }
+
+    public void setQuantifier(boolean isQuantifier) {
+        functionDomainController.setIsQuantifier(isQuantifier);
     }
 }

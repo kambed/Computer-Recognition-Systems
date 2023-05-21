@@ -50,13 +50,10 @@ public class FunctionDomainController implements Initializable {
         return domain;
     }
 
-    public void setDomain(Domain domain, boolean isQuantifier) {
+    public void setDomain(Domain domain) {
         this.domain = domain;
         if (domain == null) {
             return;
-        }
-        if (isQuantifier) {
-            functionDomainSection.setVisible(false);
         }
         if (domain instanceof ContinuousDomain) {
             continuousFunctionDomainSection.setVisible(true);
@@ -74,6 +71,12 @@ public class FunctionDomainController implements Initializable {
                             .map(String::valueOf)
                             .collect(Collectors.joining(", "))
             );
+        }
+    }
+
+    public void setIsQuantifier(boolean isQuantifier) {
+        if (isQuantifier) {
+            functionDomainSection.setVisible(false);
         }
     }
 }
