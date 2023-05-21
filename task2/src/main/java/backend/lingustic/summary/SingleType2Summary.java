@@ -5,8 +5,10 @@ import backend.lingustic.Subject;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.sets.FuzzySet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class SingleType2Summary extends SingleSubjectSummary {
@@ -59,7 +61,9 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double calculateT4() {
-        return 0;
+        List<Double> cardinalities = new ArrayList<>();
+        IntStream.range(0, summarizers.size()).forEach(i -> cardinalities.add(subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) / subject.getElements().size()));
+        return Math.abs(cardinalities.stream().mapToDouble(Double::doubleValue).reduce(1, (a, b) -> a * b) - t3);
     }
 
     @Override
