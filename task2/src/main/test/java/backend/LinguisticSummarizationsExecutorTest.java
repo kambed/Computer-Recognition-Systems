@@ -12,12 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class LinguisticSummarizationsExecutorTest {
 
     @Test
-    void getSublistsOfList() {
-        List<List<Integer>> lists = LinguisticSummarizationsExecutor.getSublistsOfList(3);
-        assertEquals(7, lists.size());
-    }
-
-    @Test
     void getAllSummaries() {
         List<Summary> summaries = LinguisticSummarizationsExecutor.getSummaries(
                 List.of(PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().get(0)),

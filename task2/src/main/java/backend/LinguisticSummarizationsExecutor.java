@@ -2,7 +2,6 @@ package backend;
 
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
-import backend.lingustic.quantifier.AbsoluteQuantifier;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.summary.SingleType1Summary;
 import backend.lingustic.summary.SingleType2Summary;
@@ -16,7 +15,7 @@ import java.util.stream.IntStream;
 
 public class LinguisticSummarizationsExecutor {
 
-    public static List<List<Integer>> getSublistsOfList(int n) {
+    private static List<List<Integer>> getSublistsOfList(int n) {
         List<Integer> list = IntStream.range(0, n).boxed().toList();
         int totalSubsets = 1 << n;
 

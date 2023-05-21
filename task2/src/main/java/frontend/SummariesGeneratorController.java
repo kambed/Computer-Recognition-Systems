@@ -3,7 +3,6 @@ package frontend;
 import backend.LinguisticSummarizationsExecutor;
 import backend.lingustic.Variable;
 import backend.lingustic.quantifier.AbstractQuantifier;
-import backend.lingustic.summary.Summary;
 import frontend.model.SummaryDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +13,6 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
