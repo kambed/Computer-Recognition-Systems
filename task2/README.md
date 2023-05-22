@@ -161,7 +161,7 @@ package sets {
         + isEmpty(): boolean
         + isConvex(): boolean
         + getDegreeOfFuzziness(): double
-        + getDegreeOfCardinality(): double
+        + getCardinality(): double
     }
     SetFactory ..> FuzzySet
     SetFactory ..> CrispSet
@@ -175,8 +175,8 @@ package operators {
     package facade {
         class SetOperationFacade {
             - {static} complement: Complement
-            - {static} multiply: Multiply
-            - {static} sum: Sum
+            - {static} multiply: Intersection
+            - {static} sum: Union
             + {static} complement(crispSet: CrispSet): CrispSet
             + {static} multiply(crispSet: CrispSet, crispSet: CrispSet): CrispSet
             + {static} sum(crispSet: CrispSet, crispSet: CrispSet): CrispSet
@@ -189,15 +189,15 @@ package operators {
     class Complement extends AbstractOperator {
         # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
-    class Multiply extends AbstractOperator {
+    class Intersection extends AbstractOperator {
         # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
-    class Sum extends AbstractOperator {
+    class Union extends AbstractOperator {
         # operation(crispSet: CrispSet[1..2]): BaseFunction
     }
     SetOperationFacade *--> Complement: has
-    SetOperationFacade *--> Multiply: has
-    SetOperationFacade *--> Sum: has
+    SetOperationFacade *--> Intersection: has
+    SetOperationFacade *--> Union: has
 }
 ```
 
@@ -212,7 +212,7 @@ package linguistic {
             + {static} createLabel(label: String, function: BaseFunction): LabeledFuzzySet
             + {static} createVariable(name: String, labels: LabeledFuzzySet[]): Variable
             + {static} createAbsoluteQuantifier(label: String, function: BaseFunction): AbsoluteQuantifier
-            + {static} createRelativeQuantifier(label: String, function: BaseFunction): Quantifier
+            + {static} createRelativeQuantifier(label: String, function: BaseFunction): RelativeQuantifier
         }
     }
     package predefined {
@@ -226,7 +226,7 @@ package linguistic {
     }
     package quantifier {
         abstract class AbstractQuantifier
-        class Quantifier extends AbstractQuantifier
+        class RelativeQuantifier extends AbstractQuantifier
         class AbsoluteQuantifier extends AbstractQuantifier
     }
     class LabeledFuzzySet {
@@ -251,6 +251,7 @@ PredefinedVariables ..> Variable
 FuzzySet <|-- LabeledFuzzySet
 ```
 ### Summary, LabeledFuzzySet, Variable and Subject
+
 ```plantuml
 package linguistic {
     package quantifier {
@@ -279,72 +280,72 @@ package linguistic {
             # subject: Subject
             # summarizers: LabeledFuzzySet[]
             # summarizerVariableNames: String[]
-            # calculateFinalDegreeOfTruth(): double
-            # {abstract} calculateT1(): double
-            # {abstract} calculateT2(): double
-            # {abstract} calculateT3(): double
-            # {abstract} calculateT4(): double
-            # {abstract} calculateT5(): double
-            # {abstract} calculateT6(): double
-            # {abstract} calculateT7(): double
-            # {abstract} calculateT8(): double
-            # {abstract} calculateT9(): double
-            # {abstract} calculateT10(): double
-            # {abstract} calculateT11(): double
+            # evaluateFinalDegreeOfTruth(): double
+            # {abstract} evaluateT1(): double
+            # {abstract} evaluateT2(): double
+            # {abstract} evaluateT3(): double
+            # {abstract} evaluateT4(): double
+            # {abstract} evaluateT5(): double
+            # {abstract} evaluateT6(): double
+            # {abstract} evaluateT7(): double
+            # {abstract} evaluateT8(): double
+            # {abstract} evaluateT9(): double
+            # {abstract} evaluateT10(): double
+            # {abstract} evaluateT11(): double
         }
         abstract class MultiSubjectSummary extends Summary {
             # subjects: Subject[]
             # summarizers: LabeledFuzzySet[]
             # summarizerVariableNames: String[]
-            # calculateFinalDegreeOfTruth(): double
-            # {abstract} calculateT1(): double
+            # evaluateFinalDegreeOfTruth(): double
+            # {abstract} evaluateT1(): double
         }
         class SingleType1Summary extends SingleSubjectSummary {
-            # calculateT1(): double
-            # calculateT2(): double
-            # calculateT3(): double
-            # calculateT4(): double
-            # calculateT5(): double
-            # calculateT6(): double
-            # calculateT7(): double
-            # calculateT8(): double
-            # calculateT9(): double
-            # calculateT10(): double
-            # calculateT11(): double
+            # evaluateT1(): double
+            # evaluateT2(): double
+            # evaluateT3(): double
+            # evaluateT4(): double
+            # evaluateT5(): double
+            # evaluateT6(): double
+            # evaluateT7(): double
+            # evaluateT8(): double
+            # evaluateT9(): double
+            # evaluateT10(): double
+            # evaluateT11(): double
         }
         class SingleType2Summary extends SingleSubjectSummary {
             - qualifiers: LabeledFuzzySet[]
             - qualifierVariableNames: String[]
-            # calculateT1(): double
-            # calculateT2(): double
-            # calculateT3(): double
-            # calculateT4(): double
-            # calculateT5(): double
-            # calculateT6(): double
-            # calculateT7(): double
-            # calculateT8(): double
-            # calculateT9(): double
-            # calculateT10(): double
-            # calculateT11(): double
+            # evaluateT1(): double
+            # evaluateT2(): double
+            # evaluateT3(): double
+            # evaluateT4(): double
+            # evaluateT5(): double
+            # evaluateT6(): double
+            # evaluateT7(): double
+            # evaluateT8(): double
+            # evaluateT9(): double
+            # evaluateT10(): double
+            # evaluateT11(): double
         }
         class MultiType1Summary extends MultiSubjectSummary {
             - quantifier: LabeledFuzzySet
-            # calculateT1(): double
+            # evaluateT1(): double
         }
         class MultiType2Summary extends MultiSubjectSummary {
             - quantifier: LabeledFuzzySet
             - qualifiers: LabeledFuzzySet[]
             - qualifierVariableNames: String[]
-            # calculateT1(): double
+            # evaluateT1(): double
         }
         class MultiType3Summary extends MultiSubjectSummary {
             - quantifier: LabeledFuzzySet
             - qualifiers: LabeledFuzzySet[]
             - qualifierVariableNames: String[]
-            # calculateT1(): double
+            # evaluateT1(): double
         }
         class MultiType4Summary extends MultiSubjectSummary {
-            # calculateT1(): double
+            # evaluateT1(): double
         }
     }
     class LabeledFuzzySet {

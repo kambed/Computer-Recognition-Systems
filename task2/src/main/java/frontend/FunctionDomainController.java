@@ -11,8 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FunctionDomainController implements Initializable {
     @FXML
@@ -50,7 +52,21 @@ public class FunctionDomainController implements Initializable {
     }
 
     public Domain getDomain() {
-        return domain;
+        if (functionDomainComboBox.getValue() == null) {
+            return null;
+        } else if (functionDomainComboBox.getValue().equals("Continuous")) {
+            return new ContinuousDomain(
+                    Double.parseDouble(functionDomainStartTextField.getText()),
+                    Double.parseDouble(functionDomainEndTextField.getText())
+            );
+        } else {
+            return new DiscreteDomain(
+                    Stream.of(functionDomainValuesTextField.getText()
+                            .split(","))
+                            .map(Double::parseDouble)
+                            .toList()
+            );
+        }
     }
 
     public void setDomain(Domain domain) {
