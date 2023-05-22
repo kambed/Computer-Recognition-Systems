@@ -10,12 +10,12 @@ public class SetOperationFacade {
     private SetOperationFacade() {
     }
 
-    private static final Complement complement = new Complement();
+    private static final Complement COMPLEMENT = new Complement();
     private static final Intersection INTERSECTION = new Intersection();
     private static final Union UNION = new Union();
 
     public static CrispSet complement(CrispSet set) {
-        return complement.execute(set);
+        return COMPLEMENT.execute(set);
     }
 
     public static CrispSet multiply(CrispSet s1, CrispSet s2) {
