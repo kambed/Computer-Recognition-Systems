@@ -4,7 +4,7 @@ import backend.domain.ContinuousDomain;
 import backend.functions.BaseFunction;
 import backend.sets.CrispSet;
 
-public class Multiply extends AbstractOperator {
+public class Intersection extends AbstractOperator {
 
     public BaseFunction operation(CrispSet s1, CrispSet s2) {
         if (s2 == null) {
