@@ -2,6 +2,7 @@ package backend;
 
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
+import backend.lingustic.quantifier.AbsoluteQuantifier;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.summary.SingleType1Summary;
 import backend.lingustic.summary.SingleType2Summary;
@@ -53,6 +54,9 @@ public class LinguisticSummarizationsExecutor {
 
         //Single subject type 2 summaries
         for (AbstractQuantifier abstractQuantifier : quantifiers) {
+            if (abstractQuantifier instanceof AbsoluteQuantifier) {
+                continue;
+            }
             List<List<Integer>> sublists = getSublistsOfList(fuzzySets.size());
             summaries.addAll(sublists.stream().map(l -> {
                 List<List<Integer>> sublists2 = getSublistsOfList(fuzzySets.size()).stream().filter(l2 -> l2.stream().noneMatch(l::contains)).toList();

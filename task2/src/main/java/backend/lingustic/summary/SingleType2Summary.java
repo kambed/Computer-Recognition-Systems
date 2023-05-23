@@ -39,6 +39,9 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT1() {
+        if (subject.getElementsCardinality(qualifiers, qualifierVariableNames) == 0) {
+            return 0;
+        }
         return quantifier.getFunction().getValue(
                 subject.getElementsCardinality(Stream.concat(summarizers.stream(), qualifiers.stream()).toList(),
                         Stream.concat(summarizerVariableNames.stream(), qualifierVariableNames.stream()).toList()) /
