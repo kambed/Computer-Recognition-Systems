@@ -80,12 +80,12 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT9() {
-        return 1;
+        return 0;
     }
 
     @Override
     protected double evaluateT10() {
-        return 1;
+        return 0;
     }
 
     @Override
