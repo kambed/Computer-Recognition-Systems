@@ -14,7 +14,7 @@ class LinguisticSummarizationsExecutorTest {
     @Test
     void getAllSummaries() {
         List<Summary> summaries = LinguisticSummarizationsExecutor.getSummaries(
-                List.of(PredefinedQuantifiers.getPredefinedAbsoluteQuantifiers().get(0)),
+                List.of(PredefinedQuantifiers.getPredefinedRelativeQuantifiers().get(0)),
                 List.of(PredefinedVariables.getPredefinedVariables().get(0).getLabeledFuzzySets().get(0),
                         PredefinedVariables.getPredefinedVariables().get(1).getLabeledFuzzySets().get(0),
                         PredefinedVariables.getPredefinedVariables().get(2).getLabeledFuzzySets().get(0)),
