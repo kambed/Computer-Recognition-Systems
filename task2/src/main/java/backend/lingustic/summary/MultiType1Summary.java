@@ -21,10 +21,13 @@ public class MultiType1Summary extends MultiSubjectSummary {
 
     @Override
     protected double evaluateT1() {
+        double denominator = (subjects.get(0).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(0).getElements().size()) +
+                (subjects.get(1).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(1).getElements().size());
+        if (denominator == 0) {
+            return 0;
+        }
         return quantifier.getFunction().getValue(
-                (subjects.get(0).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(0).getElements().size()) /
-                        ((subjects.get(0).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(0).getElements().size()) +
-                                (subjects.get(1).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(1).getElements().size()))
+                (subjects.get(0).getElementsCardinality(summarizers, summarizerVariableNames) / subjects.get(0).getElements().size()) / denominator
         );
     }
 }
