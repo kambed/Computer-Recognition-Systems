@@ -20,11 +20,9 @@ public class MultiType4Summary extends MultiSubjectSummary {
     protected double evaluateT1() {
         Map<Integer, Double> s1Card = subjects.get(0).getAllElementsCardinality(summarizers, summarizerVariableNames);
         Map<Integer, Double> s2Card = subjects.get(1).getAllElementsCardinality(summarizers, summarizerVariableNames);
-        return 1 - IntStream.range(0, Math.max(s1Card.keySet().stream().max(Integer::compareTo).orElseThrow(),
-                        s2Card.keySet().stream().max(Integer::compareTo).orElseThrow())
-                )
+        return 1 - IntStream.range(0, s1Card.size() + s2Card.size())
                 .mapToDouble(i ->
-                        Math.min(1, 1 - s1Card.getOrDefault(i, 0.0) + s2Card.getOrDefault(i, 0.0))
+                        Math.min(1, 1 - s1Card.getOrDefault(i, 0.0) + s2Card.getOrDefault(i - s1Card.size(), 0.0))
                 )
                 .boxed()
                 .mapToDouble(Double::doubleValue)
