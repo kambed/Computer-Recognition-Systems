@@ -22,18 +22,22 @@ public abstract class SingleSubjectSummary extends Summary {
     }
 
     protected double evaluateFinalDegreeOfTruth(List<Double> weights) {
-        return (t1 * weights.get(0) +
-                t2 * weights.get(1) +
-                t3 * weights.get(2) +
-                t4 * weights.get(3) +
-                t5 * weights.get(4) +
-                t6 * weights.get(5) +
-                t7 * weights.get(6) +
-                t8 * weights.get(7) +
-                t9 * weights.get(8) +
-                t10 * weights.get(9) +
-                t11 * weights.get(10)) /
+        return (eliminateNaN(t1) * weights.get(0) +
+                eliminateNaN(t2) * weights.get(1) +
+                eliminateNaN(t3) * weights.get(2) +
+                eliminateNaN(t4) * weights.get(3) +
+                eliminateNaN(t5) * weights.get(4) +
+                eliminateNaN(t6) * weights.get(5) +
+                eliminateNaN(t7) * weights.get(6) +
+                eliminateNaN(t8) * weights.get(7) +
+                eliminateNaN(t9) * weights.get(8) +
+                eliminateNaN(t10) * weights.get(9) +
+                eliminateNaN(t11) * weights.get(10)) /
                 (weights.stream().mapToDouble(Double::doubleValue).sum());
+    }
+
+    protected double eliminateNaN(double value) {
+        return Double.isNaN(value) ? 0 : value;
     }
 
     protected abstract double evaluateT1();

@@ -7,7 +7,10 @@ public class Rounder {
     private Rounder() {
     }
 
-    public static double round(double value) {
+    public static Double round(Double value) {
+        if (value == null) {
+            return null;
+        }
         return Math.round(value * DECIMAL_PLACES_DIVISION) / DECIMAL_PLACES_DIVISION;
     }
     public static double floor(double value) {

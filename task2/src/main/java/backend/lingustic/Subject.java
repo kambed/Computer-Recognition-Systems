@@ -33,7 +33,7 @@ public class Subject {
         this.elements = elements;
     }
 
-    private List<Double> getSumOfAll(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
+    public Map<Integer, Double> getAllElementsCardinality(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
         List<List<Double>> elementsParams = new ArrayList<>();
         IntStream.range(0, summarizerNames.size()).forEach(
                 i -> elementsParams.add(namesToElements.get(summarizerNames.get(i)).get().stream().map(
@@ -41,35 +41,31 @@ public class Subject {
                 ).toList())
         );
 
-        List<List<Double>> elementsParamsCopy = new ArrayList<>();
-        elementsParams.forEach(elementsParam -> elementsParamsCopy.add(new ArrayList<>()));
+        List<Map<Integer, Double>> elementsParamsCopy = new ArrayList<>();
+        elementsParams.forEach(elementsParam -> elementsParamsCopy.add(new HashMap<>()));
 
         IntStream.range(0, elementsParams.get(0).size()).forEach(i -> {
                     if (elementsParams.stream().allMatch(elementsParam -> elementsParam.get(i) != null)) {
-                        IntStream.range(0, elementsParamsCopy.size()).forEach(j -> elementsParamsCopy.get(j).add(elementsParams.get(j).get(i)));
+                        IntStream.range(0, elementsParamsCopy.size()).forEach(j -> elementsParamsCopy.get(j).put(i, elementsParams.get(j).get(i)));
                     }
                 }
         );
 
-        List<Double> minElementsParams = new ArrayList<>(elementsParamsCopy.get(0));
+        Map<Integer, Double> minElementsParams = new HashMap<>(elementsParamsCopy.get(0));
 
         elementsParamsCopy.forEach(
-                elementsParam -> {
-                    for (int i = 0; i < elementsParam.size(); i++) {
-                        minElementsParams.set(i, (Math.min(
-                                minElementsParams.get(i),
-                                elementsParam.get(i))));
-                    }
-                }
+                elementsParam -> elementsParam.keySet().forEach(key ->
+                        minElementsParams.put(key, (Math.min(minElementsParams.get(key), elementsParam.get(key))))
+                )
         );
         return minElementsParams;
     }
 
     public double getElementsCardinality(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
-        return getSumOfAll(fuzzySets, summarizerNames).stream().mapToDouble(Double::doubleValue).sum();
+        return getAllElementsCardinality(fuzzySets, summarizerNames).values().stream().mapToDouble(Double::doubleValue).sum();
     }
 
     public double getElementsSupportCardinality(List<LabeledFuzzySet> fuzzySets, List<String> summarizerNames) {
-        return getSumOfAll(fuzzySets, summarizerNames).stream().mapToDouble(d -> d > 0 ? 1 : 0).sum();
+        return getAllElementsCardinality(fuzzySets, summarizerNames).values().stream().mapToDouble(d -> d > 0 ? 1 : 0).sum();
     }
 }
