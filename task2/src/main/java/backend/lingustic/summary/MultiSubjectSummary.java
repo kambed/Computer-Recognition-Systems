@@ -19,9 +19,9 @@ public abstract class MultiSubjectSummary extends Summary {
         this.summarizerVariableNames = summarizerVariableNames;
     }
 
-    protected double calculateFinalDegreeOfTruth() {
+    protected double evaluateFinalDegreeOfTruth() {
         return t1;
     }
 
-    protected abstract double calculateT1();
+    protected abstract double evaluateT1();
 }

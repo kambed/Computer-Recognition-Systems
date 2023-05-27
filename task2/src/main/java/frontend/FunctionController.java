@@ -63,15 +63,15 @@ public class FunctionController implements Initializable {
             case "TriangularFunction" -> new TriangularFunction(
                     functionDomainController.getDomain(),
                     Double.parseDouble(minimumSupportTextField.getText()),
-                    Double.parseDouble(maximumSupportTextField.getText()),
-                    Double.parseDouble(maximumHeightTextField.getText())
+                    Double.parseDouble(maximumHeightTextField.getText()),
+                    Double.parseDouble(maximumSupportTextField.getText())
             );
             case "TrapezoidalFunction" -> new TrapezoidalFunction(
                     functionDomainController.getDomain(),
                     Double.parseDouble(minimumSupportTextField.getText()),
-                    Double.parseDouble(maximumSupportTextField.getText()),
                     Double.parseDouble(minimumHeightTextField.getText()),
-                    Double.parseDouble(maximumHeightTextField.getText())
+                    Double.parseDouble(maximumHeightTextField.getText()),
+                    Double.parseDouble(maximumSupportTextField.getText())
             );
             default -> null;
         };

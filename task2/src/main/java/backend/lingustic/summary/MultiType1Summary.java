@@ -13,12 +13,12 @@ public class MultiType1Summary extends MultiSubjectSummary {
     public MultiType1Summary(AbstractQuantifier quantifier, List<Subject> subjects, List<LabeledFuzzySet> summarizers, List<String> summarizerVariableNames) {
         super(subjects, summarizers, summarizerVariableNames, "");
         this.quantifier = quantifier;
-        this.t1 = calculateT1();
-        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth();
+        this.t1 = evaluateT1();
+        this.finalDegreeOfTruth = evaluateFinalDegreeOfTruth();
     }
 
     @Override
-    protected double calculateT1() {
+    protected double evaluateT1() {
         return 0;
     }
 }

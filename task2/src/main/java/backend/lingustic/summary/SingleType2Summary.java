@@ -23,22 +23,25 @@ public class SingleType2Summary extends SingleSubjectSummary {
                         " jest/ma " + summarizers.stream().map(LabeledFuzzySet::getLabel).collect(Collectors.joining(" i ")));
         this.qualifiers = qualifiers;
         this.qualifierVariableNames = qualifierVariableNames;
-        this.t1 = calculateT1();
-        this.t2 = calculateT2();
-        this.t3 = calculateT3();
-        this.t4 = calculateT4();
-        this.t5 = calculateT5();
-        this.t6 = calculateT6();
-        this.t7 = calculateT7();
-        this.t8 = calculateT8();
-        this.t9 = calculateT9();
-        this.t10 = calculateT10();
-        this.t11 = calculateT11();
-        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth(weights);
+        this.t1 = evaluateT1();
+        this.t2 = evaluateT2();
+        this.t3 = evaluateT3();
+        this.t4 = evaluateT4();
+        this.t5 = evaluateT5();
+        this.t6 = evaluateT6();
+        this.t7 = evaluateT7();
+        this.t8 = evaluateT8();
+        this.t9 = evaluateT9();
+        this.t10 = evaluateT10();
+        this.t11 = evaluateT11();
+        this.finalDegreeOfTruth = evaluateFinalDegreeOfTruth(weights);
     }
 
     @Override
-    protected double calculateT1() {
+    protected double evaluateT1() {
+        if (subject.getElementsCardinality(qualifiers, qualifierVariableNames) == 0) {
+            return 0;
+        }
         return quantifier.getFunction().getValue(
                 subject.getElementsCardinality(Stream.concat(summarizers.stream(), qualifiers.stream()).toList(),
                         Stream.concat(summarizerVariableNames.stream(), qualifierVariableNames.stream()).toList()) /
@@ -47,60 +50,60 @@ public class SingleType2Summary extends SingleSubjectSummary {
     }
 
     @Override
-    protected double calculateT2() {
+    protected double evaluateT2() {
         return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
                 1.0 / summarizers.size());
     }
 
     @Override
-    protected double calculateT3() {
+    protected double evaluateT3() {
         return subject.getElementsSupportCardinality(Stream.concat(summarizers.stream(), qualifiers.stream()).toList(),
                 Stream.concat(summarizerVariableNames.stream(), qualifierVariableNames.stream()).toList()) /
                 subject.getElementsSupportCardinality(qualifiers, qualifierVariableNames);
     }
 
     @Override
-    protected double calculateT4() {
+    protected double evaluateT4() {
         List<Double> cardinalities = new ArrayList<>();
         IntStream.range(0, summarizers.size()).forEach(i -> cardinalities.add(subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) / subject.getElements().size()));
         return Math.abs(cardinalities.stream().mapToDouble(Double::doubleValue).reduce(1, (a, b) -> a * b) - t3);
     }
 
     @Override
-    protected double calculateT5() {
+    protected double evaluateT5() {
         return 2 * Math.pow(0.5, summarizers.size());
     }
 
     @Override
-    protected double calculateT6() {
+    protected double evaluateT6() {
         return 1 - quantifier.getDegreeOfFuzziness();
     }
 
     @Override
-    protected double calculateT7() {
-        return 1 - quantifier.getDegreeOfCardinality();
+    protected double evaluateT7() {
+        return 1 - quantifier.getCardinality();
     }
 
     @Override
-    protected double calculateT8() {
-        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfCardinality).reduce(1, (a, b) -> a * b),
+    protected double evaluateT8() {
+        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getCardinality).reduce(1, (a, b) -> a * b),
                 1.0 / summarizers.size());
     }
 
     @Override
-    protected double calculateT9() {
+    protected double evaluateT9() {
         return 1 - Math.pow(qualifiers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
                 1.0 / qualifiers.size());
     }
 
     @Override
-    protected double calculateT10() {
-        return 1 - Math.pow(qualifiers.stream().mapToDouble(FuzzySet::getDegreeOfCardinality).reduce(1, (a, b) -> a * b),
+    protected double evaluateT10() {
+        return 1 - Math.pow(qualifiers.stream().mapToDouble(FuzzySet::getCardinality).reduce(1, (a, b) -> a * b),
                 1.0 / qualifiers.size());
     }
 
     @Override
-    protected double calculateT11() {
+    protected double evaluateT11() {
         return 2 * Math.pow(0.5, qualifiers.size());
     }
 }

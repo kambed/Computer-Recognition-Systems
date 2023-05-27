@@ -1,8 +1,9 @@
 package frontend;
 
+import backend.LinguisticSummarizationsExecutor;
 import backend.lingustic.Variable;
 import backend.lingustic.quantifier.AbstractQuantifier;
-import frontend.model.Summary;
+import frontend.model.SummaryDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -25,7 +26,8 @@ public class SummariesGeneratorController implements Initializable {
     @FXML
     private VBox tMeasuresContainer;
     private final List<Spinner<Double>> tMeasures = new ArrayList<>();
-    private Consumer<List<Summary>> createSummaryTab;
+    private Consumer<List<SummaryDto>> createSummaryTab;
+    private List<Variable> variables;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,21 +52,25 @@ public class SummariesGeneratorController implements Initializable {
 
     public void generate() {
         List<CheckBoxTreeItem<String>> selected = getSelectedLastChildren((CheckBoxTreeItem<String>) variablesLabelsTree.getRoot());
-        selected.forEach(item -> System.out.println(item.getParent().getValue() + " - " + item.getValue()));
-        quantifiersList.getSelectionModel().getSelectedItems().forEach(System.out::println);
-        List<Summary> summaries = List.of(
-                new Summary("Name 1", 1.0, 1.0, 1.0),
-                new Summary("Name 2", 1.0, 2.0, 1.0),
-                new Summary("Name 3", 3.0, 1.0, 1.0),
-                new Summary("Name 4", 2.0, 2.0, 1.0),
-                new Summary("Name 5", 1.5, 4.0, 1.0)
-        );
-        System.out.println("T measures:");
-        tMeasures.forEach(spinner -> System.out.println(spinner.getValue()));
+        List<SummaryDto> summaries = LinguisticSummarizationsExecutor.getSummaries(
+                quantifiersList.getSelectionModel().getSelectedItems().stream().toList(),
+                selected.stream()
+                        .map(s -> variables.stream()
+                                .filter(v -> v.getName().equals(s.getParent().getValue()))
+                                .findFirst()
+                                .orElseThrow()
+                                .getLabeledFuzzySets()
+                                .stream()
+                                .filter(lfs -> lfs.getLabel().equals(s.getValue()))
+                                .findFirst()
+                                .orElseThrow()).toList(),
+                selected.stream().map(i -> i.getParent().getValue()).toList(),
+                tMeasures.stream().map(Spinner::getValue).toList()
+        ).stream().map(SummaryDto::new).toList();
         createSummaryTab.accept(summaries);
     }
 
-    public void setCreateSummaryTab(Consumer<List<Summary>> createSummaryTab) {
+    public void setCreateSummaryTab(Consumer<List<SummaryDto>> createSummaryTab) {
         this.createSummaryTab = createSummaryTab;
     }
 
@@ -74,6 +80,7 @@ public class SummariesGeneratorController implements Initializable {
         variablesLabelsTree.setRoot(root);
         variablesLabelsTree.setShowRoot(false);
         variablesLabelsTree.setCellFactory(CheckBoxTreeCell.forTreeView());
+        this.variables = variables;
         variables.forEach(variable -> {
             CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(variable.getName());
             item.setExpanded(true);

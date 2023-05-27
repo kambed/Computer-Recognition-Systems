@@ -75,7 +75,7 @@ public class FuzzySet extends CrispSet {
         return sum / (support.getFunction().getMax() - support.getFunction().getMin());
     }
 
-    public double getDegreeOfCardinality() {
+    public double getCardinality() {
         double min = getFunction().getMin();
         double max = getFunction().getMax();
         if (this.getFunction().getDomain() instanceof DiscreteDomain domain) {

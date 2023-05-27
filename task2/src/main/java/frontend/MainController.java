@@ -5,7 +5,7 @@ import backend.lingustic.Variable;
 import backend.lingustic.predefined.PredefinedQuantifiers;
 import backend.lingustic.predefined.PredefinedVariables;
 import backend.lingustic.quantifier.AbstractQuantifier;
-import frontend.model.Summary;
+import frontend.model.SummaryDto;
 import frontend.utils.AlertBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,7 +57,7 @@ public class MainController implements Initializable {
         quantifiersEditTabController.setUpdateLabeledFuzzySets(this::updateQuantifiers, true);
     }
 
-    public void createNewSummaryTab(List<Summary> summaries) {
+    public void createNewSummaryTab(List<SummaryDto> summaries) {
         try {
             Tab tab = new Tab();
             tab.setText("Summary " + summaryTabNumber++);

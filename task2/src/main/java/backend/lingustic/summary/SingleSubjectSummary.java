@@ -21,7 +21,7 @@ public abstract class SingleSubjectSummary extends Summary {
         this.summarizerVariableNames = summarizerVariableNames;
     }
 
-    protected double calculateFinalDegreeOfTruth(List<Double> weights) {
+    protected double evaluateFinalDegreeOfTruth(List<Double> weights) {
         return (t1 * weights.get(0) +
                 t2 * weights.get(1) +
                 t3 * weights.get(2) +
@@ -36,25 +36,25 @@ public abstract class SingleSubjectSummary extends Summary {
                 (weights.stream().mapToDouble(Double::doubleValue).sum());
     }
 
-    protected abstract double calculateT1();
+    protected abstract double evaluateT1();
 
-    protected abstract double calculateT2();
+    protected abstract double evaluateT2();
 
-    protected abstract double calculateT3();
+    protected abstract double evaluateT3();
 
-    protected abstract double calculateT4();
+    protected abstract double evaluateT4();
 
-    protected abstract double calculateT5();
+    protected abstract double evaluateT5();
 
-    protected abstract double calculateT6();
+    protected abstract double evaluateT6();
 
-    protected abstract double calculateT7();
+    protected abstract double evaluateT7();
 
-    protected abstract double calculateT8();
+    protected abstract double evaluateT8();
 
-    protected abstract double calculateT9();
+    protected abstract double evaluateT9();
 
-    protected abstract double calculateT10();
+    protected abstract double evaluateT10();
 
-    protected abstract double calculateT11();
+    protected abstract double evaluateT11();
 }

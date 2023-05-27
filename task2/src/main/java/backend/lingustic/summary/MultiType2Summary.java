@@ -18,12 +18,12 @@ public class MultiType2Summary extends MultiSubjectSummary {
         this.quantifier = quantifier;
         this.qualifiers = qualifiers;
         this.qualifierVariableNames = qualifierVariableNames;
-        this.t1 = calculateT1();
-        this.finalDegreeOfTruth = calculateFinalDegreeOfTruth();
+        this.t1 = evaluateT1();
+        this.finalDegreeOfTruth = evaluateFinalDegreeOfTruth();
     }
 
     @Override
-    protected double calculateT1() {
+    protected double evaluateT1() {
         return 0;
     }
 }
