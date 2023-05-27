@@ -39,7 +39,7 @@ public class LinguisticSummarizationsExecutor {
     }
 
     public static List<Summary> getSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
-        return getMultiSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames);
+        return getSingleSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames, weights);
     }
 
     private static List<Summary> getSingleSubjectSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
