@@ -22,7 +22,7 @@ public class MultiType4Summary extends MultiSubjectSummary {
         Map<Integer, Double> s2Card = subjects.get(1).getAllElementsCardinality(summarizers, summarizerVariableNames);
         return 1 - IntStream.range(0, s1Card.size() + s2Card.size())
                 .mapToDouble(i ->
-                        Math.min(1, 1 - s1Card.getOrDefault(i, 0.0) + s2Card.getOrDefault(i - s1Card.size(), 0.0))
+                        Math.min(1, 1 - s1Card.getOrDefault(i, 1.0) + s2Card.getOrDefault(i - s1Card.size(), 0.0))
                 )
                 .boxed()
                 .mapToDouble(Double::doubleValue)

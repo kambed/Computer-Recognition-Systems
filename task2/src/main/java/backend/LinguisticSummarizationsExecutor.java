@@ -39,7 +39,7 @@ public class LinguisticSummarizationsExecutor {
     }
 
     public static List<Summary> getSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
-        return getSingleSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames, weights);
+        return getMultiSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames);
     }
 
     private static List<Summary> getSingleSubjectSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
@@ -91,6 +91,9 @@ public class LinguisticSummarizationsExecutor {
 
         //Multi subject type 1 summaries
         for (AbstractQuantifier abstractQuantifier : quantifiers) {
+            if (abstractQuantifier instanceof AbsoluteQuantifier) {
+                continue;
+            }
             List<List<Integer>> sublists = getSublistsOfList(fuzzySets.size());
             for (int i = 0; i < subjects.size(); i++) {
                 summaries.addAll(sublists.stream().map(l -> new MultiType1Summary(abstractQuantifier,
