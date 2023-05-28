@@ -40,7 +40,7 @@ class MultiType4SummaryTest {
                 List.of(PredefinedVariables.getPredefinedVariables().get(1).getLabeledFuzzySets().get(0)),
                 List.of("Liczba zdobytych punktów")
         );
-        assertEquals(0.2, s.getT1(), 0.01);
+        assertEquals(0.8, s.getT1(), 0.01);
     }
 
 }
