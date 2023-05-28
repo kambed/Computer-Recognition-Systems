@@ -6,6 +6,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +35,18 @@ public class StatsRepository {
     private static void loadStatsFromBinary() {
         try (
                 FileInputStream fileIn = new FileInputStream(
-                        Objects.requireNonNull(StatsRepository.class.getResource("/f1_stats.bin")).getPath()
+                        Paths.get(
+                                Objects.requireNonNull(
+                                        StatsRepository.class
+                                                .getResource("/f1_stats.bin")
+                                ).toURI()
+                        ).toString()
                 );
                 ObjectInputStream in = new ObjectInputStream(fileIn)
         ) {
             //noinspection unchecked
             stats.addAll((List<Stats>) in.readObject());
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | URISyntaxException e) {
             throw new DataImportException("Error while importing data from binary file: " + e.getMessage());
         }
     }
