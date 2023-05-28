@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @Builder
 @Getter
-public class Stats {
+public class Stats implements Serializable {
     private int id;
     private String driver;
     private String team;
