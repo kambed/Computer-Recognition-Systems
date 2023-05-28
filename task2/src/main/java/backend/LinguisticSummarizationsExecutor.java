@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class LinguisticSummarizationsExecutor {
 
@@ -39,7 +40,10 @@ public class LinguisticSummarizationsExecutor {
     }
 
     public static List<Summary> getSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
-        return getMultiSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames);
+        return Stream.concat(
+                getSingleSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames, weights).stream(),
+                getMultiSubjectSummaries(quantifiers, fuzzySets, summarizerVariableNames).stream()
+        ).toList();
     }
 
     private static List<Summary> getSingleSubjectSummaries(List<AbstractQuantifier> quantifiers, List<LabeledFuzzySet> fuzzySets, List<String> summarizerVariableNames, List<Double> weights) {
