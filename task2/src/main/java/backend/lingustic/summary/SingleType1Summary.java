@@ -41,8 +41,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT2() {
-        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
-                1.0 / summarizers.size());
+        return 1 - subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
     }
 
     @Override
@@ -74,8 +73,7 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT8() {
-        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getCardinality).reduce(1, (a, b) -> a * b),
-                1.0 / summarizers.size());
+        return 1 - subject.getElementsCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
     }
 
     @Override
