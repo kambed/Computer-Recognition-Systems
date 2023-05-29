@@ -13,6 +13,18 @@ public class Rounder {
         }
         return Math.round(value * DECIMAL_PLACES_DIVISION) / DECIMAL_PLACES_DIVISION;
     }
+
+    public static String roundSummary(Double value) {
+        Double rounded = round(value);
+        if (rounded == null) {
+            return null;
+        }
+        String roundedString = rounded.toString();
+        if ((rounded == 0.0 && value != 0.0) || (rounded == 1.0 && value != 1.0)) {
+            return "~" + roundedString;
+        }
+        return roundedString;
+    }
     public static double floor(double value) {
         return Math.floor(value * DECIMAL_PLACES_DIVISION) / DECIMAL_PLACES_DIVISION;
     }
