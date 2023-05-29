@@ -7,24 +7,37 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SummaryDto extends Summary {
+public class SummaryDto {
     private static final String CELL_PATTERN = "<td>%s</td>";
+    private String summaryString;
+    private String t1;
+    private String t2;
+    private String t3;
+    private String t4;
+    private String t5;
+    private String t6;
+    private String t7;
+    private String t8;
+    private String t9;
+    private String t10;
+    private String t11;
+    private String finalDegreeOfTruth;
     private boolean selected;
 
     public SummaryDto(Summary summary) {
-        super(summary.getSummaryString());
-        this.t1 = Rounder.round(summary.getT1());
-        this.t2 = Rounder.round(summary.getT2());
-        this.t3 = Rounder.round(summary.getT3());
-        this.t4 = Rounder.round(summary.getT4());
-        this.t5 = Rounder.round(summary.getT5());
-        this.t6 = Rounder.round(summary.getT6());
-        this.t7 = Rounder.round(summary.getT7());
-        this.t8 = Rounder.round(summary.getT8());
-        this.t9 = Rounder.round(summary.getT9());
-        this.t10 = Rounder.round(summary.getT10());
-        this.t11 = Rounder.round(summary.getT11());
-        this.finalDegreeOfTruth = Rounder.round(summary.getFinalDegreeOfTruth());
+        this.summaryString = summary.getSummaryString();
+        this.t1 = Rounder.roundSummary(summary.getT1());
+        this.t2 = Rounder.roundSummary(summary.getT2());
+        this.t3 = Rounder.roundSummary(summary.getT3());
+        this.t4 = Rounder.roundSummary(summary.getT4());
+        this.t5 = Rounder.roundSummary(summary.getT5());
+        this.t6 = Rounder.roundSummary(summary.getT6());
+        this.t7 = Rounder.roundSummary(summary.getT7());
+        this.t8 = Rounder.roundSummary(summary.getT8());
+        this.t9 = Rounder.roundSummary(summary.getT9());
+        this.t10 = Rounder.roundSummary(summary.getT10());
+        this.t11 = Rounder.roundSummary(summary.getT11());
+        this.finalDegreeOfTruth = Rounder.roundSummary(summary.getFinalDegreeOfTruth());
         this.selected = false;
     }
 
