@@ -1,9 +1,11 @@
 package frontend;
 
+import frontend.model.ComparableMeasureString;
 import frontend.model.SummaryDto;
 import frontend.utils.AlertBox;
 import frontend.utils.FileChoose;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,29 +33,29 @@ public class SummaryController implements Initializable {
     @FXML
     private TableColumn<SummaryDto, String> summaryColumn;
     @FXML
-    private TableColumn<SummaryDto, String> tavgColumn;
+    private TableColumn<SummaryDto, ComparableMeasureString> tavgColumn;
     @FXML
-    private TableColumn<SummaryDto, String> t1Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t1Column;
     @FXML
-    private TableColumn<SummaryDto, String> t2Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t2Column;
     @FXML
-    private TableColumn<SummaryDto, String> t3Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t3Column;
     @FXML
-    private TableColumn<SummaryDto, String> t4Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t4Column;
     @FXML
-    private TableColumn<SummaryDto, String> t5Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t5Column;
     @FXML
-    private TableColumn<SummaryDto, String> t6Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t6Column;
     @FXML
-    private TableColumn<SummaryDto, String> t7Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t7Column;
     @FXML
-    private TableColumn<SummaryDto, String> t8Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t8Column;
     @FXML
-    private TableColumn<SummaryDto, String> t9Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t9Column;
     @FXML
-    private TableColumn<SummaryDto, String> t10Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t10Column;
     @FXML
-    private TableColumn<SummaryDto, String> t11Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t11Column;
 
     private ObservableList<SummaryDto> data;
 
@@ -87,18 +89,18 @@ public class SummaryController implements Initializable {
         selectColumn.setGraphic(selectAllCheckBox);
 
         summaryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSummaryString()));
-        tavgColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalDegreeOfTruth()));
-        t1Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT1()));
-        t2Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT2()));
-        t3Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT3()));
-        t4Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT4()));
-        t5Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT5()));
-        t6Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT6()));
-        t7Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT7()));
-        t8Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT8()));
-        t9Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT9()));
-        t10Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT10()));
-        t11Column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getT11()));
+        tavgColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getFinalDegreeOfTruth()));
+        t1Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT1()));
+        t2Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT2()));
+        t3Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT3()));
+        t4Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT4()));
+        t5Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT5()));
+        t6Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT6()));
+        t7Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT7()));
+        t8Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT8()));
+        t9Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT9()));
+        t10Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT10()));
+        t11Column.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getT11()));
     }
 
     public void copyToClipboard() {

@@ -10,18 +10,18 @@ import lombok.Setter;
 public class SummaryDto {
     private static final String CELL_PATTERN = "<td>%s</td>";
     private String summaryString;
-    private String t1;
-    private String t2;
-    private String t3;
-    private String t4;
-    private String t5;
-    private String t6;
-    private String t7;
-    private String t8;
-    private String t9;
-    private String t10;
-    private String t11;
-    private String finalDegreeOfTruth;
+    private ComparableMeasureString t1;
+    private ComparableMeasureString t2;
+    private ComparableMeasureString t3;
+    private ComparableMeasureString t4;
+    private ComparableMeasureString t5;
+    private ComparableMeasureString t6;
+    private ComparableMeasureString t7;
+    private ComparableMeasureString t8;
+    private ComparableMeasureString t9;
+    private ComparableMeasureString t10;
+    private ComparableMeasureString t11;
+    private ComparableMeasureString finalDegreeOfTruth;
     private boolean selected;
 
     public SummaryDto(Summary summary) {
