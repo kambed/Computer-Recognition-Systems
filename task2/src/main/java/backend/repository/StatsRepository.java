@@ -3,21 +3,55 @@ package backend.repository;
 import backend.model.Stats;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StatsRepository {
 
     private StatsRepository() {
     }
-
+    private static final Boolean DB_MODE = false;
     private static final List<Stats> stats = new ArrayList<>();
 
     public static List<Stats> getStats() {
         if (!stats.isEmpty()) {
             return new ArrayList<>(stats);
         }
+        if (Boolean.TRUE.equals(DB_MODE)) {
+            loadStatsFromDb();
+        } else {
+            loadStatsFromBinary();
+        }
+        return new ArrayList<>(stats);
+    }
+
+    private static void loadStatsFromBinary() {
+        try (
+                FileInputStream fileIn = new FileInputStream(
+                        Paths.get(
+                                Objects.requireNonNull(
+                                        StatsRepository.class
+                                                .getResource("/f1_stats.bin")
+                                ).toURI()
+                        ).toString()
+                );
+                ObjectInputStream in = new ObjectInputStream(fileIn)
+        ) {
+            //noinspection unchecked
+            stats.addAll((List<Stats>) in.readObject());
+        } catch (IOException | ClassNotFoundException | URISyntaxException e) {
+            throw new DataImportException("Error while importing data from binary file: " + e.getMessage());
+        }
+    }
+
+    private static void loadStatsFromDb() {
         Dotenv dotenv = Dotenv.load();
         try (Connection conn = DriverManager.getConnection(
                 dotenv.get("MYSQL_URL"),
@@ -53,7 +87,6 @@ public class StatsRepository {
                                 .build()
                 );
             }
-            return new ArrayList<>(stats);
         } catch (SQLException e) {
             throw new DataImportException("Error while importing data from database: " + e.getMessage());
         }

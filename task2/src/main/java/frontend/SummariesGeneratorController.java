@@ -4,6 +4,7 @@ import backend.LinguisticSummarizationsExecutor;
 import backend.lingustic.Variable;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import frontend.model.SummaryDto;
+import frontend.utils.AlertBox;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -51,23 +52,53 @@ public class SummariesGeneratorController implements Initializable {
     }
 
     public void generate() {
-        List<CheckBoxTreeItem<String>> selected = getSelectedLastChildren((CheckBoxTreeItem<String>) variablesLabelsTree.getRoot());
-        List<SummaryDto> summaries = LinguisticSummarizationsExecutor.getSummaries(
-                quantifiersList.getSelectionModel().getSelectedItems().stream().toList(),
-                selected.stream()
-                        .map(s -> variables.stream()
-                                .filter(v -> v.getName().equals(s.getParent().getValue()))
-                                .findFirst()
-                                .orElseThrow()
-                                .getLabeledFuzzySets()
-                                .stream()
-                                .filter(lfs -> lfs.getLabel().equals(s.getValue()))
-                                .findFirst()
-                                .orElseThrow()).toList(),
-                selected.stream().map(i -> i.getParent().getValue()).toList(),
-                tMeasures.stream().map(Spinner::getValue).toList()
-        ).stream().map(SummaryDto::new).toList();
-        createSummaryTab.accept(summaries);
+        List<CheckBoxTreeItem<String>> selectedVariablesLabels = getSelectedLastChildren((CheckBoxTreeItem<String>) variablesLabelsTree.getRoot());
+        if (selectedVariablesLabels.isEmpty()) {
+            AlertBox.show(
+                    "No variables selected",
+                    "Please select at least one variable.",
+                    Alert.AlertType.WARNING
+            );
+            return;
+        }
+        List<AbstractQuantifier> selectedQuantifiers = quantifiersList.getSelectionModel()
+                .getSelectedItems()
+                .stream()
+                .toList();
+        if (selectedQuantifiers.isEmpty()) {
+            AlertBox.show(
+                    "No quantifiers selected",
+                    "Please select at least one quantifier.",
+                    Alert.AlertType.WARNING
+            );
+            return;
+        }
+        try {
+            List<SummaryDto> summaries = LinguisticSummarizationsExecutor.getSummaries(
+                            selectedQuantifiers,
+                            selectedVariablesLabels.stream()
+                                    .map(s -> variables.stream()
+                                            .filter(v -> v.getName().equals(s.getParent().getValue()))
+                                            .findFirst()
+                                            .orElseThrow()
+                                            .getLabeledFuzzySets()
+                                            .stream()
+                                            .filter(lfs -> lfs.getLabel().equals(s.getValue()))
+                                            .findFirst()
+                                            .orElseThrow()).toList(),
+                            selectedVariablesLabels.stream().map(i -> i.getParent().getValue()).toList(),
+                            tMeasures.stream().map(Spinner::getValue).toList()
+                    ).stream()
+                    .map(SummaryDto::new)
+                    .toList();
+            createSummaryTab.accept(summaries);
+        } catch (Exception e) {
+            AlertBox.show(
+                    "Error",
+                    e.getMessage(),
+                    Alert.AlertType.ERROR
+            );
+        }
     }
 
     public void setCreateSummaryTab(Consumer<List<SummaryDto>> createSummaryTab) {
