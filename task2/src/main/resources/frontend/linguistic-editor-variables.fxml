@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.LinguisticVariablesEditorController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <HBox spacing="10">
+        <Label text="Linguistic variables">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+        <ComboBox fx:id="linguisticVariablesComboBox" onAction="#variableSelected" promptText="Select linguistic variable" />
+    </HBox>
+    <HBox fx:id="nameSection" spacing="10" visible="false">
+        <Label text="Linguistic variable name">
+            <padding>
+                <Insets top="4.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="linguisticVariableNameTextField" prefWidth="500.0" />
+        <Button onAction="#saveName" text="Save" />
+    </HBox>
+    <fx:include fx:id="labeledFuzzySetList" source="labeled-fuzzy-set-list.fxml" visible="false" />
+</VBox>
