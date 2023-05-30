@@ -7,24 +7,37 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SummaryDto extends Summary {
+public class SummaryDto {
     private static final String CELL_PATTERN = "<td>%s</td>";
+    private String summaryString;
+    private ComparableMeasureString t1;
+    private ComparableMeasureString t2;
+    private ComparableMeasureString t3;
+    private ComparableMeasureString t4;
+    private ComparableMeasureString t5;
+    private ComparableMeasureString t6;
+    private ComparableMeasureString t7;
+    private ComparableMeasureString t8;
+    private ComparableMeasureString t9;
+    private ComparableMeasureString t10;
+    private ComparableMeasureString t11;
+    private ComparableMeasureString finalDegreeOfTruth;
     private boolean selected;
 
     public SummaryDto(Summary summary) {
-        super(summary.getSummaryString());
-        this.t1 = Rounder.round(summary.getT1());
-        this.t2 = Rounder.round(summary.getT2());
-        this.t3 = Rounder.round(summary.getT3());
-        this.t4 = Rounder.round(summary.getT4());
-        this.t5 = Rounder.round(summary.getT5());
-        this.t6 = Rounder.round(summary.getT6());
-        this.t7 = Rounder.round(summary.getT7());
-        this.t8 = Rounder.round(summary.getT8());
-        this.t9 = Rounder.round(summary.getT9());
-        this.t10 = Rounder.round(summary.getT10());
-        this.t11 = Rounder.round(summary.getT11());
-        this.finalDegreeOfTruth = Rounder.round(summary.getFinalDegreeOfTruth());
+        this.summaryString = summary.getSummaryString();
+        this.t1 = Rounder.roundSummary(summary.getT1());
+        this.t2 = Rounder.roundSummary(summary.getT2());
+        this.t3 = Rounder.roundSummary(summary.getT3());
+        this.t4 = Rounder.roundSummary(summary.getT4());
+        this.t5 = Rounder.roundSummary(summary.getT5());
+        this.t6 = Rounder.roundSummary(summary.getT6());
+        this.t7 = Rounder.roundSummary(summary.getT7());
+        this.t8 = Rounder.roundSummary(summary.getT8());
+        this.t9 = Rounder.roundSummary(summary.getT9());
+        this.t10 = Rounder.roundSummary(summary.getT10());
+        this.t11 = Rounder.roundSummary(summary.getT11());
+        this.finalDegreeOfTruth = Rounder.roundSummary(summary.getFinalDegreeOfTruth());
         this.selected = false;
     }
 

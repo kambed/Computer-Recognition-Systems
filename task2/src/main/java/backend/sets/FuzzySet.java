@@ -5,7 +5,7 @@ import backend.domain.DiscreteDomain;
 import backend.functions.BaseFunction;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
+import org.apache.commons.math3.analysis.integration.RombergIntegrator;
 
 import java.util.stream.DoubleStream;
 
@@ -13,7 +13,7 @@ import java.util.stream.DoubleStream;
 @Setter
 public class FuzzySet extends CrispSet {
 
-    private final SimpsonIntegrator si = new SimpsonIntegrator();
+    private final RombergIntegrator ri = new RombergIntegrator();
 
     public FuzzySet(BaseFunction function) {
         super(function);
@@ -71,7 +71,7 @@ public class FuzzySet extends CrispSet {
             ).sum();
             return sum / domain.getValues().size();
         }
-        double sum = si.integrate(Integer.MAX_VALUE, support.getFunction()::getValue, min, max);
+        double sum = ri.integrate(Integer.MAX_VALUE, support.getFunction()::getValue, min, max);
         return sum / (support.getFunction().getMax() - support.getFunction().getMin());
     }
 
@@ -84,7 +84,7 @@ public class FuzzySet extends CrispSet {
             ).sum();
             return sum / domain.getValues().size();
         }
-        double sum = si.integrate(Integer.MAX_VALUE, getFunction()::getValue, min, max);
+        double sum = ri.integrate(Integer.MAX_VALUE, getFunction()::getValue, min, max);
         return sum / (getFunction().getMax() - getFunction().getMin());
     }
 }

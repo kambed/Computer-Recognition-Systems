@@ -2,13 +2,15 @@ package backend.functions;
 
 import backend.domain.Domain;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.function.DoubleFunction;
 
 @Getter
+@Setter
 public class BaseFunction {
     protected final DoubleFunction<Double> function;
-    protected final Domain domain;
+    protected Domain domain;
 
     public BaseFunction(Domain domain, DoubleFunction<Double> function) {
         this.domain = domain;

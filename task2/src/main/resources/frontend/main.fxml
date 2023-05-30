@@ -9,7 +9,7 @@
             <Tab closable="false" text="Variables">
                 <fx:include source="linguistic-editor-variables.fxml" fx:id="variablesEditTab"/>
             </Tab>
-            <Tab closable="false" text="Qualifiers">
+            <Tab closable="false" text="Quantifiers">
                 <fx:include source="labeled-fuzzy-set-list.fxml" fx:id="quantifiersEditTab"/>
             </Tab>
         </TabPane>

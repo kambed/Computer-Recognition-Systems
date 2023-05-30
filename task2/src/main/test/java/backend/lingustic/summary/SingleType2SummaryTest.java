@@ -50,12 +50,12 @@ class SingleType2SummaryTest {
 
         Summary s = new SingleType2Summary(PredefinedQuantifiers.getPredefinedRelativeQuantifiers().get(2),
                 new Subject("wyników", stats),
-                List.of(fuzzySet1),
-                List.of("Liczba przejechanych okrążeń"),
                 List.of(fuzzySet2),
                 List.of("Liczba zdobytych punktów"),
+                List.of(fuzzySet1),
+                List.of("Liczba przejechanych okrążeń"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.9, s.getT2(), 0.01);
+        assertEquals(0.4, s.getT2(), 0.01);
     }
 
     @Test
@@ -192,7 +192,7 @@ class SingleType2SummaryTest {
                 List.of(fuzzySet1),
                 List.of("Liczba przejechanych okrążeń"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.66, s.getT8(), 0.01);
+        assertEquals(0.5, s.getT8(), 0.01);
     }
 
     @Test
@@ -209,12 +209,12 @@ class SingleType2SummaryTest {
 
         Summary s = new SingleType2Summary(PredefinedQuantifiers.getPredefinedRelativeQuantifiers().get(2),
                 new Subject("wyników", stats),
-                List.of(fuzzySet2),
-                List.of("Liczba zdobytych punktów"),
                 List.of(fuzzySet1),
                 List.of("Liczba przejechanych okrążeń"),
+                List.of(fuzzySet2),
+                List.of("Liczba zdobytych punktów"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.9, s.getT9(), 0.01);
+        assertEquals(0.4, s.getT9(), 0.01);
     }
 
     @Test
@@ -231,11 +231,11 @@ class SingleType2SummaryTest {
 
         Summary s = new SingleType2Summary(PredefinedQuantifiers.getPredefinedRelativeQuantifiers().get(3),
                 new Subject("wyników", stats),
-                List.of(fuzzySet2),
-                List.of("Liczba zdobytych punktów"),
                 List.of(fuzzySet1),
                 List.of("Liczba przejechanych okrążeń"),
+                List.of(fuzzySet2),
+                List.of("Liczba zdobytych punktów"),
                 List.of(0.3, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07));
-        assertEquals(0.95, s.getT10(), 0.01);
+        assertEquals(0.5, s.getT10(), 0.01);
     }
 }

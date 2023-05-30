@@ -17,6 +17,9 @@ import java.util.stream.Stream;
 
 public class LinguisticSummarizationsExecutor {
 
+    private LinguisticSummarizationsExecutor() {
+    }
+
     private static List<List<Integer>> getSublistsOfList(int n) {
         List<Integer> list = IntStream.range(0, n).boxed().toList();
         int totalSubsets = 1 << n;
