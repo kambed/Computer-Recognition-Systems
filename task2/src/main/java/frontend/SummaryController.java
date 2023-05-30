@@ -1,5 +1,6 @@
 package frontend;
 
+import frontend.model.ComparableMeasureString;
 import frontend.model.SummaryDto;
 import frontend.utils.AlertBox;
 import frontend.utils.FileChoose;
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,29 +33,29 @@ public class SummaryController implements Initializable {
     @FXML
     private TableColumn<SummaryDto, String> summaryColumn;
     @FXML
-    private TableColumn<SummaryDto, Double> tavgColumn;
+    private TableColumn<SummaryDto, ComparableMeasureString> tavgColumn;
     @FXML
-    private TableColumn<SummaryDto, Double> t1Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t1Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t2Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t2Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t3Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t3Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t4Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t4Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t5Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t5Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t6Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t6Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t7Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t7Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t8Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t8Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t9Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t9Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t10Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t10Column;
     @FXML
-    private TableColumn<SummaryDto, Double> t11Column;
+    private TableColumn<SummaryDto, ComparableMeasureString> t11Column;
 
     private ObservableList<SummaryDto> data;
 

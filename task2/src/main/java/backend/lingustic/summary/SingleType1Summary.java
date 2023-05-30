@@ -4,7 +4,6 @@ import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
 import backend.lingustic.quantifier.AbstractQuantifier;
 import backend.lingustic.quantifier.RelativeQuantifier;
-import backend.sets.FuzzySet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,26 +33,32 @@ public class SingleType1Summary extends SingleSubjectSummary {
     protected double evaluateT1() {
         int M = 1;
         if (quantifier instanceof RelativeQuantifier) {
-            M = subject.getElements().size();
+            M = subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
         }
         return quantifier.getFunction().getValue(subject.getElementsCardinality(summarizers, summarizerVariableNames) / M);
     }
 
     @Override
     protected double evaluateT2() {
-        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getDegreeOfFuzziness).reduce(1, (a, b) -> a * b),
-                1.0 / summarizers.size());
+        return 1 - subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) /
+                subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
     }
 
     @Override
     protected double evaluateT3() {
-        return subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
+        return subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) /
+                subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
     }
 
     @Override
     protected double evaluateT4() {
         List<Double> cardinalities = new ArrayList<>();
-        IntStream.range(0, summarizers.size()).forEach(i -> cardinalities.add(subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) / subject.getElements().size()));
+        IntStream.range(0, summarizers.size()).forEach(i ->
+                cardinalities.add(
+                        subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) /
+                                subject.getAllElementsCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))).size()
+                )
+        );
         return Math.abs(cardinalities.stream().mapToDouble(Double::doubleValue).reduce(1, (a, b) -> a * b) - t3);
     }
 
@@ -74,8 +79,8 @@ public class SingleType1Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT8() {
-        return 1 - Math.pow(summarizers.stream().mapToDouble(FuzzySet::getCardinality).reduce(1, (a, b) -> a * b),
-                1.0 / summarizers.size());
+        return 1 - subject.getElementsCardinality(summarizers, summarizerVariableNames) /
+                subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
     }
 
     @Override
