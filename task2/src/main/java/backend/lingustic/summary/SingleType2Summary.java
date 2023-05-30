@@ -3,7 +3,6 @@ package backend.lingustic.summary;
 import backend.lingustic.LabeledFuzzySet;
 import backend.lingustic.Subject;
 import backend.lingustic.quantifier.AbstractQuantifier;
-import backend.sets.FuzzySet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,8 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT2() {
-        return 1 - subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
+        return 1 - subject.getElementsSupportCardinality(summarizers, summarizerVariableNames) /
+                subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
     }
 
     @Override
@@ -67,7 +67,12 @@ public class SingleType2Summary extends SingleSubjectSummary {
     @Override
     protected double evaluateT4() {
         List<Double> cardinalities = new ArrayList<>();
-        IntStream.range(0, summarizers.size()).forEach(i -> cardinalities.add(subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) / subject.getElements().size()));
+        IntStream.range(0, summarizers.size()).forEach(i ->
+                cardinalities.add(
+                        subject.getElementsSupportCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))) /
+                                subject.getAllElementsCardinality(List.of(summarizers.get(i)), List.of(summarizerVariableNames.get(i))).size()
+                )
+        );
         return Math.abs(cardinalities.stream().mapToDouble(Double::doubleValue).reduce(1, (a, b) -> a * b) - t3);
     }
 
@@ -88,17 +93,20 @@ public class SingleType2Summary extends SingleSubjectSummary {
 
     @Override
     protected double evaluateT8() {
-        return 1 - subject.getElementsCardinality(summarizers, summarizerVariableNames) / subject.getElements().size();
+        return 1 - subject.getElementsCardinality(summarizers, summarizerVariableNames) /
+                subject.getAllElementsCardinality(summarizers, summarizerVariableNames).size();
     }
 
     @Override
     protected double evaluateT9() {
-        return 1 - subject.getElementsSupportCardinality(qualifiers, qualifierVariableNames) / subject.getElements().size();
+        return 1 - subject.getElementsSupportCardinality(qualifiers, qualifierVariableNames) /
+                subject.getAllElementsCardinality(qualifiers, qualifierVariableNames).size();
     }
 
     @Override
     protected double evaluateT10() {
-        return 1 - subject.getElementsCardinality(qualifiers, qualifierVariableNames) / subject.getElements().size();
+        return 1 - subject.getElementsCardinality(qualifiers, qualifierVariableNames) /
+                subject.getAllElementsCardinality(qualifiers, qualifierVariableNames).size();
     }
 
     @Override
