@@ -39,7 +39,7 @@ public class FuzzySet extends CrispSet {
     }
 
     public boolean isNormal() {
-        return getHeight() == 1.0;
+        return Math.abs(getHeight() - 1.0) <= 0.011;
     }
 
     public boolean isEmpty() {
