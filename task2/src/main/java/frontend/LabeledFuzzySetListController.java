@@ -34,6 +34,7 @@ public class LabeledFuzzySetListController {
             }
             labeledFuzzySetList.refresh();
             updateLabeledFuzzySets.accept(labeledFuzzySets);
+            unselect();
         }, isQuantifier);
     }
 
